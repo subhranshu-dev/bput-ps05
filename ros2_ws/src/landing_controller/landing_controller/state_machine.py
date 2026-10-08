@@ -586,13 +586,14 @@ class MissionStateMachine:
                 self.hold_pos = np.array(obs.pose, dtype=float)
 
     def _st_land(self, obs, out, plan, dt):
-        if obs.landed:
+        # touchdown = PX4 land detector, or PX4 auto-disarm after landing (COM_DISARM_LAND)
+        if obs.landed or (not obs.armed and obs.t - self.t_state > 1.0):
             self.outcome = 'LANDED'
             self.stats['mission_end_t'] = obs.t
             self._goto(LANDED, obs.t, out, 'touchdown confirmed by PX4 land detector')
             out.command = 'disarm'
             return
-        if obs.t - self.last_cmd_t > 2.0:
+        if obs.t - self.t_state < 3.0 and obs.t - self.last_cmd_t > 1.0:
             out.command = 'land'
             self.last_cmd_t = obs.t
 

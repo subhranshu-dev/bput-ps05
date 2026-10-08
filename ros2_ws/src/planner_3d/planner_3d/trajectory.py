@@ -59,14 +59,23 @@ def chaikin(pts: np.ndarray) -> np.ndarray:
 
 
 def resample(pts: np.ndarray, spacing: float) -> np.ndarray:
-    seg = np.linalg.norm(np.diff(pts, axis=0), axis=1)
-    s = np.concatenate([[0.0], np.cumsum(seg)])
-    total = s[-1]
-    if total < 1e-9:
-        return pts[:1].copy()
-    n = max(int(math.ceil(total / spacing)), 1)
-    q = np.linspace(0.0, total, n + 1)
-    return np.stack([np.interp(q, s, pts[:, k]) for k in range(3)], axis=1)
+    """Resample each segment at <= spacing, keeping every input vertex.
+
+    Keeping the vertices means the flown polyline is exactly the one that was
+    validated against the inflated grid (uniform whole-path resampling would
+    cut validated corners).
+    """
+    pts = np.asarray(pts, dtype=float)
+    if len(pts) < 2:
+        return pts.copy()
+    out = [pts[:1]]
+    for a, b in zip(pts[:-1], pts[1:]):
+        n = max(int(math.ceil(np.linalg.norm(b - a) / spacing)), 1)
+        t = np.linspace(0.0, 1.0, n + 1)[1:, None]
+        out.append(a + t * (b - a))
+    res = np.vstack(out)
+    keep = np.concatenate([[True], np.linalg.norm(np.diff(res, axis=0), axis=1) > 1e-9])
+    return res[keep]
 
 
 def curvature(pts: np.ndarray) -> np.ndarray:

@@ -21,7 +21,7 @@ if sys.argv[3]:
     s['seed'] = int(sys.argv[3])
 yaml.safe_dump(s, open(sys.argv[2], 'w'), sort_keys=False)
 PY
-POSE=$(python3 -c "import yaml;print(yaml.safe_load(open('$OUT/scenario.yaml')).get('start_pose','5,5,0.05,0,0,0'))")
+POSE=$(python3 -c "import yaml;print(yaml.safe_load(open('$OUT/scenario.yaml')).get('start_pose','5,5,0.25,0,0,0'))")
 export PS05_SCENARIO_FILE=$OUT/scenario.yaml PS05_RUN_ID=$RUN_ID
 kill_sim
 echo "[ps05] run $RUN_ID scenario=$SCEN pose=$POSE timeout=${TIMEOUT}s"

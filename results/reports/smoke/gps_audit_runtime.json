@@ -1,0 +1,84 @@
+{
+  "static": {
+    "source_findings": [],
+    "model_has_no_gnss": true,
+    "airframe_gps_disabled": true,
+    "truth_not_routed_to_px4": true,
+    "pass": true
+  },
+  "runtime": {
+    "nodes": {
+      "localization_node": {
+        "subscriptions": [
+          "/clock",
+          "/fmu/out/vehicle_odometry",
+          "/tracking/measurement"
+        ],
+        "forbidden": []
+      },
+      "fusion_node": {
+        "subscriptions": [
+          "/clock",
+          "/perception/camera/camera_info",
+          "/perception/camera/image",
+          "/perception/lidar/points",
+          "/tf",
+          "/tf_static"
+        ],
+        "forbidden": []
+      },
+      "px4_interface": {
+        "subscriptions": [
+          "/clock",
+          "/fmu/out/vehicle_land_detected",
+          "/fmu/out/vehicle_status",
+          "/fmu/out/vehicle_status_v1",
+          "/fmu/out/vehicle_status_v2",
+          "/px4_interface/command",
+          "/px4_interface/setpoint"
+        ],
+        "forbidden": []
+      },
+      "camera_processor": {
+        "subscriptions": [
+          "/camera/camera_info",
+          "/camera/image_raw",
+          "/clock",
+          "/down_camera/camera_info",
+          "/down_camera/image_raw",
+          "/mission/status"
+        ],
+        "forbidden": []
+      },
+      "lidar_processor": {
+        "subscriptions": [
+          "/clock",
+          "/down_lidar/points",
+          "/lidar/points",
+          "/mission/status"
+        ],
+        "forbidden": []
+      }
+    },
+    "violations": [],
+    "truth_subscribers": [
+      "ground_tracker"
+    ],
+    "truth_subscriber_violations": [],
+    "gps_topics_present": [
+      "/fmu/out/vehicle_gps_position",
+      "/fmu/out/vehicle_global_position"
+    ],
+    "gps_messages_received": {},
+    "px4_truth_injection_topic_publishers": false,
+    "expected_autonomy_nodes_seen": [
+      "camera_processor",
+      "fusion_node",
+      "lidar_processor",
+      "localization_node",
+      "px4_interface"
+    ],
+    "pass": true
+  },
+  "pass": true
+}

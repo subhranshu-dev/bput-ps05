@@ -1,0 +1,174 @@
+[WARN] [1791488427.649880865] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[WARN] [1791488427.649972073] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+{
+ "topics": {
+  "/camera/image_raw": {
+   "wall_hz": 7.36,
+   "expected_min_hz": 2.5,
+   "ok": true
+  },
+  "/camera/camera_info": {
+   "wall_hz": 8.44,
+   "expected_min_hz": 2.5,
+   "ok": true
+  },
+  "/down_camera/image_raw": {
+   "wall_hz": 10.91,
+   "expected_min_hz": 2.5,
+   "ok": true
+  },
+  "/lidar/points": {
+   "wall_hz": 8.42,
+   "expected_min_hz": 2.5,
+   "ok": true
+  },
+  "/down_lidar/points": {
+   "wall_hz": 8.42,
+   "expected_min_hz": 2.5,
+   "ok": true
+  },
+  "/perception/lidar/points": {
+   "wall_hz": 8.48,
+   "expected_min_hz": 2.5,
+   "ok": true
+  },
+  "/perception/camera/image": {
+   "wall_hz": 6.03,
+   "expected_min_hz": 2.5,
+   "ok": true
+  },
+  "/fused/points": {
+   "wall_hz": 6.89,
+   "expected_min_hz": 1.5,
+   "ok": true
+  },
+  "/vehicle/odom": {
+   "wall_hz": 86.91,
+   "expected_min_hz": 10.0,
+   "ok": true
+  },
+  "/clock": {
+   "wall_hz": 188.04,
+   "expected_min_hz": 25.0,
+   "ok": true
+  }
+ },
+ "tf": {
+  "map->base_link": {
+   "samples": 3619,
+   "max_jump_m": 0.0002349481447746595,
+   "last": [
+    5.0008544921875,
+    5.000946521759033,
+    0.22824163734912872
+   ],
+   "ok": true
+  },
+  "base_link->camera_optical_frame": {
+   "samples": 3619,
+   "max_jump_m": 0.0,
+   "last": [
+    0.12,
+    0.0,
+    0.05
+   ],
+   "ok": true
+  },
+  "base_link->lidar_frame": {
+   "samples": 3619,
+   "max_jump_m": 0.0,
+   "last": [
+    0.0,
+    0.0,
+    0.2
+   ],
+   "ok": true
+  },
+  "base_link->down_camera_optical_frame": {
+   "samples": 3619,
+   "max_jump_m": 0.0,
+   "last": [
+    0.1,
+    0.0,
+    -0.06
+   ],
+   "ok": true
+  },
+  "base_link->down_lidar_frame": {
+   "samples": 3619,
+   "max_jump_m": 0.0,
+   "last": [
+    -0.1,
+    0.0,
+    -0.06
+   ],
+   "ok": true
+  },
+  "world->map": {
+   "samples": 3619,
+   "max_jump_m": 0.0,
+   "last": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "ok": true
+  },
+  "camera_optical_frame->lidar_frame": {
+   "samples": 3619,
+   "max_jump_m": 4.530199718267439e-15,
+   "last": [
+    0.0,
+    -0.1499999999999997,
+    -0.1200000000000001
+   ],
+   "ok": true
+  }
+ },
+ "pass": true,
+ "camera_info": {
+  "ok": true,
+  "k": [
+   381.3611602783203,
+   0.0,
+   320.0,
+   0.0,
+   381.361141204834,
+   240.0,
+   0.0,
+   0.0,
+   1.0
+  ],
+  "frame_id": "camera_optical_frame"
+ },
+ "lidar_frame": "lidar_frame",
+ "px4": {
+  "stamp": 29.1,
+  "connected": true,
+  "armed": false,
+  "nav_state": 4,
+  "offboard": false,
+  "landed": true,
+  "preflight_ok": false,
+  "failsafe": false,
+  "heartbeat_active": false,
+  "setpoint_mode": null,
+  "last_commands": []
+ },
+ "gps_topics": [
+  "/fmu/out/vehicle_gps_position"
+ ]
+}
+[WARN] [1791488439.846136405] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[WARN] [1791488439.846175717] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+{
+  "phases": [],
+  "success": false,
+  "message": "PX4/localisation not available",
+  "hover_rms_error_m": null,
+  "hover_max_error_m": null
+}
+[ros2run]: Process exited with failure 1
+[WARN] [1791488512.765656696] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[WARN] [1791488512.765717434] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[ps05] smoke: system_check=0 flight=1 gps_audit=0

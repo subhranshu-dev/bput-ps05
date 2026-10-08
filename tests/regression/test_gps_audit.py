@@ -14,6 +14,7 @@ def test_static_gps_audit_passes():
     assert rep['source_findings'] == [], rep['source_findings']
     assert rep['model_has_no_gnss']
     assert rep['airframe_gps_disabled']
+    assert rep['truth_not_routed_to_px4']
 
 
 def test_audit_detects_violation(tmp_path, monkeypatch):
@@ -23,11 +24,13 @@ def test_audit_detects_violation(tmp_path, monkeypatch):
     (fake / 'bad.py').write_text("sub = '/sim/truth/odom'\n")
     for d in ('simulation/models/x500_ps05', 'simulation/px4/airframes'):
         (tmp_path / d).mkdir(parents=True)
-    (tmp_path / 'simulation/models/x500_ps05/model.sdf').write_text('<sensor type="navsat"/>')
+    (tmp_path / 'simulation/models/x500_ps05/model.sdf').write_text(
+        '<sensor type="navsat"/><plugin filename="gz-sim-odometry-publisher-system"/>')
     (tmp_path / 'simulation/px4/airframes/4050_gz_x500_ps05').write_text('param set-default EKF2_GPS_CTRL 7\n')
     monkeypatch.setattr(gps_audit, 'ROOT', tmp_path)
     rep = gps_audit.static_audit()
     assert rep['source_findings'] and not rep['model_has_no_gnss'] and not rep['airframe_gps_disabled']
+    assert not rep['truth_not_routed_to_px4']
     assert not rep['pass']
 
 

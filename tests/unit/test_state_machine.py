@@ -61,7 +61,8 @@ class FakeWorld:
         hidden = self.hide[0] is not None and self.hide[0] <= self.t < self.hide[1]
         rel = PAD - self.pos
         if not hidden and np.hypot(*rel[:2]) < 0.9 * (self.pos[2] - PAD[2]) and self.pos[2] > 0.4:
-            o.target = {'pos': PAD.tolist(), 'stamp': self.t}
+            self.last_target = {'pos': PAD.tolist(), 'stamp': self.t}
+        o.target = getattr(self, 'last_target', None)   # like mission_manager: last detection + its stamp
         unsafe = self.unsafe[0] is not None and self.unsafe[0] <= self.t < self.unsafe[1]
         agl = self.pos[2] - PAD[2]
         align = float(np.hypot(*rel[:2]))

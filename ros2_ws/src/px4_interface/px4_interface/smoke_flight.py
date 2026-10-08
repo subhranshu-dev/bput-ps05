@@ -103,9 +103,10 @@ class SmokeFlight(Node):
             if el > 3:
                 self.goto('LAND', t)
         elif self.phase == 'LAND':
-            self.sp(self.pos)
-            self.cmd('land', t)
-            if self.px4.get('landed') and el > 2:
+            # no offboard setpoints in LAND: PX4 Land mode owns the descent; touchdown = landed or auto-disarmed
+            if el < 3.0:
+                self.cmd('land', t)
+            if el > 2 and (self.px4.get('landed') or not self.px4.get('armed')):
                 self.goto('LANDED', t)
                 self.finish(True, 'ok')
             elif el > 60:

@@ -41,8 +41,9 @@ def setup(context):
     gz = ExecuteProcess(cmd=gz_cmd, env=env, output='screen', name='gz_sim')
 
     px4_env = {**env, 'PX4_GZ_STANDALONE': '1', 'PX4_SYS_AUTOSTART': '4050', 'PX4_SIM_MODEL': 'gz_x500_ps05',
-               'PX4_GZ_WORLD': world, 'PX4_GZ_MODEL_POSE': pose, 'HEADLESS': '1'}
-    px4 = ExecuteProcess(cmd=[str(PX4_BUILD / 'bin/px4'), '-w', str(run_dir), str(PX4_BUILD / 'etc')],
+               'PX4_GZ_WORLD': world, 'PX4_GZ_MODEL_POSE': pose, 'HEADLESS': '1',
+               'PX4_GZ_MODELS': str(ROOT / 'simulation/models'), 'PX4_GZ_WORLDS': str(ROOT / 'simulation/worlds')}
+    px4 = ExecuteProcess(cmd=[str(PX4_BUILD / 'bin/px4'), '-d', '-w', str(run_dir), str(PX4_BUILD / 'etc')],
                          cwd=str(run_dir), env=px4_env, output='screen', name='px4_sitl')
     agent = ExecuteProcess(cmd=['MicroXRCEAgent', 'udp4', '-p', '8888'], output='log', name='xrce_agent')
     bridge = Node(package='ros_gz_bridge', executable='parameter_bridge', name='gz_bridge', output='log',
@@ -55,7 +56,7 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument('world', default_value='ps05_challenge'),
         DeclareLaunchArgument('gui', default_value='false'),
-        DeclareLaunchArgument('start_pose', default_value='5,5,0.05,0,0,0'),
+        DeclareLaunchArgument('start_pose', default_value='5,5,0.25,0,0,0'),
         DeclareLaunchArgument('px4_rootfs', default_value='/tmp/px4_rootfs'),
         OpaqueFunction(function=setup),
     ])

@@ -30,7 +30,7 @@ def generate_launch_description():
         DeclareLaunchArgument('rviz', default_value='false'),
         DeclareLaunchArgument('dashboard', default_value='true'),
         DeclareLaunchArgument('world', default_value='ps05_challenge'),
-        DeclareLaunchArgument('start_pose', default_value='5,5,0.05,0,0,0'),
+        DeclareLaunchArgument('start_pose', default_value='5,5,0.25,0,0,0'),
         DeclareLaunchArgument('run_id', default_value=os.environ.get('PS05_RUN_ID', 'manual')),
         inc('simulation.launch.py', {'gui': lc('gui'), 'world': lc('world'), 'start_pose': lc('start_pose')}),
         TimerAction(period=6.0, actions=[

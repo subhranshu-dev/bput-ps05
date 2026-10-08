@@ -45,7 +45,8 @@ def test_out_of_bounds_and_nan_ignored():
 
 def test_max_range_no_hit():
     m = make()
-    m.integrate(np.array([[9.5, 5.0, 2.0]]), np.array([0.5, 5.0, 2.0]), max_range=4.0)
+    for _ in range(2):   # FREE needs two consistent misses (miss -0.4, free threshold -0.5)
+        m.integrate(np.array([[9.5, 5.0, 2.0]]), np.array([0.5, 5.0, 2.0]), max_range=4.0)
     assert m.state_at([9.5, 5, 2]) == UNKNOWN
     assert m.state_at([3.0, 5, 2]) == FREE
 

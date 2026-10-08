@@ -1,0 +1,119 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+      Cell Size: 2
+      Plane Cell Count: 25
+      Offset: {X: 25, Y: 25, Z: 0}
+      Reference Frame: map
+      Color: 60; 80; 100
+    - Class: rviz_default_plugins/TF
+      Name: TF
+      Enabled: true
+      Show Names: true
+      Marker Scale: 0.6
+      Frame Timeout: 15
+    - Class: rviz_default_plugins/PointCloud2
+      Name: LiDAR raw (/perception/lidar/points)
+      Enabled: false
+      Topic: {Value: /perception/lidar/points, Reliability Policy: Best Effort, Depth: 5}
+      Size (m): 0.05
+      Style: Points
+      Color Transformer: AxisColor
+      Axis: Z
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Fused RGB cloud (/fused/points)
+      Enabled: true
+      Topic: {Value: /fused/points, Reliability Policy: Best Effort, Depth: 5}
+      Size (Pixels): 3
+      Style: Points
+      Color Transformer: RGB8
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Occupancy map (/occupancy_map)
+      Enabled: true
+      Topic: {Value: /occupancy_map, Reliability Policy: Reliable, Depth: 1}
+      Size (m): 0.25
+      Style: Boxes
+      Color Transformer: RGB8
+      Alpha: 0.8
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Inflated obstacles (/planner/inflated)
+      Enabled: false
+      Topic: {Value: /planner/inflated, Reliability Policy: Reliable, Durability Policy: Transient Local, Depth: 1}
+      Size (m): 0.5
+      Style: Boxes
+      Color Transformer: FlatColor
+      Color: 239; 68; 68
+      Alpha: 0.08
+    - Class: rviz_default_plugins/MarkerArray
+      Name: Approved mission corridor
+      Enabled: true
+      Topic: {Value: /mission/corridor, Reliability Policy: Reliable, Durability Policy: Transient Local, Depth: 1}
+    - Class: rviz_default_plugins/Path
+      Name: Global path (/planned_path)
+      Enabled: true
+      Topic: {Value: /planned_path, Reliability Policy: Reliable, Durability Policy: Transient Local, Depth: 1}
+      Color: 251; 191; 36
+      Line Style: Billboards
+      Line Width: 0.12
+    - Class: rviz_default_plugins/Path
+      Name: Local trajectory (/local_trajectory)
+      Enabled: true
+      Topic: {Value: /local_trajectory, Reliability Policy: Reliable, Durability Policy: Transient Local, Depth: 1}
+      Color: 56; 189; 248
+      Line Style: Billboards
+      Line Width: 0.06
+    - Class: rviz_default_plugins/Path
+      Name: Actual path (/vehicle/actual_path)
+      Enabled: true
+      Topic: {Value: /vehicle/actual_path, Reliability Policy: Reliable, Depth: 1}
+      Color: 248; 250; 252
+    - Class: rviz_default_plugins/Odometry
+      Name: Vehicle pose (/vehicle/odom)
+      Enabled: true
+      Topic: {Value: /vehicle/odom, Depth: 5}
+      Keep: 1
+      Shape: {Value: Axes, Axes Length: 0.8, Axes Radius: 0.08}
+    - Class: rviz_default_plugins/PoseWithCovariance
+      Name: Tracker fix (/localization/tracker_pose)
+      Enabled: false
+      Topic: {Value: /localization/tracker_pose, Depth: 5}
+    - Class: rviz_default_plugins/Pose
+      Name: Landing target (/landing/target_pose)
+      Enabled: true
+      Topic: {Value: /landing/target_pose, Reliability Policy: Reliable, Depth: 1}
+      Shape: Axes
+      Axes Length: 0.6
+    - Class: rviz_default_plugins/Image
+      Name: Forward camera
+      Enabled: true
+      Topic: {Value: /perception/camera/image, Reliability Policy: Best Effort, Depth: 2}
+    - Class: rviz_default_plugins/Image
+      Name: Downward camera
+      Enabled: true
+      Topic: {Value: /perception/down_camera/image, Reliability Policy: Best Effort, Depth: 2}
+  Global Options:
+    Background Color: 8; 12; 20
+    Fixed Frame: map
+    Frame Rate: 20
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 55
+      Focal Point: {X: 25, Y: 25, Z: 2}
+      Pitch: 0.75
+      Yaw: 3.9
+      Target Frame: map
+Window Geometry:
+  Width: 1600
+  Height: 950

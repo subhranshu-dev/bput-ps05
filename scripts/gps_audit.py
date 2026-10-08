@@ -43,11 +43,17 @@ def static_audit():
                     line = text[: m.start()].count('\n') + 1
                     findings.append({'file': rel, 'line': line, 'pattern': pat})
     model = (ROOT / 'simulation/models/x500_ps05/model.sdf')
-    model_ok = model.exists() and 'type="navsat"' not in model.read_text()
+    mtext = model.read_text() if model.exists() else ''
+    model_ok = model.exists() and 'type="navsat"' not in mtext
+    # PX4 gz_bridge feeds /model/<name>/odometry_with_covariance into EKF2 as external vision.
+    # The evaluation OdometryPublisher must therefore publish its covariance output elsewhere.
+    truth_isolated = ('gz-sim-odometry-publisher-system' not in mtext) or (
+        '<odom_covariance_topic>/sim/truth/' in mtext)
     af = (ROOT / 'simulation/px4/airframes/4050_gz_x500_ps05').read_text()
     airframe_ok = bool(re.search(r'EKF2_GPS_CTRL\s+0', af)) and bool(re.search(r'EKF2_EV_CTRL\s+[1-9]', af))
     return {'source_findings': findings, 'model_has_no_gnss': model_ok, 'airframe_gps_disabled': airframe_ok,
-            'pass': not findings and model_ok and airframe_ok}
+            'truth_not_routed_to_px4': truth_isolated,
+            'pass': not findings and model_ok and airframe_ok and truth_isolated}
 
 
 def runtime_audit():
@@ -70,10 +76,31 @@ def runtime_audit():
     report['truth_subscriber_violations'] = [n for n in report['truth_subscribers'] if n not in allowed and not n.startswith('_')]
     all_topics = dict(node.get_topic_names_and_types())
     report['gps_topics_present'] = [t for t in topics.GPS_TOPICS if t in all_topics]
+    # GPS topics may be advertised by the uXRCE-DDS client, but must carry no data
+    from rclpy.qos import qos_profile_sensor_data
+    received = {}
+    try:
+        from px4_msgs.msg import SensorGps
+        for t in report['gps_topics_present']:
+            if 'gps' in t:
+                node.create_subscription(SensorGps, t, lambda m, t=t: received.__setitem__(t, received.get(t, 0) + 1),
+                                         qos_profile_sensor_data)
+        t_end = time.time() + 3.0
+        while time.time() < t_end:
+            rclpy.spin_once(node, timeout_sec=0.1)
+    except ImportError:
+        pass
+    report['gps_messages_received'] = received
+    # Gazebo side: nothing may publish on the topic PX4's gz_bridge turns into external-vision odometry
+    gz = subprocess.run(['gz', 'topic', '-i', '-t', '/model/x500_ps05_0/odometry_with_covariance'],
+                        capture_output=True, text=True, timeout=10)
+    report['px4_truth_injection_topic_publishers'] = 'Publishers' in gz.stdout and 'tcp://' in gz.stdout
     report['expected_autonomy_nodes_seen'] = sorted(report['nodes'])
     node.destroy_node()
     rclpy.shutdown()
-    report['pass'] = not report['violations'] and not report['truth_subscriber_violations']
+    report['pass'] = (not report['violations'] and not report['truth_subscriber_violations']
+                      and not any(report.get('gps_messages_received', {}).values())
+                      and not report['px4_truth_injection_topic_publishers'])
     return report
 
 

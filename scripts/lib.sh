@@ -15,8 +15,16 @@ container_up() {
         xargs=(-e DISPLAY="$DISPLAY" -v /tmp/.X11-unix:/tmp/.X11-unix:rw)
         command -v xhost >/dev/null && xhost +local:docker >/dev/null 2>&1 || true
     fi
+    # Pass only Mesa-capable GPUs (Intel/AMD). NVIDIA nodes have no userspace driver in the container and
+    # make headless EGL pick an unusable device (OGRE2 "OpenGL 3.3 is not supported" -> sensor thread crash).
+    local devs=()
+    for n in /dev/dri/card* /dev/dri/renderD*; do
+        local v; v=$(cat /sys/class/drm/"$(basename "$n")"/device/vendor 2>/dev/null)
+        [ -n "$v" ] && [ "$v" != "0x10de" ] && devs+=(--device "$n")
+    done
+    [ ${#devs[@]} -eq 0 ] && echo "[ps05] WARNING: no Mesa GPU found; Gazebo will use software rendering"
     docker run -d --name "$PS05_CONTAINER" --network host --ipc host \
-        --device /dev/dri ${gid:+--group-add "$gid"} --group-add video \
+        "${devs[@]}" ${gid:+--group-add "$gid"} --group-add video \
         -e PS05_ROOT=/workspace -e QT_X11_NO_MITSHM=1 -e ROS_LOCALHOST_ONLY=0 "${xargs[@]}" \
         -v "$HOST_ROOT":/workspace -w /workspace "$PS05_IMAGE" sleep infinity >/dev/null
     echo "[ps05] container $PS05_CONTAINER started"

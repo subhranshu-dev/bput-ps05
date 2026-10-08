@@ -57,7 +57,9 @@ def test_blocked_direct_path_goes_over():
     res, g = plan(occ, unk, [3, 10, 2], [17, 10, 2])
     assert res.success
     assert_clear(res, g)
-    assert res.waypoints[:, 2].max() > 4.0 + 1.0          # true 3D: climbs over
+    # true 3D: climbs over. Clearance is cell-centre to cell-centre: top occupied cell centre 3.75 m
+    # + radius 1.0 -> first free centre 4.75 m (the half-cell grid_quantization term covers this in configs).
+    assert res.waypoints[:, 2].max() >= 3.75 + 1.0 - 1e-9
 
 
 def test_overhead_obstacle_goes_under():
@@ -106,14 +108,15 @@ def test_narrow_passage():
     res, g = plan(occ, unk, [3, 10, 3], [17, 10, 3], radius=1.0)
     assert res.success
     assert_clear(res, g)
-    res2, _ = plan(occ, unk, [3, 10, 3], [17, 10, 3], radius=1.5)   # bigger vehicle -> window too small
+    # window half-width (cell-centre to occupied cell-centre) is 1.5 m; blocking is clearance < radius
+    res2, _ = plan(occ, unk, [3, 10, 3], [17, 10, 3], radius=1.6)   # bigger vehicle -> window too small
     assert not res2.success
 
 
 def test_inflation_rejects_unsafe_clearance_path():
     """A path that is collision-free on raw occupancy but violates clearance must be rejected."""
     occ, unk = world()
-    occ[20, :, :] = True
+    occ[20, :, 0:12] = True                                  # 6 m wall; safe route exists over the top
     occ[20, 19:21, 4:8] = False                              # 1 m slot: raw-free but too tight
     g_raw = inflate(occ, unk, 0.5, np.zeros(3), 0.0)
     assert not g_raw.is_blocked_world([[10.25, 10.0, 3.0]])[0]   # raw: centre of slot is free
@@ -121,7 +124,7 @@ def test_inflation_rejects_unsafe_clearance_path():
     assert res.success
     dense = densify(res.waypoints, 0.1)
     assert g.clearance_world(dense).min() >= 1.0            # route keeps the required clearance
-    assert res.waypoints[:, 1].ptp() > 0 or res.waypoints[:, 2].max() > 8   # did not use the slot
+    assert res.waypoints[:, 2].max() > 6.0                 # went over the wall, did not use the slot
 
 
 def test_pessimistic_unknown_blocks():
