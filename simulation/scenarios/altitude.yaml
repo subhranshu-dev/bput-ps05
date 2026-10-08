@@ -1,0 +1,8 @@
+id: altitude
+description: Different cruise/approach altitude (takeoff 4 m, approach 7 m).
+seed: 0
+expect: LANDED
+overrides:
+  mission:
+    start: {takeoff_altitude: 4.0}
+    landing_zone: {approach_altitude: 7.0, search_altitude: 7.0}

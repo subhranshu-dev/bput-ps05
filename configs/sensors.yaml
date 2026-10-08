@@ -1,0 +1,9 @@
+# Sensor mounting (base_link frame, FLU). SINGLE SOURCE for TF static transforms; a test verifies it matches the SDF model.
+camera_link:      {xyz: [0.12, 0.0, 0.05],  rpy: [0.0, 0.0, 0.0]}
+lidar_link:       {xyz: [0.0, 0.0, 0.20],   rpy: [0.0, 0.0, 0.0]}
+down_camera_link: {xyz: [0.10, 0.0, -0.06], rpy: [0.0, 1.5707963267948966, 0.0]}
+down_lidar_link:  {xyz: [-0.10, 0.0, -0.06], rpy: [0.0, 1.5707963267948966, 0.0]}
+# Optical frames follow REP-103: z forward, x right, y down
+optical_rpy: [-1.5707963267948966, 0.0, -1.5707963267948966]
+# Extrinsic perturbation (robustness test only): added to camera_link when publishing TF
+camera_extrinsic_perturbation: {xyz: [0.0, 0.0, 0.0], rpy: [0.0, 0.0, 0.0]}

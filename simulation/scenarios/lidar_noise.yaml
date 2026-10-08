@@ -1,0 +1,6 @@
+id: lidar_noise
+description: LiDAR Gaussian range noise sigma = 5 cm.
+seed: 0
+expect: LANDED
+overrides:
+  lidar: {fault_injection: {range_noise_sigma: 0.05}}

@@ -1,0 +1,33 @@
+# Landing detection, validation and control (Phases 15-18)
+detector:
+  image_topic: /perception/down_camera/image
+  info_topic: /perception/down_camera/camera_info
+  dictionary: DICT_APRILTAG_36h11
+  marker_id: 0
+  marker_size: 0.40          # m (black-square edge length)
+  filter_alpha: 0.5          # exponential smoothing of target position
+validator:
+  cloud_topic: /perception/down_lidar/points
+  pad_radius: 1.2            # m disc around the target used for plane fit
+  clearance_radius: 2.0      # m disc checked for obstructions
+  max_tilt_deg: 8.0
+  max_plane_rms: 0.05        # m
+  obstacle_height: 0.15      # m above fitted plane = obstruction
+  min_points: 30
+  max_alignment_error: 0.35  # m horizontal offset target vs vehicle allowed before DESCEND
+controller:
+  kp: 0.8
+  ki: 0.05
+  kd: 0.15
+  i_limit: 0.5               # anti-windup clamp on integral term (m*s)
+  v_max_xy: 0.6              # m/s
+  descent_rate: 0.4          # m/s nominal
+  slow_descent_rate: 0.25    # m/s below 1 m
+  align_tolerance: 0.15      # m to declare aligned
+  align_hold_s: 1.0
+  checkpoints: [2.0, 1.0, 0.5]   # m heights at which validation is re-run
+  touchdown_height: 0.45     # m base_link AGL (feet ~0.23 m above pad): below this command PX4 LAND
+  target_lost_timeout_s: 1.5
+  reacquire_timeout_s: 10.0
+  abort_climb_altitude: 5.0
+  max_abort_attempts: 3

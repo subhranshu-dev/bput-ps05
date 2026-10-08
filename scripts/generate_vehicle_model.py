@@ -1,0 +1,119 @@
+#!/usr/bin/env python3
+"""Generate simulation/models/x500_ps05/model.sdf from PX4's x500 (v1.17.0 submodule) models.
+
+Changes vs. stock x500:
+  * navsat (GPS) sensor REMOVED  -> the airframe physically has no GNSS receiver (GPS-denied)
+  * + forward RGB camera 640x480 @10 Hz       (/camera/image_raw, camera_optical_frame)
+  * + 3D LiDAR 360x16, +/-25 deg, 30 m @10 Hz  (/lidar/points, lidar_frame)
+  * + downward RGB camera 640x480 @15 Hz       (/down_camera/image_raw, down_camera_optical_frame)
+  * + downward flash LiDAR 32x32, 70x70 deg    (/down_lidar/points, down_lidar_frame)
+  * + OdometryPublisher -> /sim/truth/odom      (EVALUATION ONLY ground truth)
+Sensor poses come from configs/sensors.yaml (the TF source), so model and TF agree by construction.
+
+Usage: scripts/generate_vehicle_model.py [--px4-models /opt/PX4-Autopilot/Tools/simulation/gz/models]
+"""
+import argparse
+import re
+from pathlib import Path
+
+import yaml
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def pose(c):
+    x, y, z = c['xyz']
+    r, p, yw = c['rpy']
+    return f'{x} {y} {z} {r} {p} {yw}'
+
+
+def camera(name, topic, frame, c, hfov, rate):
+    return f"""
+      <sensor name="{name}" type="camera">
+        <pose>{pose(c)}</pose>
+        <gz_frame_id>{frame}</gz_frame_id>
+        <topic>{topic}/image_raw</topic>
+        <always_on>1</always_on>
+        <update_rate>{rate}</update_rate>
+        <visualize>false</visualize>
+        <camera>
+          <camera_info_topic>{topic}/camera_info</camera_info_topic>
+          <horizontal_fov>{hfov}</horizontal_fov>
+          <image><width>640</width><height>480</height><format>R8G8B8</format></image>
+          <clip><near>0.05</near><far>120</far></clip>
+          <noise><type>gaussian</type><mean>0</mean><stddev>0.004</stddev></noise>
+        </camera>
+      </sensor>"""
+
+
+def lidar(name, topic, frame, c, hs, hmin, hmax, vs, vmin, vmax, rmin, rmax, rate):
+    return f"""
+      <sensor name="{name}" type="gpu_lidar">
+        <pose>{pose(c)}</pose>
+        <gz_frame_id>{frame}</gz_frame_id>
+        <topic>{topic}</topic>
+        <always_on>1</always_on>
+        <update_rate>{rate}</update_rate>
+        <visualize>false</visualize>
+        <lidar>
+          <scan>
+            <horizontal><samples>{hs}</samples><resolution>1</resolution><min_angle>{hmin}</min_angle><max_angle>{hmax}</max_angle></horizontal>
+            <vertical><samples>{vs}</samples><resolution>1</resolution><min_angle>{vmin}</min_angle><max_angle>{vmax}</max_angle></vertical>
+          </scan>
+          <range><min>{rmin}</min><max>{rmax}</max><resolution>0.01</resolution></range>
+          <noise><type>gaussian</type><mean>0</mean><stddev>0.01</stddev></noise>
+        </lidar>
+      </sensor>"""
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--px4-models', default='/opt/PX4-Autopilot/Tools/simulation/gz/models')
+    a = ap.parse_args()
+    src = Path(a.px4_models)
+    base = (src / 'x500_base/model.sdf').read_text()
+    motors = (src / 'x500/model.sdf').read_text()
+    s = yaml.safe_load(open(ROOT / 'configs/sensors.yaml'))
+
+    # 1) strip GPS
+    base, n = re.subn(r'\s*<sensor name="navsat_sensor" type="navsat">.*?</sensor>', '', base, flags=re.S)
+    assert n == 1, 'navsat sensor not found in x500_base'
+    # 2) add PS05 sensors to base_link
+    sensors = (camera('front_camera', 'camera', 'camera_optical_frame', s['camera_link'], 1.3962634, 10)
+               + lidar('lidar_3d', 'lidar', 'lidar_frame', s['lidar_link'], 360, -3.14159265, 3.12413936,
+                       16, -0.43633231, 0.43633231, 0.3, 30.0, 10)
+               + camera('down_camera', 'down_camera', 'down_camera_optical_frame', s['down_camera_link'], 1.5, 15)
+               + lidar('down_lidar', 'down_lidar', 'down_lidar_frame', s['down_lidar_link'], 32, -0.61086524, 0.61086524,
+                       32, -0.61086524, 0.61086524, 0.1, 15.0, 10))
+    first_link_end = base.index('</link>')
+    base = base[:first_link_end] + sensors + '\n    ' + base[first_link_end:]
+    base = base.replace("<model name='x500_base'>", "<model name='x500_ps05'>")
+    # 3) motor plugins from x500 + evaluation-only ground-truth odometry
+    plugins = ''.join(re.findall(r'\s*<plugin filename="gz-sim-multicopter-motor-model-system".*?</plugin>', motors, flags=re.S))
+    truth = """
+    <!-- EVALUATION ONLY: simulator ground truth, bridged to /sim/truth/odom. Never an autonomy input. -->
+    <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+      <odom_frame>world</odom_frame>
+      <robot_base_frame>base_link_truth</robot_base_frame>
+      <odom_topic>/sim/truth/odom</odom_topic>
+      <odom_publish_frequency>50</odom_publish_frequency>
+      <dimensions>3</dimensions>
+    </plugin>"""
+    idx = base.rindex('</model>')
+    base = base[:idx] + plugins + truth + '\n  ' + base[idx:]
+    header = ('<!-- GENERATED by scripts/generate_vehicle_model.py from PX4 x500_base/x500 (PX4 v1.17.0) and '
+              'configs/sensors.yaml. GPS (navsat) removed. Do not edit by hand. -->\n')
+    base = base.replace("<sdf version='1.9'>", header + "<sdf version='1.9'>", 1)
+    out = ROOT / 'simulation/models/x500_ps05'
+    out.mkdir(parents=True, exist_ok=True)
+    (out / 'model.sdf').write_text(base)
+    (out / 'model.config').write_text("""<?xml version="1.0"?>
+<model><name>x500_ps05</name><version>1.0</version><sdf version="1.9">model.sdf</sdf>
+<description>PX4 X500 for BPUT PS05: no GNSS; forward RGB camera, 3D LiDAR, downward camera, downward flash LiDAR</description>
+</model>
+""")
+    print(f'wrote {out / "model.sdf"}')
+
+
+if __name__ == '__main__':
+    main()

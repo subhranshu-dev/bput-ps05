@@ -1,0 +1,40 @@
+# PS05 challenge world, 50 m x 50 m, altitude envelope 0-30 m. Frame: Gazebo world = ROS map (ENU).
+# SINGLE SOURCE for the generated SDF (scripts/generate_world.py) and for evaluation-only
+# clearance/collision measurement. Autonomy nodes never read this file.
+name: ps05_challenge
+arena: {x: [0, 50], y: [0, 50], z: [0, 30]}
+start: [5.0, 5.0, 0.0]
+landing_pad: {center: [42.0, 42.0], size: [3.0, 3.0], height: 0.10, tag_size: 0.40, tag_plate: 0.60, tag_id: 0}
+tracking_station: [0.0, 0.0, 1.5]
+
+# type: box (size = [sx, sy, sz]) | cylinder (radius, length) | sphere (radius); pos = centre
+obstacles:
+  - {name: building_a, class: building, type: box, pos: [14.0, 18.0, 7.0], size: [8.0, 6.0, 14.0], color: [0.76, 0.64, 0.48]}
+  - {name: building_b, class: building, type: box, pos: [30.0, 10.0, 5.0], size: [6.0, 8.0, 10.0], color: [0.70, 0.70, 0.74]}
+  - {name: wall_1, class: wall, type: box, pos: [22.0, 26.0, 4.5], size: [0.6, 16.0, 9.0], color: [0.70, 0.25, 0.20]}
+  - {name: canopy_slab, class: overhead, type: box, pos: [33.0, 30.0, 4.2], size: [8.0, 8.0, 0.4], color: [0.20, 0.40, 0.80]}
+  - {name: canopy_p1, class: pole, type: cylinder, pos: [29.5, 26.5, 2.0], radius: 0.15, length: 4.0, color: [0.3, 0.3, 0.3]}
+  - {name: canopy_p2, class: pole, type: cylinder, pos: [36.5, 26.5, 2.0], radius: 0.15, length: 4.0, color: [0.3, 0.3, 0.3]}
+  - {name: canopy_p3, class: pole, type: cylinder, pos: [29.5, 33.5, 2.0], radius: 0.15, length: 4.0, color: [0.3, 0.3, 0.3]}
+  - {name: canopy_p4, class: pole, type: cylinder, pos: [36.5, 33.5, 2.0], radius: 0.15, length: 4.0, color: [0.3, 0.3, 0.3]}
+  - {name: pole_1, class: pole, type: cylinder, pos: [24.0, 12.0, 4.0], radius: 0.15, length: 8.0, color: [0.95, 0.80, 0.10]}
+  - {name: pole_2, class: pole, type: cylinder, pos: [25.5, 17.0, 4.0], radius: 0.15, length: 8.0, color: [0.95, 0.80, 0.10]}
+  - {name: pole_3, class: pole, type: cylinder, pos: [19.0, 31.0, 4.0], radius: 0.15, length: 8.0, color: [0.95, 0.80, 0.10]}
+  - {name: tree_1_trunk, class: tree, type: cylinder, pos: [12.0, 9.0, 1.5], radius: 0.25, length: 3.0, color: [0.40, 0.26, 0.13]}
+  - {name: tree_1_crown, class: tree, type: sphere, pos: [12.0, 9.0, 4.2], radius: 1.6, color: [0.15, 0.55, 0.20]}
+  - {name: tree_2_trunk, class: tree, type: cylinder, pos: [38.0, 20.0, 1.5], radius: 0.25, length: 3.0, color: [0.40, 0.26, 0.13]}
+  - {name: tree_2_crown, class: tree, type: sphere, pos: [38.0, 20.0, 4.2], radius: 1.6, color: [0.15, 0.55, 0.20]}
+  - {name: tree_3_trunk, class: tree, type: cylinder, pos: [8.0, 28.0, 1.5], radius: 0.25, length: 3.0, color: [0.40, 0.26, 0.13]}
+  - {name: tree_3_crown, class: tree, type: sphere, pos: [8.0, 28.0, 4.2], radius: 1.6, color: [0.15, 0.55, 0.20]}
+  - {name: cluster_1, class: cluster, type: box, pos: [26.0, 40.0, 0.75], size: [1.5, 1.5, 1.5], color: [0.95, 0.55, 0.10]}
+  - {name: cluster_2, class: cluster, type: box, pos: [27.7, 40.3, 0.75], size: [1.5, 1.5, 1.5], color: [0.95, 0.55, 0.10]}
+  - {name: cluster_3, class: cluster, type: box, pos: [26.8, 41.9, 0.75], size: [1.5, 1.5, 1.5], color: [0.95, 0.55, 0.10]}
+  - {name: cluster_4, class: cluster, type: box, pos: [26.9, 40.9, 2.25], size: [1.5, 1.5, 1.5], color: [0.95, 0.55, 0.10]}
+  - {name: pad_guard_1, class: building, type: box, pos: [45.6, 43.0, 1.25], size: [1.0, 1.0, 2.5], color: [0.55, 0.55, 0.60]}
+  - {name: pad_guard_2, class: building, type: box, pos: [39.0, 45.6, 1.5], size: [1.2, 1.2, 3.0], color: [0.55, 0.55, 0.60]}
+
+# Movable scenario objects (parked outside the flight area until a scenario moves them).
+dynamic:
+  - {name: dyn_panel, class: dynamic, type: box, pos: [48.5, 1.5, 3.5], size: [0.4, 4.0, 7.0], color: [0.85, 0.10, 0.60]}
+  - {name: unsafe_crate, class: dynamic, type: box, pos: [1.5, 48.5, 0.25], size: [0.8, 0.8, 0.5], color: [0.60, 0.40, 0.20]}
+  - {name: pad_pole, class: dynamic, type: cylinder, pos: [48.5, 48.5, 2.0], radius: 0.2, length: 4.0, color: [0.95, 0.20, 0.10]}

@@ -1,0 +1,23 @@
+# LiDAR processing (Phase 4)
+main:
+  input_topic: /lidar/points
+  output_topic: /perception/lidar/points
+  frame: lidar_frame
+  expected_rate_hz: 10.0
+  min_range: 0.5
+  max_range: 30.0
+  self_filter_radius: 0.6    # remove returns from the vehicle's own body
+  voxel_downsample: 0.10     # m, 0 disables
+down:
+  input_topic: /down_lidar/points
+  output_topic: /perception/down_lidar/points
+  frame: down_lidar_frame
+  expected_rate_hz: 10.0
+  min_range: 0.15
+  max_range: 15.0
+  self_filter_radius: 0.0
+  voxel_downsample: 0.0
+fault_injection:
+  range_noise_sigma: 0.0     # m Gaussian range noise
+  dropout_prob: 0.0          # per-point drop probability
+  blackout: {enabled: false, start_s: 0.0, duration_s: 0.0}

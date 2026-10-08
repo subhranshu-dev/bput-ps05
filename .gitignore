@@ -1,0 +1,14 @@
+# build products
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+frontend/node_modules/
+frontend/dist/
+__pycache__/
+*.pyc
+.pytest_cache/
+# large per-run artefacts (metrics/telemetry/events are kept)
+results/raw/*/px4_ulog/
+results/raw/*/launch.log
+results/logs/*.log
+!results/logs/docker_build.log

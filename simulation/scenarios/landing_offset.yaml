@@ -1,0 +1,7 @@
+id: landing_offset
+description: Approximate landing-zone estimate offset 2.5 m from the true pad (precision must come from the tag).
+seed: 0
+expect: LANDED
+overrides:
+  mission:
+    landing_zone: {center: [39.8, 43.0]}

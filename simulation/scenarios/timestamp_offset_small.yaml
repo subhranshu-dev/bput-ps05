@@ -1,0 +1,6 @@
+id: timestamp_offset_small
+description: Forward camera timestamps shifted by +30 ms (within tolerance).
+seed: 0
+expect: LANDED
+overrides:
+  camera: {fault_injection: {stamp_offset_s: 0.03}}

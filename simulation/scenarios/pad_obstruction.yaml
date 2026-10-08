@@ -1,0 +1,6 @@
+id: pad_obstruction
+description: Crate on the landing pad when alignment starts; removed after 15 s (unsafe pad -> abort -> climb -> search -> land).
+seed: 0
+expect: LANDED
+events:
+  - {type: place, object: unsafe_crate, pose: [42.7, 41.5, 0.35], trigger: {state: TARGET_LOCK}, remove_after_s: 15.0}

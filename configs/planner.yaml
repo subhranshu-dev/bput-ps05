@@ -1,0 +1,23 @@
+# 3D A* global planner (Phase 11) + trajectory generation (Phase 12)
+astar:
+  resolution: 0.5            # m planning-grid cell (occupancy map is max-pooled down to this)
+  connectivity: 26           # 6 | 18 | 26
+  unknown_policy: optimistic # optimistic (traversable with cost penalty) | pessimistic (blocked)
+  unknown_cost: 1.5          # cost multiplier per unknown cell when optimistic
+  heuristic_weight: 1.0      # 1.0 = admissible A*
+  vertical_cost: 1.2         # mild penalty on altitude changes
+  max_expansions: 400000
+  timeout_s: 5.0
+  goal_tolerance_cells: 1
+  snap_radius_cells: 4       # if start/goal blocked by inflation, snap to nearest free cell within this radius
+pruning:
+  enabled: true              # line-of-sight shortcutting on the inflated grid
+trajectory:
+  waypoint_spacing: 0.5      # m resampling
+  smoothing_iterations: 3    # Chaikin corner cutting passes (each verified against inflated grid)
+  v_max: 2.0                 # m/s
+  a_max: 1.0                 # m/s^2
+  v_max_z: 1.0               # m/s
+  corner_speed_factor: 0.6   # lateral-acceleration speed limit factor
+  yaw_mode: path_tangent     # path_tangent | fixed
+  yaw_rate_max: 0.8          # rad/s

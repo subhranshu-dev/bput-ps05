@@ -1,0 +1,36 @@
+# Safety envelope and obstacle-inflation budget (Phase 9).
+# total inflation radius = vehicle_radius + localization_uncertainty + controller_error + desired_clearance
+inflation:
+  vehicle_radius: 0.40            # m  X500: 0.25 m arm (motor) radius + 0.13 m prop radius, rounded up
+  localization_uncertainty: 0.15  # m  ~3 sigma of tracker-derived EKF2 horizontal position error (measured, see FINAL_REPORT)
+  controller_error: 0.15          # m  offboard position-tracking error budget at 2 m/s
+  desired_clearance: 0.25         # m  extra separation requested by the mission
+  grid_quantization: true         # add half a planning cell to compensate for voxel discretisation
+
+# Spatial-error (PS05 path enforcement) thresholds: E = |p_est - p_ref|
+path_enforcement:
+  e_warn: 1.0      # m  warning band
+  e_max: 2.0       # m  Emax: breach -> CRITICAL ALARM -> containment (hover, then controlled descent if persistent)
+  breach_persist_s: 0.5
+  containment_hold_s: 5.0
+
+# Local obstacle check on the live LiDAR scan
+local_check:
+  lookahead_m: 8.0           # how far ahead along the trajectory to check
+  stop_distance_m: 2.5       # obstacle inside inflated tube closer than this -> STOP/HOVER immediately
+  min_points: 3              # min LiDAR returns inside the swept tube to declare "blocked" (noise rejection)
+
+# Sensor watchdogs (SENSOR_FAILURE -> SAFE_STATE)
+watchdog:
+  lidar_timeout_s: 1.0
+  camera_timeout_s: 1.0
+  down_camera_timeout_s: 1.0
+  down_lidar_timeout_s: 1.0
+  odom_timeout_s: 0.5
+  tf_timeout_s: 0.5
+
+# Safe-state policy
+safe_state:
+  no_path_hover_s: 6.0        # hover while retrying planning before ABORT
+  no_path_retries: 3
+  abort_action: land_in_place # land_in_place | hover

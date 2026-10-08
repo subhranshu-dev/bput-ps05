@@ -1,0 +1,7 @@
+id: demo
+description: Full BPUT demonstration - unexpected obstacle spawned across the planned path during navigation.
+seed: 0
+start_pose: "5,5,0.05,0,0,0"
+expect: LANDED
+events:
+  - {type: spawn_ahead, object: dyn_panel, trigger: {state: NAVIGATE, delay_s: 6.0}, distance_ahead: 10.0, height: 7.0}

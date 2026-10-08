@@ -1,0 +1,6 @@
+id: lidar_dropout
+description: 30 % of LiDAR returns dropped.
+seed: 0
+expect: LANDED
+overrides:
+  lidar: {fault_injection: {dropout_prob: 0.30}}

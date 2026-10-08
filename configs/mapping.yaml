@@ -1,0 +1,19 @@
+# 3D occupancy map (Phase 8)
+frame: map
+resolution: 0.25
+bounds:                       # bounded local map = arena + margin
+  x: [0.0, 50.0]
+  y: [0.0, 50.0]
+  z: [-0.5, 12.0]
+log_odds:
+  hit: 0.85
+  miss: -0.4
+  min: -2.0
+  max: 3.5
+  occupied_threshold: 0.7
+  free_threshold: -0.5
+max_ray_length: 30.0
+input_topic: /fused/points
+fallback_topic: /perception/lidar/points   # used if fused cloud stale (camera failure) — degraded mode
+fallback_after_s: 0.6
+publish_rate_hz: 2.0

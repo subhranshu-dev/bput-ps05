@@ -1,0 +1,9 @@
+id: camera_failure
+description: Failure injection - forward camera blackout for 8 s during navigation (fusion stops; mapping degrades to raw LiDAR).
+seed: 0
+expect: LANDED
+overrides:
+  camera:
+    fault_injection:
+      trigger_state: NAVIGATE
+      blackout: {enabled: true, start_s: 4.0, duration_s: 8.0, camera: forward}

@@ -1,0 +1,11 @@
+backend:
+  host: 0.0.0.0
+  port: 8000
+  cors_origins: ["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:8000"]
+bridge:
+  url: http://127.0.0.1:8000/api/ingest
+  rate_hz: 5.0
+  image_width: 320
+  jpeg_quality: 70
+  max_cloud_points: 2500
+  max_map_voxels: 6000

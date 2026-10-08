@@ -1,0 +1,14 @@
+# LiDAR-camera fusion (Phases 6-7)
+image_topic: /perception/camera/image
+info_topic: /perception/camera/camera_info
+cloud_topic: /perception/lidar/points
+output_topic: /fused/points
+camera_frame: camera_optical_frame
+sync:
+  max_delta_s: 0.05          # reject pairs whose |t_cam - t_lidar| exceeds this
+  queue_size: 10
+min_depth: 0.3               # reject points behind / too close to the camera
+edge_alignment:
+  enabled: true              # fusion projection error metric (Canny edge chamfer)
+  every_n: 10
+# Extrinsic perturbation is applied by aeronav_description (TF), not here; see configs/sensors.yaml

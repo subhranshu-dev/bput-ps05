@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+html, body, #root { height: 100%; }
+body { @apply text-ink font-sans antialiased; background: radial-gradient(1200px 600px at 60% -10%, #0f2236 0%, #070c13 60%); }
+
+@layer components {
+  .panel { @apply bg-panel/90 border border-edge rounded-xl shadow-[0_0_0_1px_rgba(56,189,248,0.03),0_8px_30px_rgba(0,0,0,0.35)] backdrop-blur; }
+  .panel-title { @apply text-[10px] font-semibold tracking-[0.18em] uppercase text-dim; }
+  .kv { @apply font-mono text-sm tabular-nums; }
+  .chip { @apply inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-[11px] font-semibold tracking-wider uppercase border; }
+  .btn { @apply rounded-lg px-3 py-1.5 text-xs font-semibold border border-edge bg-panel2 hover:border-accent/60 hover:text-white transition disabled:opacity-40 disabled:cursor-not-allowed; }
+}
+
+.pulse-dot { animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
+.state-enter { animation: stateIn .35s ease-out; }
+@keyframes stateIn { from { transform: translateY(-4px); opacity: 0 } to { transform: none; opacity: 1 } }
+::-webkit-scrollbar { width: 6px; height: 6px }
+::-webkit-scrollbar-thumb { background: #1e2d40; border-radius: 3px }

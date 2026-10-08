@@ -1,0 +1,5 @@
+id: start_position
+description: Different start position (12, 3).
+seed: 0
+start_pose: "12,3,0.05,0,0,0"
+expect: LANDED

@@ -1,0 +1,20 @@
+# Camera processing (Phase 3). Fault-injection fields are TEST HARNESS ONLY and default to off.
+forward:
+  image_topic: /camera/image_raw
+  info_topic: /camera/camera_info
+  output_image_topic: /perception/camera/image
+  output_info_topic: /perception/camera/camera_info
+  expected_rate_hz: 10.0
+down:
+  image_topic: /down_camera/image_raw
+  info_topic: /down_camera/camera_info
+  output_image_topic: /perception/down_camera/image
+  output_info_topic: /perception/down_camera/camera_info
+  expected_rate_hz: 15.0
+fault_injection:
+  blur_kernel: 0             # odd kernel size for Gaussian blur, 0 = off
+  exposure_gain: 1.0         # multiplicative brightness
+  noise_sigma: 0.0           # additive Gaussian pixel noise (0-255 scale)
+  stamp_offset_s: 0.0        # shift forward-camera timestamps (sync robustness)
+  occlusion: {enabled: false, start_s: 0.0, duration_s: 0.0, camera: down, fraction: 0.6}
+  blackout: {enabled: false, start_s: 0.0, duration_s: 0.0, camera: forward}

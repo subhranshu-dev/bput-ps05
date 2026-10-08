@@ -1,0 +1,6 @@
+id: pad_near_obstacle
+description: Permanent 4 m pole 1.2 m from the pad centre inside the clearance radius -> landing must be refused (safe abort).
+seed: 0
+expect: ABORTED
+events:
+  - {type: place, object: pad_pole, pose: [43.2, 42.0, 2.0], trigger: {at_time: 0.5}}

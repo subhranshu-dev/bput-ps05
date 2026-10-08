@@ -1,0 +1,6 @@
+id: camera_blur
+description: Gaussian blur (9x9) on both cameras.
+seed: 0
+expect: LANDED
+overrides:
+  camera: {fault_injection: {blur_kernel: 9}}

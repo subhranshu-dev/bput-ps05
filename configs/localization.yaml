@@ -1,0 +1,15 @@
+# Permitted GPS-independent localisation (PS05 ground tracking station, Sec. 6-8 of the PS05 report)
+tracker:
+  station_position: [0.0, 0.0, 1.5]   # surveyed ground-station position in map frame (ENU)
+  rate_hz: 60.0                        # > 50 Hz telemetry requirement
+  latency_s: 0.010                     # < 20 ms tracking latency requirement
+  sigma_range: 0.05                    # m
+  sigma_azimuth: 0.0015                # rad
+  sigma_elevation: 0.0015              # rad
+  dropout_prob: 0.0
+ekf_feed:
+  position_variance_floor: 0.0025      # m^2 sent to EKF2
+frames:
+  map: map
+  odom: odom
+  base: base_link

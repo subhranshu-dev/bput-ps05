@@ -1,0 +1,24 @@
+# Approved Mission Space (Phase 10) and mission definition.
+# Frame: map (ENU, metres). World origin at the SW corner of the 50 m x 50 m arena.
+mission_space:
+  x: [1.0, 49.0]
+  y: [1.0, 49.0]
+  z: [1.0, 10.0]
+corridor:
+  enabled: true
+  # Approved centreline (polyline, map frame). Candidate paths must stay within max_deviation of it.
+  centerline:
+    - [5.0, 5.0, 3.0]
+    - [20.0, 8.0, 4.0]
+    - [33.0, 22.0, 4.0]
+    - [41.0, 41.0, 5.0]
+  max_deviation: 12.0        # m horizontal+vertical tube radius around the centreline
+  safety_margin: 0.5         # m kept inside the boundary
+start:
+  takeoff_altitude: 2.5      # m above ground
+landing_zone:
+  # Approximate landing region given to the mission (NOT the exact pad centre; precision comes from the tag).
+  center: [41.0, 41.0]
+  approach_altitude: 5.0
+  search_radius: 3.0
+  search_altitude: 5.0

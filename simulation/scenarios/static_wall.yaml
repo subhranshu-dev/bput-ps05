@@ -1,0 +1,6 @@
+id: static_wall
+description: Extra wall panel placed across the approved corridor before take-off (static obstacle).
+seed: 0
+expect: LANDED
+events:
+  - {type: place, object: dyn_panel, pose: [20.0, 10.5, 3.5], yaw: 0.45, trigger: {at_time: 0.5}}

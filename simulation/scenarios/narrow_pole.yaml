@@ -1,0 +1,6 @@
+id: narrow_pole
+description: Thin 0.2 m pole placed on the corridor centreline (narrow-obstacle LiDAR detection + clearance).
+seed: 0
+expect: LANDED
+events:
+  - {type: place, object: pad_pole, pose: [27.0, 15.5, 2.0], trigger: {at_time: 0.5}}
