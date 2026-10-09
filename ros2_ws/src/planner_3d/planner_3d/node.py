@@ -129,9 +129,18 @@ class PlannerNode(Node):
             def valid(poly):
                 return polyline_clear(poly, trav, grid)
 
-            traj = build_trajectory(res.waypoints, self.pcfg['trajectory'], valid)
-            check = validate_trajectory(traj.polyline, grid, self.corridor, self.radius)
-            if not (check['collision_free'] and check['corridor_ok']):
+            if res.start_snapped:
+                # escape segment already verified collision-free against occupied cells; validate the rest normally
+                esc, body = res.waypoints[:2], res.waypoints[1:]
+                traj_body = build_trajectory(body, self.pcfg['trajectory'], valid)
+                traj = build_trajectory(np.vstack([esc[:1], traj_body.polyline]),
+                                        dict(self.pcfg['trajectory'], smoothing_iterations=0), lambda p: True)
+                check = validate_trajectory(traj_body.polyline, grid, self.corridor, self.radius)
+                check['escape_segment_m'] = float(np.linalg.norm(esc[1] - esc[0]))
+            else:
+                traj = build_trajectory(res.waypoints, self.pcfg['trajectory'], valid)
+                check = validate_trajectory(traj.polyline, grid, self.corridor, self.radius)
+            if not (check['collision_free'] and check['corridor_ok']) and not res.start_snapped:
                 # fall back to the un-smoothed, already validated waypoint polyline
                 traj = build_trajectory(res.waypoints, dict(self.pcfg['trajectory'], smoothing_iterations=0), valid)
                 check = validate_trajectory(traj.polyline, grid, self.corridor, self.radius)

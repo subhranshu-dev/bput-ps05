@@ -214,3 +214,26 @@ def test_final_validation_consistent_with_planning():
         from planner_3d.corridor import point_segment_distance
         dmin = np.min([point_segment_distance(tr.pos, a, b) for a, b in zip(tr.polyline[:-1], tr.polyline[1:])], axis=0)
         assert dmin.max() < 1e-9
+
+
+def test_start_inside_inflation_escapes_to_free_cell():
+    occ, unk = world()
+    occ[20, :, :] = True                                   # wall at x = 10 m
+    g = inflate(occ, unk, 0.5, np.zeros(3), 1.2)
+    start = np.array([9.3, 10.0, 3.0])                     # 0.7 m from the wall: inside the 1.2 m inflation
+    assert g.is_blocked_world(start)[0]
+    res = AStarPlanner(CFG).plan(g, start, np.array([3.0, 3.0, 3.0]))
+    assert res.success and res.start_snapped
+    assert np.allclose(res.waypoints[0], start)            # trajectory starts at the true vehicle position
+    assert not g.is_blocked_world(densify(res.waypoints[1:], 0.05)).any()
+    assert not g.occupied[tuple(g.world_to_index(densify(res.waypoints[:2], 0.02)).T)].any()
+
+
+def test_escape_through_occupied_rejected():
+    occ, unk = world()
+    occ[18:23, :, :] = True                                # thick wall
+    occ[19, 20, 6] = False                                 # vehicle pocket inside the wall
+    g = inflate(occ, unk, 0.5, np.zeros(3), 1.2)
+    res = AStarPlanner(dict(CFG, astar=dict(CFG['astar'], snap_radius_cells=8))).plan(
+        g, np.array([9.75, 10.25, 3.25]), np.array([3.0, 3.0, 3.0]))
+    assert not res.success

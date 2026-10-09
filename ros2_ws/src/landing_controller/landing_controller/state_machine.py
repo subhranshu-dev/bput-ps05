@@ -123,6 +123,8 @@ class MissionStateMachine:
         self.last_cmd_t = -1e9
         self.outcome = None
         self.returning = False
+        self.t_odom_lost = None
+        self.odom_lost_land_s = float(safety_cfg['watchdog'].get('odom_lost_land_s', 3.0))
         self.stats = {
             'replans': 0, 'obstacle_detections': 0, 'detection_events': [], 'replan_latencies_ms': [],
             'stop_response_s': [], 'target_losses': 0, 'reacquire_times_s': [], 'aborts': 0,
@@ -211,12 +213,23 @@ class MissionStateMachine:
         dt = 0.05 if self.t_last is None else max(obs.t - self.t_last, 1e-3)
         self.t_last = obs.t
         if obs.pose is None and self.state != INIT:
-            # localisation lost: PX4 must take over (its own failsafe will land)
-            if self.state in AIRBORNE_STATES:
-                self.stats['sensor_failures'] += 1
-                self._goto(SENSOR_FAILURE, obs.t, out, 'localisation unavailable -> PX4 land')
-                out.command = 'land'
+            # odometry lost on the ROS side: hover on the last setpoint (PX4 keeps holding with its own EKF);
+            # only if it stays lost for odom_lost_land_s hand over to PX4 LAND
+            if self.state in AIRBORNE_STATES or self.state == SENSOR_FAILURE:
+                if self.t_odom_lost is None:
+                    self.t_odom_lost = obs.t
+                    self.stats['sensor_failures'] += 1
+                    if self.state != SENSOR_FAILURE:
+                        self.resume_state = self.state
+                    self._goto(SENSOR_FAILURE, obs.t, out, 'odometry lost -> hold last setpoint')
+                if self.hold_pos is not None:
+                    out.setpoint = self._hold(self.hold_pos, self.hold_yaw)
+                if obs.t - self.t_odom_lost > self.odom_lost_land_s and obs.t - self.last_cmd_t > 1.0:
+                    out.command = 'land'
+                    self.last_cmd_t = obs.t
+                    out.events.append(('ERROR', f'odometry lost > {self.odom_lost_land_s:.0f} s -> PX4 LAND'))
             return out
+        self.t_odom_lost = None
         if obs.plan_result is not None and obs.plan_result.get('id') == self.pending_plan:
             self.pending_plan = None
             plan = obs.plan_result

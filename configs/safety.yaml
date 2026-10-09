@@ -29,6 +29,7 @@ watchdog:
   down_camera_timeout_s: 1.0
   down_lidar_timeout_s: 1.0
   odom_timeout_s: 0.5
+  odom_lost_land_s: 3.0     # hover on last setpoint first; PX4 LAND only if odometry stays lost this long
   tf_timeout_s: 0.5
 
 # Safe-state policy

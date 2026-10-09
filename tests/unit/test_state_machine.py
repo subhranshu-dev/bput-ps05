@@ -209,3 +209,37 @@ def test_unsafe_pad_waits_before_retry_then_lands_when_cleared():
     w.run(until={S.LANDED, S.ABORTED})
     assert w.sm.state == S.LANDED, w.states
     assert 1 <= w.sm.abort_attempts <= 3
+
+
+def _odom_gap(w, start, dur):
+    orig = w.obs
+
+    def obs():
+        o = orig()
+        if start <= w.t < start + dur:
+            o.pose = None
+        return o
+    w.obs = obs
+
+
+def test_short_odom_dropout_hovers_and_resumes_without_landing():
+    w = FakeWorld()
+    _odom_gap(w, 25.0, 1.0)
+    cmds = []
+    orig_apply = w.apply
+    w.apply = lambda out, dt: (cmds.append(out.command), orig_apply(out, dt))
+    w.run(until={S.LANDED, S.ABORTED})
+    assert S.SENSOR_FAILURE in w.states and w.sm.state == S.LANDED
+    i = w.states.index(S.SENSOR_FAILURE)
+    assert S.LAND not in w.states[:i + 2]
+
+
+def test_long_odom_loss_hands_over_to_px4_land():
+    w = FakeWorld()
+    _odom_gap(w, 25.0, 1e9)
+    cmds = []
+    orig_apply = w.apply
+    w.apply = lambda out, dt: (cmds.append((w.t, out.command)), orig_apply(out, dt))
+    w.run(t_max=40.0)
+    lands = [t for t, c in cmds if c == 'land']
+    assert lands and 25.0 + 3.0 <= lands[0] <= 25.0 + 4.5

@@ -212,9 +212,26 @@ class AStarPlanner:
         # exact start/goal endpoints (if they were not snapped) instead of cell centres
         if not s_snapped:
             raw[0] = np.asarray(start_w, dtype=float)
+        else:
+            # escape segment: vehicle starts inside the inflation margin -> fly straight to the snapped free cell.
+            # It must not cross any OCCUPIED cell and must stay inside the mission box.
+            esc = np.vstack([np.asarray(start_w, dtype=float), raw[0]])
+            occ_free = ~grid.occupied
+            if corridor is not None:
+                box = np.all((densify(esc, 0.02) >= corridor.lo) & (densify(esc, 0.02) <= corridor.hi), axis=1).all()
+            else:
+                box = True
+            if not (polyline_clear(esc, occ_free, grid) and box):
+                return PlanResult(False, 'start inside inflation and no collision-free escape to a free cell',
+                                  expansions=expansions, latency_ms=(time.perf_counter() - t0) * 1e3)
+            raw = np.vstack([esc[:1], raw])
         if not g_snapped:
             raw[-1] = np.asarray(goal_w, dtype=float)
-        wps = prune_line_of_sight(raw, trav, grid) if self.prune else raw
+        if s_snapped:
+            body = prune_line_of_sight(raw[1:], trav, grid) if self.prune else raw[1:]
+            wps = np.vstack([raw[:1], body])
+        else:
+            wps = prune_line_of_sight(raw, trav, grid) if self.prune else raw
         latency = (time.perf_counter() - t0) * 1e3
         return PlanResult(True, 'ok', cells, wps, raw, expansions, latency, path_length(wps),
                           s_snapped, g_snapped)

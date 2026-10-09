@@ -9,7 +9,7 @@ astar:
   max_expansions: 400000
   timeout_s: 8.0
   goal_tolerance_cells: 1
-  snap_radius_cells: 4       # if start/goal blocked by inflation, snap to nearest free cell within this radius
+  snap_radius_cells: 8       # if start/goal blocked by inflation, snap to nearest free cell within this radius (4 m)
 pruning:
   enabled: true              # line-of-sight shortcutting on the inflated grid
 trajectory:
