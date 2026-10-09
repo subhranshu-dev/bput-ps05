@@ -45,6 +45,7 @@ class EvaluationNode(Node):
         self.near_miss_radius = float(safety['vehicle_radius'] + safety['desired_clearance'])
         all_cfg = config.load_all()
         (self.dir / 'config.json').write_text(json.dumps({'scenario': self.scenario, 'configs': all_cfg,
+                                                          'git_rev': os.environ.get('PS05_GIT_REV', 'unknown'),
                                                           'config_hash': config.config_hash(all_cfg)}, indent=1))
         self.cfg_hash = config.config_hash(all_cfg)
         self.truth_t, self.truth_p = [], []
@@ -73,6 +74,7 @@ class EvaluationNode(Node):
         self.t0 = None
         self.finalized = False
         self.moved = set()
+        self.spawn_t = None
         self.create_subscription(Odometry, topics.TRUTH_ODOM, self.on_truth, SENSOR_QOS)
         self.create_subscription(Odometry, topics.VEHICLE_ODOM, self.on_est, 10)
         self.create_subscription(String, topics.MISSION_STATUS, self.on_mission, RELIABLE_QOS)
@@ -112,6 +114,8 @@ class EvaluationNode(Node):
 
     def on_scenario(self, m):
         ev = json.loads(m.data)
+        if ev.get('event') == 'unexpected_obstacle' and self.spawn_t is None:
+            self.spawn_t = ev.get('stamp')
         if ev.get('type') == 'object_pose':
             self.moved.add(ev['object'])
             for o in self.surfaces:
@@ -217,6 +221,7 @@ class EvaluationNode(Node):
             'scenario_id': self.scenario.get('id', 'baseline'),
             'seed': self.scenario.get('seed', 0),
             'config_hash': self.cfg_hash,
+            'git_rev': os.environ.get('PS05_GIT_REV', 'unknown'),
             'state': self.state,
             'outcome': self.mission.get('outcome'),
             'success': self.mission.get('outcome') == 'LANDED' and self.collisions == 0,
@@ -235,6 +240,9 @@ class EvaluationNode(Node):
             'obstacle_detections': st.get('obstacle_detections'),
             'detection_events': st.get('detection_events'),
             'stop_response_s': st.get('stop_response_s'),
+            'dynamic_obstacle_spawn_t': self.spawn_t,
+            'dynamic_detection_latency_s': next((d['t'] - self.spawn_t for d in (st.get('detection_events') or [])
+                                                 if self.spawn_t is not None and d['t'] >= self.spawn_t), None),
             'target_detection_rate': (self.det_hits / self.det_frames) if self.det_frames else None,
             'target_frames': self.det_frames,
             'target_losses': st.get('target_losses'),

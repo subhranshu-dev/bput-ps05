@@ -1,0 +1,3 @@
+[ps05] run dbg_demo_01 scenario=demo pose=5,5,0.25,0,0,0 timeout=500s
+[ps05] run dbg_demo_01 finished: LANDED (wall 164 s)
+{"outcome": "LANDED", "success": true, "landing_error_m": 0.021431836397329502, "collision_count": 0, "min_clearance_m": 1.2820554361846996, "replans": 5, "mission_time_s": 77.696}

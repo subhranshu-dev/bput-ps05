@@ -23,6 +23,7 @@ yaml.safe_dump(s, open(sys.argv[2], 'w'), sort_keys=False)
 PY
 POSE=$(python3 -c "import yaml;print(yaml.safe_load(open('$OUT/scenario.yaml')).get('start_pose','5,5,0.25,0,0,0'))")
 export PS05_SCENARIO_FILE=$OUT/scenario.yaml PS05_RUN_ID=$RUN_ID
+export PS05_GIT_REV=$(git -C /workspace rev-parse --short HEAD 2>/dev/null || echo unknown)$(git -C /workspace diff --quiet 2>/dev/null || echo -dirty)
 kill_sim
 echo "[ps05] run $RUN_ID scenario=$SCEN pose=$POSE timeout=${TIMEOUT}s"
 ros2 launch /workspace/launch/full_system.launch.py gui:=$GUI rviz:=$RVIZ dashboard:=$DASH \
