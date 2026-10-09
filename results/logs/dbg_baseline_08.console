@@ -1,0 +1,3 @@
+[ps05] run dbg_baseline_08 scenario=baseline pose=5,5,0.25,0,0,0 timeout=500s
+[ps05] run dbg_baseline_08 finished: LANDED (wall 158 s)
+{"outcome": "LANDED", "success": true, "landing_error_m": 0.0071775686961874155, "collision_count": 0, "min_clearance_m": 1.07174884922185, "replans": 5, "mission_time_s": 77.552}

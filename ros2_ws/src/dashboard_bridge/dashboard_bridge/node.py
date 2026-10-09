@@ -80,6 +80,8 @@ class DashboardBridge(Node):
         self.create_timer(1.0, self.send_clouds)
         self.ok = 0
         self.fail = 0
+        self.fail_streak = 0
+        self.last_probe = 0.0
 
     # ------------------------------------------------------------------ inputs
     def on_json(self, k, m):
@@ -114,6 +116,16 @@ class DashboardBridge(Node):
         self.clouds['map_msg'] = m
 
     # ------------------------------------------------------------------ output
+    def backend_down(self) -> bool:
+        """After 5 consecutive failures only probe every 5 s (saves CPU when no dashboard is running)."""
+        import time as _t
+        if self.fail_streak < 5:
+            return False
+        if _t.monotonic() - self.last_probe > 5.0:
+            self.last_probe = _t.monotonic()
+            return False
+        return True
+
     def post(self, kind, data):
         try:
             self.outq.put_nowait({'kind': kind, 'data': data})
@@ -128,10 +140,14 @@ class DashboardBridge(Node):
                                              headers={'Content-Type': 'application/json'})
                 urllib.request.urlopen(req, timeout=1.0).read()
                 self.ok += 1
+                self.fail_streak = 0
             except Exception:  # noqa: BLE001  backend absent/down: drop
                 self.fail += 1
+                self.fail_streak += 1
 
     def send_snapshot(self):
+        if self.backend_down() and 'send_snapshot' != 'send_snapshot':
+            return
         mission = self.state['mission'] or {}
         snap = {k: v for k, v in self.state.items() if k != 'mission'}
         mission = {k: v for k, v in mission.items() if k != 'events'}
@@ -140,6 +156,8 @@ class DashboardBridge(Node):
         self.post('snapshot', snap)
 
     def send_images(self):
+        if self.backend_down() and 'send_images' != 'send_snapshot':
+            return
         out = {}
         for k, m in list(self.images.items()):
             img = self.bridge.imgmsg_to_cv2(m, desired_encoding='bgr8')
@@ -164,6 +182,8 @@ class DashboardBridge(Node):
         return arr
 
     def send_clouds(self):
+        if self.backend_down() and 'send_clouds' != 'send_snapshot':
+            return
         data = {}
         m = self.clouds.get('fused_msg')
         if m is not None:

@@ -89,3 +89,24 @@ def inflate(occupied: np.ndarray, unknown: np.ndarray, resolution: float, origin
         clearance = np.full(occupied.shape, np.inf)
     blocked = occupied | (clearance < radius)
     return PlanningGrid(resolution, np.asarray(origin, dtype=float), occupied, unknown, clearance, blocked, radius)
+
+
+def build_local_grid(states: np.ndarray, map_resolution: float, map_origin, planning_resolution: float,
+                     radius: float, lo_world, hi_world) -> PlanningGrid:
+    """Planning grid restricted to the box [lo, hi] (+ inflation margin), aligned to the global coarse grid.
+
+    Same semantics as build_planning_grid inside the box: blocks are max-pooled identically and the margin
+    (>= radius + 1 cell) makes the distance transform exact for every cell within [lo, hi].
+    """
+    factor = int(round(planning_resolution / map_resolution))
+    origin = np.asarray(map_origin, dtype=float)
+    margin = radius + 2 * planning_resolution
+    lo_c = np.floor((np.asarray(lo_world) - margin - origin) / planning_resolution).astype(int)
+    hi_c = np.ceil((np.asarray(hi_world) + margin - origin) / planning_resolution).astype(int)
+    n_c = np.array(states.shape) // factor
+    lo_c = np.clip(lo_c, 0, n_c)
+    hi_c = np.clip(hi_c, 0, n_c)
+    if np.any(hi_c <= lo_c):
+        lo_c, hi_c = np.zeros(3, int), n_c
+    sub = states[lo_c[0] * factor:hi_c[0] * factor, lo_c[1] * factor:hi_c[1] * factor, lo_c[2] * factor:hi_c[2] * factor]
+    return build_planning_grid(sub, map_resolution, origin + lo_c * planning_resolution, planning_resolution, radius)

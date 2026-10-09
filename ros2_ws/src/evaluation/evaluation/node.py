@@ -17,12 +17,14 @@ import rclpy
 import yaml
 from nav_msgs.msg import Odometry
 from rclpy.node import Node
+from sensor_msgs.msg import PointCloud2
 from std_msgs.msg import String
 
 from ps05_common import config, topics
 from ps05_common.ros_utils import RELIABLE_QOS, SENSOR_QOS, json_msg, now_sec, stamp_to_sec
 
-from .metrics import error_stats, interpolate_track, landing_error, load_world, min_clearance, path_length
+from .metrics import (error_stats, interpolate_track, landing_error, load_world, map_accuracy, min_clearance, path_length,
+                      world_surfaces)
 
 
 class EvaluationNode(Node):
@@ -70,7 +72,7 @@ class EvaluationNode(Node):
                            'loc_err', 'true_E', 'clearance', 'state'])
         self.t0 = None
         self.finalized = False
-        self.dyn_override = {}
+        self.moved = set()
         self.create_subscription(Odometry, topics.TRUTH_ODOM, self.on_truth, SENSOR_QOS)
         self.create_subscription(Odometry, topics.VEHICLE_ODOM, self.on_est, 10)
         self.create_subscription(String, topics.MISSION_STATUS, self.on_mission, RELIABLE_QOS)
@@ -79,6 +81,9 @@ class EvaluationNode(Node):
         self.create_subscription(String, topics.PLANNER_STATUS, self.on_planner, RELIABLE_QOS)
         self.create_subscription(String, topics.FUSION_STATUS, self.on_fusion, RELIABLE_QOS)
         self.create_subscription(String, topics.LANDING_DETECTION, self.on_detection, RELIABLE_QOS)
+        self.surfaces = world_surfaces(self.world)
+        self.map_acc = None
+        self.create_subscription(PointCloud2, topics.OCCUPANCY_MAP, self.on_map, RELIABLE_QOS)
         self.pub = self.create_publisher(String, topics.EVAL_METRICS, RELIABLE_QOS)
         self.create_timer(0.1, self.sample)
         self.create_timer(1.0, self.publish)
@@ -108,10 +113,24 @@ class EvaluationNode(Node):
     def on_scenario(self, m):
         ev = json.loads(m.data)
         if ev.get('type') == 'object_pose':
+            self.moved.add(ev['object'])
+            for o in self.surfaces:
+                if o['name'] == ev['object']:
+                    o['pos'] = np.array(ev['pos'], dtype=float)
             for o in self.prims:
                 if o['name'] == ev['object']:
                     o['pos'] = np.array(ev['pos'], dtype=float)
         self.log_event('scenario', m)
+
+    def on_map(self, m):
+        # evaluation of the autonomy's map against the true world (rate-limited)
+        t = now_sec(self)
+        if t - getattr(self, '_map_t', -1e9) < 5.0:
+            return
+        self._map_t = t
+        from ps05_common.pc2 import xyz_from_cloud
+        # dynamic objects are included at their current (parked or moved) pose: they are LiDAR-visible
+        self.map_acc = map_accuracy(xyz_from_cloud(m), self.surfaces)
 
     def on_planner(self, m):
         self.planner = json.loads(m.data)
@@ -234,6 +253,7 @@ class EvaluationNode(Node):
             'fusion_edge_chamfer_px': self.fusion.get('edge_chamfer_px_mean'),
             'fusion_extrinsic_shift_px': self.fusion.get('extrinsic_shift_px_mean'),
             'fusion_process_ms': self.fusion.get('process_ms'),
+            'map_accuracy': self.map_acc,
             'state_history': st.get('state_history'),
             'elapsed_sim_s': (self.truth_t[-1] - self.t0) if self.truth_t and self.t0 else None,
         }

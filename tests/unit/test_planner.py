@@ -176,3 +176,15 @@ def test_planner_clearance_exceeds_live_check_envelope():
     hard = inf['vehicle_radius'] + inf['localization_uncertainty'] + inf['controller_error']
     guaranteed_surface = inflation_radius(saf, res) - (3 ** 0.5) / 2 * res
     assert guaranteed_surface > hard
+
+
+def test_local_grid_matches_global_inside_box():
+    from planner_3d.grid import build_local_grid, build_planning_grid
+    rng = np.random.default_rng(5)
+    states = np.zeros((80, 80, 40), np.uint8)
+    states[rng.random(states.shape) < 0.01] = OCCUPIED
+    g = build_planning_grid(states, 0.25, [0, 0, -0.5], 0.5, 1.2)
+    lo, hi = np.array([6.0, 7.0, 1.0]), np.array([12.0, 11.0, 4.0])
+    loc = build_local_grid(states, 0.25, [0, 0, -0.5], 0.5, 1.2, lo, hi)
+    pts = np.column_stack([rng.uniform(lo[0], hi[0], 500), rng.uniform(lo[1], hi[1], 500), rng.uniform(lo[2], hi[2], 500)])
+    assert np.array_equal(g.is_blocked_world(pts), loc.is_blocked_world(pts))

@@ -333,7 +333,7 @@
         <visualize>false</visualize>
         <lidar>
           <scan>
-            <horizontal><samples>360</samples><resolution>1</resolution><min_angle>-3.14159265</min_angle><max_angle>3.12413936</max_angle></horizontal>
+            <horizontal><samples>360</samples><resolution>1</resolution><min_angle>-3.13286601</min_angle><max_angle>3.13286601</max_angle></horizontal>
             <vertical><samples>16</samples><resolution>1</resolution><min_angle>-0.43633231</min_angle><max_angle>0.43633231</max_angle></vertical>
           </scan>
           <range><min>0.3</min><max>30.0</max><resolution>0.01</resolution></range>

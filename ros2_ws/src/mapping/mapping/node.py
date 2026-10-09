@@ -40,6 +40,7 @@ class MappingNode(Node):
         self.create_subscription(PointCloud2, self.cfg['input_topic'], lambda m: self.on_cloud(m, 'fused'), SENSOR_QOS)
         self.create_subscription(PointCloud2, self.cfg['fallback_topic'], lambda m: self.on_cloud(m, 'lidar'), SENSOR_QOS)
         self.last_fused = -1e9
+        self.last_integrate = -1e9
         self.source = 'none'
         self.update_ms = 0.0
         self.scans = {'fused': 0, 'lidar': 0}
@@ -52,6 +53,9 @@ class MappingNode(Node):
             self.last_fused = t
         elif t - self.last_fused < float(self.cfg['fallback_after_s']):
             return   # fused stream healthy; raw LiDAR not needed
+        if t - self.last_integrate < 1.0 / float(self.cfg.get('max_integrate_rate_hz', 10.0)) - 1e-3:
+            return
+        self.last_integrate = t
         sw = Stopwatch()
         tmat = lookup_matrix(self.tf_buffer, self.frame, m.header.frame_id, m.header.stamp, 0.1)
         if tmat is None:

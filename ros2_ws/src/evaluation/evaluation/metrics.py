@@ -70,3 +70,45 @@ def interpolate_track(times, values, t):
     i = min(max(i, 1), len(times) - 1)
     a = (t - times[i - 1]) / max(times[i] - times[i - 1], 1e-9)
     return values[i - 1] + a * (values[i] - values[i - 1])
+
+
+def distances_to_primitive(p: np.ndarray, o: dict) -> np.ndarray:
+    """Vectorised surface distance for points p (N,3) to one primitive (0 inside)."""
+    c = np.asarray(o['pos'], dtype=float)
+    if o['type'] == 'box':
+        h = np.array(o['size'], dtype=float) / 2.0
+        return np.linalg.norm(np.maximum(np.abs(p - c) - h, 0.0), axis=1)
+    if o['type'] == 'cylinder':
+        dr = np.maximum(np.hypot(p[:, 0] - c[0], p[:, 1] - c[1]) - float(o['radius']), 0.0)
+        dz = np.maximum(np.abs(p[:, 2] - c[2]) - float(o['length']) / 2.0, 0.0)
+        return np.hypot(dr, dz)
+    if o['type'] == 'sphere':
+        return np.maximum(np.linalg.norm(p - c, axis=1) - float(o['radius']), 0.0)
+    raise ValueError(o['type'])
+
+
+def world_surfaces(spec: dict) -> list:
+    """All LiDAR-visible geometry incl. ground (z=0 plane), landing pad and tracking-station mast."""
+    prims = load_world(spec)
+    pad = spec['landing_pad']
+    prims.append({'name': 'landing_pad', 'type': 'box', 'pos': np.array([*pad['center'], pad['height'] / 2]),
+                  'size': [*pad['size'], pad['height']]})
+    st = spec['tracking_station']
+    prims.append({'name': 'station_mast', 'type': 'cylinder', 'pos': np.array([st[0], st[1], st[2] / 2]),
+                  'radius': 0.08, 'length': st[2]})
+    prims.append({'name': 'station_head', 'type': 'sphere', 'pos': np.array(st, dtype=float), 'radius': 0.25})
+    return prims
+
+
+def map_accuracy(voxels: np.ndarray, prims: list, threshold: float = 0.5) -> dict:
+    """Occupied voxel centres vs. true geometry: phantom = farther than threshold from every surface."""
+    v = np.asarray(voxels, dtype=float).reshape(-1, 3)
+    if len(v) == 0:
+        return {'occupied': 0, 'phantom': 0, 'phantom_fraction': None, 'median_error_m': None, 'phantom_examples': []}
+    d = np.abs(v[:, 2])                                  # ground plane
+    for o in prims:
+        d = np.minimum(d, distances_to_primitive(v, o))
+    ph = d > threshold
+    return {'occupied': int(len(v)), 'phantom': int(ph.sum()), 'phantom_fraction': float(ph.mean()),
+            'median_error_m': float(np.median(d)), 'p95_error_m': float(np.percentile(d, 95)),
+            'phantom_examples': np.round(v[ph][:10], 2).tolist()}

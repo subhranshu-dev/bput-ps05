@@ -18,7 +18,7 @@ from std_msgs.msg import String
 from tf2_ros import Buffer, TransformListener
 
 from mapping.voxel_map import decode_states
-from planner_3d.grid import build_planning_grid, inflation_radius
+from planner_3d.grid import build_local_grid, inflation_radius
 from ps05_common import config, topics
 from ps05_common.pc2 import xyz_from_cloud
 from ps05_common.ros_utils import RELIABLE_QOS, SENSOR_QOS, json_msg, lookup_matrix, now_sec, stamp_to_sec
@@ -48,6 +48,7 @@ class AvoidanceNode(Node):
         self.traj_stamp = None
         self.pose = None
         self.grid = None
+        self.dumps = 0
         self.pub = self.create_publisher(String, topics.AVOIDANCE_STATUS, RELIABLE_QOS)
         self.create_subscription(Path, topics.LOCAL_TRAJECTORY, self.on_traj, RELIABLE_QOS)
         self.create_subscription(Odometry, topics.VEHICLE_ODOM, self.on_odom, 10)
@@ -70,17 +71,20 @@ class AvoidanceNode(Node):
         return lookahead_segment(self.traj, i, self.lookahead)
 
     def on_grid(self, m: VoxelGrid):
-        t0 = time.perf_counter()
-        states = decode_states(m.data, m.nx, m.ny, m.nz)
-        self.grid = build_planning_grid(states, m.resolution, [m.origin.x, m.origin.y, m.origin.z], self.res,
-                                        self.grid_radius)
         if self.traj is None or self.pose is None:
             return
+        t0 = time.perf_counter()
         seg, along = self._window()
-        r = check_grid(seg, along, self.grid)
+        if len(seg) == 0:
+            return
+        states = decode_states(m.data, m.nx, m.ny, m.nz)
+        # inflate only the block around the look-ahead window (identical semantics to the planner's grid)
+        grid = build_local_grid(states, m.resolution, [m.origin.x, m.origin.y, m.origin.z], self.res,
+                                self.grid_radius, seg.min(axis=0), seg.max(axis=0))
+        r = check_grid(seg, along, grid)
         if r['blocked']:
             self.publish(r['blocked'], 'map', r['distance_along_path'], None, stamp_to_sec(m.header.stamp),
-                         (time.perf_counter() - t0) * 1e3)
+                         (time.perf_counter() - t0) * 1e3, r.get('point'))
 
     def on_cloud(self, m: PointCloud2):
         if self.traj is None or self.pose is None:
@@ -89,10 +93,21 @@ class AvoidanceNode(Node):
         tmat = lookup_matrix(self.tf_buffer, 'map', m.header.frame_id, m.header.stamp, 0.05)
         if tmat is None:
             return
-        pts = xyz_from_cloud(m)
-        pts = pts @ tmat[:3, :3].T + tmat[:3, 3]
+        raw = xyz_from_cloud(m)
+        pts = raw @ tmat[:3, :3].T + tmat[:3, 3]
         seg, along = self._window()
         r = check_points(seg, along, pts, self.point_radius, self.min_points)
+        if r['blocked'] and self.dumps < 20:
+            self.dumps += 1
+            try:
+                import numpy as _np
+                from ps05_common import config as _c
+                d = _c.repo_root() / 'results' / 'debug'
+                d.mkdir(parents=True, exist_ok=True)
+                _np.savez_compressed(d / f'avoid_{stamp_to_sec(m.header.stamp):.2f}.npz', raw=raw, tmat=tmat,
+                                     pose=self.pose, seg=seg, point=_np.array(r['obstacle_point']))
+            except Exception as e:  # noqa: BLE001
+                self.get_logger().error(f'dump failed: {e}')
         self.publish(r['blocked'], 'lidar', r['distance_along_path'], r['min_clearance'],
                      stamp_to_sec(m.header.stamp), (time.perf_counter() - t0) * 1e3, r.get('obstacle_point'))
 

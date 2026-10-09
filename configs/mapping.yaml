@@ -17,3 +17,4 @@ input_topic: /fused/points
 fallback_topic: /perception/lidar/points   # used if fused cloud stale (camera failure) — degraded mode
 fallback_after_s: 0.6
 publish_rate_hz: 2.0
+max_integrate_rate_hz: 5.0   # CPU bound; obstacle_avoidance still checks every 10 Hz scan

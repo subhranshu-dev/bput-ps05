@@ -80,7 +80,9 @@ def main():
     assert n == 1, 'navsat sensor not found in x500_base'
     # 2) add PS05 sensors to base_link
     sensors = (camera('front_camera', 'camera', 'camera_optical_frame', s['camera_link'], 1.3962634, 10)
-               + lidar('lidar_3d', 'lidar', 'lidar_frame', s['lidar_link'], 360, -3.14159265, 3.12413936,
+               # -179.5 .. +179.5 deg (1 deg steps): no beam lies exactly on a gpu_lidar cube-map seam
+               # (+-45, +-135 deg), where Gazebo returns spurious depths (found in bring-up, see docs/TROUBLESHOOTING.md)
+               + lidar('lidar_3d', 'lidar', 'lidar_frame', s['lidar_link'], 360, -3.13286601, 3.13286601,
                        16, -0.43633231, 0.43633231, 0.3, 30.0, 10)
                + camera('down_camera', 'down_camera', 'down_camera_optical_frame', s['down_camera_link'], 1.0472, 15)
                + lidar('down_lidar', 'down_lidar', 'down_lidar_frame', s['down_lidar_link'], 32, -0.61086524, 0.61086524,
