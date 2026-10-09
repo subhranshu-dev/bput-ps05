@@ -1,0 +1,2 @@
+{"t": 13.052000000000001, "level": "INFO", "state": "ARMING", "text": "INIT -> ARMING: sensors + localisation converged", "source": "mission", "wall_time": 1791568286.9085658}
+{"t": 14.252, "level": "INFO", "state": "TAKEOFF", "text": "ARMING -> TAKEOFF: armed in offboard; home (5.01, 4.99)", "source": "mission", "wall_time": 1791568288.8167357}

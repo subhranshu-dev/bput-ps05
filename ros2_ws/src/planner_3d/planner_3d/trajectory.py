@@ -21,6 +21,7 @@ class Trajectory:
     vel: np.ndarray      # (N,3)
     yaw: np.ndarray      # (N,)  ENU yaw
     speed: np.ndarray    # (N,)
+    polyline: np.ndarray = None   # validated geometric polyline; every pos sample lies on its segments
 
     @property
     def duration(self) -> float:
@@ -170,4 +171,6 @@ def build_trajectory(waypoints: np.ndarray, cfg: dict, is_valid=lambda p: True,
                      start_yaw: float | None = None) -> Trajectory:
     smoothed = smooth_waypoints(waypoints, cfg.get('smoothing_iterations', 3), is_valid)
     dense = resample(smoothed, float(cfg.get('waypoint_spacing', 0.5)))
-    return time_parameterize(dense, cfg, start_yaw)
+    traj = time_parameterize(dense, cfg, start_yaw)
+    traj.polyline = smoothed
+    return traj

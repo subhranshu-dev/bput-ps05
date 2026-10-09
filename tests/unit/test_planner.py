@@ -188,3 +188,29 @@ def test_local_grid_matches_global_inside_box():
     loc = build_local_grid(states, 0.25, [0, 0, -0.5], 0.5, 1.2, lo, hi)
     pts = np.column_stack([rng.uniform(lo[0], hi[0], 500), rng.uniform(lo[1], hi[1], 500), rng.uniform(lo[2], hi[2], 500)])
     assert np.array_equal(g.is_blocked_world(pts), loc.is_blocked_world(pts))
+
+
+def test_final_validation_consistent_with_planning():
+    """Every successful plan's smoothed trajectory passes the same validity check used for final validation."""
+    from planner_3d.astar import polyline_clear
+    from planner_3d.trajectory import build_trajectory
+    rng = np.random.default_rng(11)
+    tcfg = {'waypoint_spacing': 0.5, 'smoothing_iterations': 3, 'v_max': 2.0, 'a_max': 1.0, 'v_max_z': 1.0,
+            'corner_speed_factor': 0.6, 'yaw_mode': 'path_tangent', 'yaw_rate_max': 0.8}
+    for trial in range(15):
+        occ, unk = world()
+        occ[rng.random(occ.shape) < 0.04] = True
+        occ[:4, :4, :8] = occ[-4:, -4:, :8] = False
+        g = inflate(occ, unk, 0.5, np.zeros(3), 0.6)
+        pl = AStarPlanner(CFG)
+        res = pl.plan(g, np.array([0.75, 0.75, 1.25]), np.array([18.75, 18.75, 2.25]))
+        if not res.success:
+            continue
+        trav = pl.traversable_mask(g, None)
+        tr = build_trajectory(res.waypoints, tcfg, lambda p: polyline_clear(p, trav, g))
+        assert polyline_clear(res.waypoints, trav, g), trial
+        assert polyline_clear(tr.polyline, trav, g), trial
+        # every flown sample lies on the validated polyline (vertex-preserving resampling)
+        from planner_3d.corridor import point_segment_distance
+        dmin = np.min([point_segment_distance(tr.pos, a, b) for a, b in zip(tr.polyline[:-1], tr.polyline[1:])], axis=0)
+        assert dmin.max() < 1e-9

@@ -29,14 +29,14 @@ from ps05_common.ros_utils import LATCHED_QOS, RELIABLE_QOS, json_msg, now_sec
 from ps05_interfaces.msg import VoxelGrid
 from ps05_interfaces.srv import PlanPath
 
-from .astar import AStarPlanner
+from .astar import VALIDATION_STEP, AStarPlanner, polyline_clear
 from .corridor import Corridor, densify
 from .grid import build_planning_grid, inflation_radius
 from .trajectory import build_trajectory
 
 
 def validate_trajectory(pos: np.ndarray, grid, corridor: Corridor, radius: float) -> dict:
-    dense = densify(pos, grid.resolution * 0.25)
+    dense = densify(pos, VALIDATION_STEP)
     blocked = grid.is_blocked_world(dense)
     cor = corridor.validate_path(dense)
     clear = grid.clearance_world(dense)
@@ -102,6 +102,7 @@ class PlannerNode(Node):
         if self.grid_stamp == (m.header.stamp.sec, m.header.stamp.nanosec):
             return True
         states = decode_states(m.data, m.nx, m.ny, m.nz)
+        self.grid_states = (states, m.resolution, [m.origin.x, m.origin.y, m.origin.z])
         self.grid = build_planning_grid(states, m.resolution, [m.origin.x, m.origin.y, m.origin.z], self.res, self.radius)
         if self.corridor_mask is None or self.corridor_mask.shape != self.grid.shape:
             self.corridor_mask = self.corridor.grid_mask(self.grid.shape, self.grid.origin, self.grid.resolution)
@@ -126,12 +127,15 @@ class PlannerNode(Node):
             trav = self.planner.traversable_mask(grid, self.corridor_mask)
 
             def valid(poly):
-                d = densify(poly, grid.resolution * 0.25)
-                idx = grid.world_to_index(d)
-                return bool(np.all(grid.in_bounds(idx)) and trav[idx[:, 0], idx[:, 1], idx[:, 2]].all())
+                return polyline_clear(poly, trav, grid)
 
             traj = build_trajectory(res.waypoints, self.pcfg['trajectory'], valid)
-            check = validate_trajectory(traj.pos, grid, self.corridor, self.radius)
+            check = validate_trajectory(traj.polyline, grid, self.corridor, self.radius)
+            if not (check['collision_free'] and check['corridor_ok']):
+                # fall back to the un-smoothed, already validated waypoint polyline
+                traj = build_trajectory(res.waypoints, dict(self.pcfg['trajectory'], smoothing_iterations=0), valid)
+                check = validate_trajectory(traj.polyline, grid, self.corridor, self.radius)
+                check['smoothing_fallback'] = True
             status.update(check)
             if not (check['collision_free'] and check['corridor_ok']):
                 res.success = False
@@ -167,10 +171,9 @@ class PlannerNode(Node):
         try:
             d = config.repo_root() / 'results' / 'debug'
             d.mkdir(parents=True, exist_ok=True)
-            m = self.grid_msg
+            states, resolution, origin = self.grid_states   # exactly the grid this plan used
             f = d / f'plan_fail_{int(time.time() * 1000)}.npz'
-            np.savez_compressed(f, states=decode_states(m.data, m.nx, m.ny, m.nz), resolution=m.resolution,
-                                origin=[m.origin.x, m.origin.y, m.origin.z],
+            np.savez_compressed(f, states=states, resolution=resolution, origin=origin,
                                 start=[req.start.x, req.start.y, req.start.z], goal=[req.goal.x, req.goal.y, req.goal.z],
                                 waypoints=res.waypoints, raw=res.raw_waypoints, traj=traj.pos,
                                 check=json.dumps(check))

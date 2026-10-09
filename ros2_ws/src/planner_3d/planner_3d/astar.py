@@ -220,12 +220,20 @@ class AStarPlanner:
                           s_snapped, g_snapped)
 
 
-def segment_clear(a, b, trav: np.ndarray, grid: PlanningGrid) -> bool:
-    pts = densify(np.vstack([a, b]), grid.resolution * 0.25)
-    idx = grid.world_to_index(pts)
+VALIDATION_STEP = 0.02   # m: one sampling density for pruning, smoothing and final validation (consistency)
+
+
+def polyline_clear(pts, trav: np.ndarray, grid: PlanningGrid, step: float = VALIDATION_STEP) -> bool:
+    """True if every point of the polyline (sampled every `step`) lies in a traversable cell."""
+    d = densify(np.asarray(pts, dtype=float).reshape(-1, 3), step)
+    idx = grid.world_to_index(d)
     if not np.all(grid.in_bounds(idx)):
         return False
     return bool(trav[idx[:, 0], idx[:, 1], idx[:, 2]].all())
+
+
+def segment_clear(a, b, trav: np.ndarray, grid: PlanningGrid) -> bool:
+    return polyline_clear(np.vstack([a, b]), trav, grid)
 
 
 def prune_line_of_sight(pts: np.ndarray, trav: np.ndarray, grid: PlanningGrid) -> np.ndarray:
