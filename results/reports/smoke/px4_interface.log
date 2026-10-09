@@ -1,3 +1,9 @@
-[WARN] [1791488408.155475084] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[WARN] [1791488408.155584362] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[WARN] [1791581407.753410895] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[WARN] [1791581407.755497893] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[INFO] [1791581442.992493388] [px4_interface]: command: offboard
+[INFO] [1791581444.223536187] [px4_interface]: command: arm
+[INFO] [1791581468.283717423] [px4_interface]: command: land
+[WARN] [1791581468.860979799] [px4_interface]: setpoint stream stale -> stopping offboard heartbeat (PX4 failsafe)
+[INFO] [1791581469.515285188] [px4_interface]: command: land
+[INFO] [1791581470.938178241] [px4_interface]: command: land
 [ros2run]: Killed

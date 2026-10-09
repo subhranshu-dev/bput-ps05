@@ -1,0 +1,10 @@
+{
+  "static": {
+    "source_findings": [],
+    "model_has_no_gnss": true,
+    "airframe_gps_disabled": true,
+    "truth_not_routed_to_px4": true,
+    "pass": true
+  },
+  "pass": true
+}

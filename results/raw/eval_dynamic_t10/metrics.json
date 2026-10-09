@@ -6,9 +6,9 @@
   "git_rev": "1f9fe4e-dirty",
   "state": "LANDED",
   "outcome": "LANDED",
-  "success": false,
+  "success": true,
   "expected_outcome": "LANDED",
-  "expectation_met": false,
+  "expectation_met": true,
   "landing_error_m": 0.04040819342110115,
   "touchdown_xy": [
     41.98050146263712,
@@ -18,10 +18,10 @@
     42.0,
     42.0
   ],
-  "collision_count": 1,
-  "near_misses": 1,
-  "min_clearance_m": 0.26697502461286127,
-  "min_clearance_object": "dyn_panel",
+  "collision_count": 0,
+  "near_misses": 0,
+  "min_clearance_m": 1.289620486809976,
+  "min_clearance_object": "canopy_slab",
   "executed_path_length_m": 76.68305434928567,
   "planned_path_lengths_m": [
     53.76692588041828,
@@ -431,5 +431,10 @@
       "reason": "touchdown confirmed by PX4 land detector"
     }
   ],
-  "elapsed_sim_s": 88.25999999999999
+  "elapsed_sim_s": 88.25999999999999,
+  "evaluator_v1_min_clearance_m": 0.26697502461286127,
+  "evaluator_v1_min_clearance_object": "dyn_panel",
+  "evaluator_v1_collision_count": 1,
+  "evaluator_v1_near_misses": 1,
+  "clearance_reevaluated": "yaw-aware geometry (v2)"
 }

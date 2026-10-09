@@ -1,0 +1,8 @@
+eval_dynamic_t04: min clearance 0.51 -> 1.29 m, collisions 0 -> 0
+eval_dynamic_t06: min clearance 0.56 -> 1.19 m, collisions 0 -> 0
+eval_dynamic_t07: min clearance 0.82 -> 1.27 m, collisions 0 -> 0
+eval_dynamic_t08: min clearance 0.85 -> 1.29 m, collisions 0 -> 0
+eval_dynamic_t09: min clearance 0.66 -> 1.22 m, collisions 0 -> 0
+eval_dynamic_t10: min clearance 0.27 -> 1.29 m, collisions 1 -> 0
+stress_crossing_obstacle_t01: min clearance 0.89 -> 1.34 m, collisions 0 -> 0
+[reevaluate] done; 7 run(s) changed

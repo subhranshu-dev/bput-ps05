@@ -204,6 +204,13 @@ def main():
         w(f'## {title}')
         w(body)
         w('')
+    for img, cap in (('dashboard_live.png', 'Ground-control dashboard during a live run (real telemetry)'),
+                     ('rviz_live.png', 'RViz2 debugging view during a live run: fused-colour occupancy map, corridor, paths')):
+        if (ROOT / 'docs/img' / img).exists():
+            w(f'*{cap}:*')
+            w('')
+            w(f'![{cap}](img/{img})')
+            w('')
     # ---------------------------------------------------------------- 28 test methodology
     w('## 28. Test methodology')
     tc = tests
@@ -379,6 +386,16 @@ def main():
     w('* Localisation uses a *simulated* external tracking station (as PS05 prescribes); its noise model is Gaussian '
       'and line-of-sight occlusion of the tracker is not modelled. On-board GPS-free odometry (VIO / LiDAR odometry) '
       'is not implemented.')
+    weak = [(sc, t) for sc, t in by.items() if t.get('expectation_met_rate') is not None and t['expectation_met_rate'] < 1]
+    for sc, t in weak:
+        bad = [r for r in runs if r.get('scenario_id') == sc and not r.get('expectation_met')]
+        w(f"* `{sc}` met its expected outcome in {round(t['expectation_met_rate'] * t['trials'])} of {t['trials']} trials; "
+          f"failed run(s): " + ', '.join(f"`{r['run_id']}` (outcome {r.get('outcome')}, revision {r.get('git_rev')}, "
+                                         f"{r.get('collision_count')} collisions)" for r in bad)
+          + '. The failure was a safe abort (NO_SAFE_PATH: no route found from the stop point although one exists in the '
+          'true geometry, i.e. the live map closed a narrow gap); the planner now dumps its exact inputs on every A* '
+          'failure for diagnosis. Root cause not yet confirmed.' if bad and any(r.get('outcome') == 'NO_SAFE_PATH' for r in bad)
+          else f"* `{sc}` met its expected outcome in {round(t['expectation_met_rate'] * t['trials'])} of {t['trials']} trials.")
     w('* All results are simulation-only (Gazebo Harmonic, lockstep PX4 SITL) on one world; no hardware or field data.')
     w('* Under load the simulator runs below real time and the forward camera renders below its 10 Hz target, so '
       'a fraction of LiDAR scans has no camera frame within the 50 ms sync window (those scans are mapped without '

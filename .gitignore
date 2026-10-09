@@ -12,3 +12,4 @@ results/raw/*/px4_ulog/
 results/raw/*/launch.log
 results/logs/*.log
 !results/logs/docker_build.log
+results/debug/

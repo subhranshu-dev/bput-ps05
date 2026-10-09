@@ -1,69 +1,69 @@
 {
  "topics": {
   "/camera/image_raw": {
-   "wall_hz": 7.36,
+   "wall_hz": 6.41,
    "expected_min_hz": 2.5,
    "ok": true
   },
   "/camera/camera_info": {
-   "wall_hz": 8.44,
+   "wall_hz": 7.44,
    "expected_min_hz": 2.5,
    "ok": true
   },
   "/down_camera/image_raw": {
-   "wall_hz": 10.91,
+   "wall_hz": 9.89,
    "expected_min_hz": 2.5,
    "ok": true
   },
   "/lidar/points": {
-   "wall_hz": 8.42,
+   "wall_hz": 7.43,
    "expected_min_hz": 2.5,
    "ok": true
   },
   "/down_lidar/points": {
-   "wall_hz": 8.42,
+   "wall_hz": 7.43,
    "expected_min_hz": 2.5,
    "ok": true
   },
   "/perception/lidar/points": {
-   "wall_hz": 8.48,
+   "wall_hz": 7.44,
    "expected_min_hz": 2.5,
    "ok": true
   },
   "/perception/camera/image": {
-   "wall_hz": 6.03,
+   "wall_hz": 4.96,
    "expected_min_hz": 2.5,
    "ok": true
   },
   "/fused/points": {
-   "wall_hz": 6.89,
+   "wall_hz": 5.19,
    "expected_min_hz": 1.5,
    "ok": true
   },
   "/vehicle/odom": {
-   "wall_hz": 86.91,
+   "wall_hz": 74.12,
    "expected_min_hz": 10.0,
    "ok": true
   },
   "/clock": {
-   "wall_hz": 188.04,
+   "wall_hz": 151.6,
    "expected_min_hz": 25.0,
    "ok": true
   }
  },
  "tf": {
   "map->base_link": {
-   "samples": 3619,
-   "max_jump_m": 0.0002349481447746595,
+   "samples": 4727,
+   "max_jump_m": 0.002011569412474194,
    "last": [
-    5.0008544921875,
-    5.000946521759033,
-    0.22824163734912872
+    5.027098178863525,
+    5.0253801345825195,
+    0.23085322976112366
    ],
    "ok": true
   },
   "base_link->camera_optical_frame": {
-   "samples": 3619,
+   "samples": 4733,
    "max_jump_m": 0.0,
    "last": [
     0.12,
@@ -73,7 +73,7 @@
    "ok": true
   },
   "base_link->lidar_frame": {
-   "samples": 3619,
+   "samples": 4733,
    "max_jump_m": 0.0,
    "last": [
     0.0,
@@ -83,7 +83,7 @@
    "ok": true
   },
   "base_link->down_camera_optical_frame": {
-   "samples": 3619,
+   "samples": 4733,
    "max_jump_m": 0.0,
    "last": [
     0.1,
@@ -93,7 +93,7 @@
    "ok": true
   },
   "base_link->down_lidar_frame": {
-   "samples": 3619,
+   "samples": 4733,
    "max_jump_m": 0.0,
    "last": [
     -0.1,
@@ -103,7 +103,7 @@
    "ok": true
   },
   "world->map": {
-   "samples": 3619,
+   "samples": 4733,
    "max_jump_m": 0.0,
    "last": [
     0.0,
@@ -113,12 +113,12 @@
    "ok": true
   },
   "camera_optical_frame->lidar_frame": {
-   "samples": 3619,
-   "max_jump_m": 4.530199718267439e-15,
+   "samples": 4733,
+   "max_jump_m": 5.202967547304806e-15,
    "last": [
-    0.0,
-    -0.1499999999999997,
-    -0.1200000000000001
+    -8.881784197001252e-16,
+    -0.14999999999999958,
+    -0.11999999999999922
    ],
    "ok": true
   }
@@ -141,7 +141,7 @@
  },
  "lidar_frame": "lidar_frame",
  "px4": {
-  "stamp": 29.1,
+  "stamp": 26.504,
   "connected": true,
   "armed": false,
   "nav_state": 4,

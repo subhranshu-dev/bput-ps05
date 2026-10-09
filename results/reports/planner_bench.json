@@ -1,0 +1,17 @@
+{
+ "rasterize_s": 11.88011465800082,
+ "grid_build_ms": 127.44095299967739,
+ "corridor_mask_ms": 102.32211299990013,
+ "astar_ms": 137.7257419990201,
+ "trajectory_ms": 4.004734000773169,
+ "success": true,
+ "expansions": 2294,
+ "length_m": 53.727979910661446,
+ "waypoints": 6,
+ "traj_duration_s": 30.776619294369674,
+ "grid_shape": [
+  100,
+  100,
+  25
+ ]
+}

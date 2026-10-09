@@ -17,7 +17,7 @@
   ],
   "collision_count": 0,
   "near_misses": 0,
-  "min_clearance_m": 2.6330772950337873,
+  "min_clearance_m": 2.633010040148735,
   "min_clearance_object": "tree_1_crown",
   "executed_path_length_m": 14.26970413392293,
   "planned_path_lengths_m": [
@@ -194,5 +194,10 @@
       "reason": "no safe path after 4 attempts"
     }
   ],
-  "elapsed_sim_s": 29.5
+  "elapsed_sim_s": 29.5,
+  "evaluator_v1_min_clearance_m": 2.6330772950337873,
+  "evaluator_v1_min_clearance_object": "tree_1_crown",
+  "evaluator_v1_collision_count": 0,
+  "evaluator_v1_near_misses": 0,
+  "clearance_reevaluated": "yaw-aware geometry (v2)"
 }

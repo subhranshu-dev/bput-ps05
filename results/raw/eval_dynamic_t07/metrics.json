@@ -20,8 +20,8 @@
   ],
   "collision_count": 0,
   "near_misses": 0,
-  "min_clearance_m": 0.8238869752807578,
-  "min_clearance_object": "dyn_panel",
+  "min_clearance_m": 1.2738883068066515,
+  "min_clearance_object": "tree_1_crown",
   "executed_path_length_m": 70.03405392117756,
   "planned_path_lengths_m": [
     52.57570959272404,
@@ -299,5 +299,10 @@
       "reason": "touchdown confirmed by PX4 land detector"
     }
   ],
-  "elapsed_sim_s": 79.58
+  "elapsed_sim_s": 79.58,
+  "evaluator_v1_min_clearance_m": 0.8238869752807578,
+  "evaluator_v1_min_clearance_object": "dyn_panel",
+  "evaluator_v1_collision_count": 0,
+  "evaluator_v1_near_misses": 0,
+  "clearance_reevaluated": "yaw-aware geometry (v2)"
 }

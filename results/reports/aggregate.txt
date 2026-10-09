@@ -1,0 +1,135 @@
+{
+ "trials": 61,
+ "scenarios": {
+  "altitude": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.03852212168445788
+  },
+  "baseline": {
+   "trials": 23,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.052697186356074184
+  },
+  "camera_blur": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.027104054122567157
+  },
+  "camera_exposure": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.0656164333927417
+  },
+  "camera_failure": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.023627994580973886
+  },
+  "camera_noise": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.043348450948534206
+  },
+  "crossing_obstacle": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.022379330301245517
+  },
+  "demo": {
+   "trials": 10,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.0461674130260872
+  },
+  "dynamic_obstacle": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.010735214234175184
+  },
+  "extrinsic_perturbation": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.057530332089129714
+  },
+  "landing_offset": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.04611605835576835
+  },
+  "lidar_dropout": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.05217304727799241
+  },
+  "lidar_failure": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.05864674589129204
+  },
+  "lidar_noise": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.03113605549523819
+  },
+  "narrow_pole": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.04383264412421272
+  },
+  "no_path": {
+   "trials": 1,
+   "success_rate": 0.0,
+   "landing_rmse_m": null
+  },
+  "overhead": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.049892887857500984
+  },
+  "pad_near_obstacle": {
+   "trials": 2,
+   "success_rate": 0.0,
+   "landing_rmse_m": null
+  },
+  "pad_obstruction": {
+   "trials": 2,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.051905783814248936
+  },
+  "start_position": {
+   "trials": 3,
+   "success_rate": 0.6666666666666666,
+   "landing_rmse_m": 0.02813173843997817
+  },
+  "start_yaw": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.07490180419474332
+  },
+  "static_wall": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.047995518927474584
+  },
+  "tag_loss": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.03824782263542335
+  },
+  "timestamp_offset": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.040779415728505145
+  },
+  "timestamp_offset_small": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.03873106412396745
+  },
+  "tracker_noise": {
+   "trials": 1,
+   "success_rate": 1.0,
+   "landing_rmse_m": 0.09783671267405197
+  }
+ }
+}

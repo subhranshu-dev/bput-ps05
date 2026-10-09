@@ -1,55 +1,27 @@
-[INFO] [launch]: All log files can be found below /root/.ros/log/2026-10-08-19-40-07-330696-SkillCoreX-492
+[INFO] [launch]: All log files can be found below /root/.ros/log/2026-10-09-21-30-07-120008-SkillCoreX-87816
 [INFO] [launch]: Default logging verbosity is set to INFO
-[INFO] [static_frames-1]: process started with pid [500]
-[INFO] [camera_processor-2]: process started with pid [501]
-[INFO] [lidar_processor-3]: process started with pid [502]
-[INFO] [ground_tracker-4]: process started with pid [503]
-[INFO] [localization_node-5]: process started with pid [504]
-[INFO] [fusion_node-6]: process started with pid [505]
-[ground_tracker-4] [WARN] [1791488408.310677926] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[ground_tracker-4] [WARN] [1791488408.310707277] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
-[lidar_processor-3] [WARN] [1791488408.359732473] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[lidar_processor-3] [WARN] [1791488408.359797138] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
-[static_frames-1] [WARN] [1791488408.804419000] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[static_frames-1] [WARN] [1791488408.804478279] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
-[localization_node-5] [WARN] [1791488408.993816178] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[localization_node-5] [WARN] [1791488408.993842298] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
-[static_frames-1] [INFO] [1791488409.059409955] [static_frames]: published 10 static transforms; camera perturbation={'xyz': [0.0, 0.0, 0.0], 'rpy': [0.0, 0.0, 0.0]}
-[camera_processor-2] [WARN] [1791488409.265348741] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[camera_processor-2] [WARN] [1791488409.265371146] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
-[fusion_node-6] [WARN] [1791488409.305740631] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[fusion_node-6] [WARN] [1791488409.305758828] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
-[localization_node-5] Traceback (most recent call last):
-[localization_node-5]   File "/workspace/ros2_ws/install/localization/lib/localization/localization_node", line 33, in <module>
-[localization_node-5]     sys.exit(load_entry_point('localization', 'console_scripts', 'localization_node')())
-[localization_node-5]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[localization_node-5]   File "/workspace/ros2_ws/build/localization/localization/node.py", line 163, in main
-[localization_node-5]     rclpy.spin(node)
-[localization_node-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py", line 247, in spin
-[localization_node-5]     executor.spin_once()
-[localization_node-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 926, in spin_once
-[localization_node-5]     self._spin_once_impl(timeout_sec)
-[localization_node-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 918, in _spin_once_impl
-[localization_node-5]     raise handler.exception()
-[localization_node-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/task.py", line 286, in _execute_coroutine_step
-[localization_node-5]     result = coro.send(None)
-[localization_node-5]              ^^^^^^^^^^^^^^^
-[localization_node-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 592, in handler
-[localization_node-5]     await call_coroutine()
-[localization_node-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 480, in _execute
-[localization_node-5]     await await_or_execute(sub.callback, *msg_tuple)
-[localization_node-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 115, in await_or_execute
-[localization_node-5]     return callback(*args)
-[localization_node-5]            ^^^^^^^^^^^^^^^
-[localization_node-5]   File "/workspace/ros2_ws/build/localization/localization/node.py", line 108, in on_px4_odom
-[localization_node-5]     stamp = Time(seconds=stamp_s).to_msg()
-[localization_node-5]             ^^^^^^^^^^^^^^^^^^^^^
-[localization_node-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/time.py", line 51, in __init__
-[localization_node-5]     raise ValueError('Seconds value must not be negative')
-[localization_node-5] ValueError: Seconds value must not be negative
-[ERROR] [localization_node-5]: process has died [pid 504, exit code 1, cmd '/workspace/ros2_ws/install/localization/lib/localization/localization_node --ros-args --params-file /tmp/launch_params_9d7xa79c'].
-[ERROR] [ground_tracker-4]: process has died [pid 503, exit code -9, cmd '/workspace/ros2_ws/install/aeronav_simulation/lib/aeronav_simulation/ground_tracker --ros-args --params-file /tmp/launch_params_mu3zlohw'].
-[ERROR] [static_frames-1]: process has died [pid 500, exit code -9, cmd '/workspace/ros2_ws/install/aeronav_description/lib/aeronav_description/static_frames --ros-args --params-file /tmp/launch_params_kb7blk9l'].
-[ERROR] [lidar_processor-3]: process has died [pid 502, exit code -9, cmd '/workspace/ros2_ws/install/lidar_processor/lib/lidar_processor/lidar_processor --ros-args --params-file /tmp/launch_params_ksf6thjn'].
-[ERROR] [camera_processor-2]: process has died [pid 501, exit code -9, cmd '/workspace/ros2_ws/install/camera_processor/lib/camera_processor/camera_processor --ros-args --params-file /tmp/launch_params_d1nc1y1m'].
-[ERROR] [fusion_node-6]: process has died [pid 505, exit code -9, cmd '/workspace/ros2_ws/install/sensor_fusion/lib/sensor_fusion/fusion_node --ros-args --params-file /tmp/launch_params_1gkvg3dt'].
+[INFO] [static_frames-1]: process started with pid [87831]
+[INFO] [camera_processor-2]: process started with pid [87832]
+[INFO] [lidar_processor-3]: process started with pid [87833]
+[INFO] [ground_tracker-4]: process started with pid [87834]
+[INFO] [localization_node-5]: process started with pid [87835]
+[INFO] [fusion_node-6]: process started with pid [87836]
+[ground_tracker-4] [WARN] [1791581408.119449617] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[ground_tracker-4] [WARN] [1791581408.119504529] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[lidar_processor-3] [WARN] [1791581408.215885113] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[lidar_processor-3] [WARN] [1791581408.215950639] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[static_frames-1] [WARN] [1791581408.342879970] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[static_frames-1] [WARN] [1791581408.342948786] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[localization_node-5] [WARN] [1791581408.650332644] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[localization_node-5] [WARN] [1791581408.652798599] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[static_frames-1] [INFO] [1791581408.756429055] [static_frames]: published 10 static transforms; camera perturbation={'xyz': [0.0, 0.0, 0.0], 'rpy': [0.0, 0.0, 0.0]}
+[fusion_node-6] [WARN] [1791581409.045766302] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[fusion_node-6] [WARN] [1791581409.045811567] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[camera_processor-2] [WARN] [1791581409.159026372] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[camera_processor-2] [WARN] [1791581409.159076004] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[ERROR] [static_frames-1]: process has died [pid 87831, exit code -9, cmd '/workspace/ros2_ws/install/aeronav_description/lib/aeronav_description/static_frames --ros-args --params-file /tmp/launch_params_ha1nnkwn'].
+[ERROR] [lidar_processor-3]: process has died [pid 87833, exit code -9, cmd '/workspace/ros2_ws/install/lidar_processor/lib/lidar_processor/lidar_processor --ros-args --params-file /tmp/launch_params_6anvj0eg'].
+[ERROR] [ground_tracker-4]: process has died [pid 87834, exit code -9, cmd '/workspace/ros2_ws/install/aeronav_simulation/lib/aeronav_simulation/ground_tracker --ros-args --params-file /tmp/launch_params_h0z_i0ps'].
+[ERROR] [localization_node-5]: process has died [pid 87835, exit code -9, cmd '/workspace/ros2_ws/install/localization/lib/localization/localization_node --ros-args --params-file /tmp/launch_params_plmt3nv_'].
+[ERROR] [camera_processor-2]: process has died [pid 87832, exit code -9, cmd '/workspace/ros2_ws/install/camera_processor/lib/camera_processor/camera_processor --ros-args --params-file /tmp/launch_params_m5asru7r'].
+[ERROR] [fusion_node-6]: process has died [pid 87836, exit code -9, cmd '/workspace/ros2_ws/install/sensor_fusion/lib/sensor_fusion/fusion_node --ros-args --params-file /tmp/launch_params_yr06g8b6'].

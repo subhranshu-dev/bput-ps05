@@ -1,19 +1,19 @@
-[INFO] [launch]: All log files can be found below /root/.ros/log/2026-10-08-19-39-59-179180-SkillCoreX-227
+[INFO] [launch]: All log files can be found below /root/.ros/log/2026-10-09-21-29-59-097602-SkillCoreX-87556
 [INFO] [launch]: Default logging verbosity is set to INFO
-[INFO] [gz_sim-1]: process started with pid [231]
-[INFO] [xrce_agent-2]: process started with pid [232]
-[INFO] [parameter_bridge-3]: process started with pid [246]
-[parameter_bridge-3] [WARN] [1791488401.462817808] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
-[parameter_bridge-3] [WARN] [1791488401.462851036] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
-[parameter_bridge-3] [INFO] [1791488402.499581022] [gz_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
-[parameter_bridge-3] [INFO] [1791488402.502092605] [gz_bridge]: Creating GZ->ROS Bridge: [/camera/image_raw (gz.msgs.Image) -> /camera/image_raw (sensor_msgs/msg/Image)] (Lazy 0)
-[parameter_bridge-3] [INFO] [1791488402.509798546] [gz_bridge]: Creating GZ->ROS Bridge: [/camera/camera_info (gz.msgs.CameraInfo) -> /camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
-[parameter_bridge-3] [INFO] [1791488402.511350994] [gz_bridge]: Creating GZ->ROS Bridge: [/down_camera/image_raw (gz.msgs.Image) -> /down_camera/image_raw (sensor_msgs/msg/Image)] (Lazy 0)
-[parameter_bridge-3] [INFO] [1791488402.512190258] [gz_bridge]: Creating GZ->ROS Bridge: [/down_camera/camera_info (gz.msgs.CameraInfo) -> /down_camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
-[parameter_bridge-3] [INFO] [1791488402.512942519] [gz_bridge]: Creating GZ->ROS Bridge: [/lidar/points (gz.msgs.PointCloudPacked) -> /lidar/points (sensor_msgs/msg/PointCloud2)] (Lazy 0)
-[parameter_bridge-3] [INFO] [1791488402.514185825] [gz_bridge]: Creating GZ->ROS Bridge: [/down_lidar/points (gz.msgs.PointCloudPacked) -> /down_lidar/points (sensor_msgs/msg/PointCloud2)] (Lazy 0)
-[parameter_bridge-3] [INFO] [1791488402.514736583] [gz_bridge]: Creating GZ->ROS Bridge: [/sim/truth/odom (gz.msgs.Odometry) -> /sim/truth/odom (nav_msgs/msg/Odometry)] (Lazy 0)
-[INFO] [px4_sitl-4]: process started with pid [275]
+[INFO] [gz_sim-1]: process started with pid [87560]
+[INFO] [xrce_agent-2]: process started with pid [87561]
+[INFO] [parameter_bridge-3]: process started with pid [87575]
+[parameter_bridge-3] [WARN] [1791581401.377570884] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[parameter_bridge-3] [WARN] [1791581401.377612629] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[parameter_bridge-3] [INFO] [1791581402.416054068] [gz_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1791581402.419380530] [gz_bridge]: Creating GZ->ROS Bridge: [/camera/image_raw (gz.msgs.Image) -> /camera/image_raw (sensor_msgs/msg/Image)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1791581402.429209893] [gz_bridge]: Creating GZ->ROS Bridge: [/camera/camera_info (gz.msgs.CameraInfo) -> /camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1791581402.431604875] [gz_bridge]: Creating GZ->ROS Bridge: [/down_camera/image_raw (gz.msgs.Image) -> /down_camera/image_raw (sensor_msgs/msg/Image)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1791581402.433350890] [gz_bridge]: Creating GZ->ROS Bridge: [/down_camera/camera_info (gz.msgs.CameraInfo) -> /down_camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1791581402.434772099] [gz_bridge]: Creating GZ->ROS Bridge: [/lidar/points (gz.msgs.PointCloudPacked) -> /lidar/points (sensor_msgs/msg/PointCloud2)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1791581402.436877428] [gz_bridge]: Creating GZ->ROS Bridge: [/down_lidar/points (gz.msgs.PointCloudPacked) -> /down_lidar/points (sensor_msgs/msg/PointCloud2)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1791581402.438197123] [gz_bridge]: Creating GZ->ROS Bridge: [/sim/truth/odom (gz.msgs.Odometry) -> /sim/truth/odom (nav_msgs/msg/Odometry)] (Lazy 0)
+[INFO] [px4_sitl-4]: process started with pid [87604]
 [px4_sitl-4] 
 [px4_sitl-4] ______  __   __    ___ 
 [px4_sitl-4] | ___ \ \ \ / /   /   |
@@ -73,26 +73,13 @@
 [gz_sim-1] [1;33m[Wrn] [MulticopterMotorModel.cc:295] [0m[1;33m<motorNumber> is depricated, [0m[1;33mplease use <actuator_number>.[0m
 [gz_sim-1] [1;33m[Wrn] [Ogre2Camera.cc:423] [0m[1;33mOgre2Camera::SetVisibilityMask: Mask bits [0m[1;33mc0000000[0m[1;33m are set but will be ignored as they conflict with the [0m[1;33mreserved bits used internally by the ogre2 backend.[0m[1;33m[0m
 [gz_sim-1] [1;33m[Wrn] [Ogre2Camera.cc:423] [0m[1;33mOgre2Camera::SetVisibilityMask: Mask bits [0m[1;33mc0000000[0m[1;33m are set but will be ignored as they conflict with the [0m[1;33mreserved bits used internally by the ogre2 backend.[0m[1;33m[0m
-[px4_sitl-4] INFO  [lockstep_scheduler] setting initial absolute time to 7344000 us
+[px4_sitl-4] INFO  [lockstep_scheduler] setting initial absolute time to 7420000 us
 [px4_sitl-4] INFO  [gz_bridge] world: ps05_challenge, model: x500_ps05_0
 [px4_sitl-4] INFO  [commander] LED: open /dev/led0 failed (22)
 [px4_sitl-4] WARN  [health_and_arming_checks] Preflight Fail: ekf2 missing data
 [px4_sitl-4] WARN  [mc_pos_control] Cruise speed has been constrained by max speed	
 [px4_sitl-4] WARN  [mc_pos_control] Manual speed has been constrained by max speed	
 [px4_sitl-4] INFO  [uxrce_dds_client] init UDP agent IP:127.0.0.1, port:8888
-[px4_sitl-4] INFO  [mavlink] mode: Normal, data rate: 4000000 B/s on udp port 18570 remote port 14550
-[px4_sitl-4] INFO  [mavlink] mode: Onboard, data rate: 4000000 B/s on udp port 14580 remote port 14540
-[px4_sitl-4] INFO  [mavlink] mode: Onboard, data rate: 4000 B/s on udp port 14280 remote port 14030
-[px4_sitl-4] INFO  [mavlink] mode: Gimbal, data rate: 400000 B/s on udp port 13030 remote port 13280
-[px4_sitl-4] INFO  [logger] logger started (mode=all)
-[px4_sitl-4] INFO  [logger] Start file log (type: full)
-[px4_sitl-4] INFO  [logger] [logger] ./log/2026-10-08/19_40_15.ulg	
-[px4_sitl-4] INFO  [logger] Opened full log file: ./log/2026-10-08/19_40_15.ulg
-[px4_sitl-4] INFO  [mavlink] MAVLink only on localhost (set param MAV_{i}_BROADCAST = 1 to enable network)
-[px4_sitl-4] INFO  [mavlink] MAVLink only on localhost (set param MAV_{i}_BROADCAST = 1 to enable network)
-[px4_sitl-4] INFO  [px4] Startup script returned successfully
-[px4_sitl-4] INFO  [commander] [32mReady for takeoff![0m
-[px4_sitl-4] INFO  [uxrce_dds_client] synchronized with time offset 1791488406342083us
 [px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/register_ext_component_reply data writer, topic id: 205
 [px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/arming_check_request_v1 data writer, topic id: 16
 [px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/mode_completed data writer, topic id: 157
@@ -120,7 +107,29 @@
 [px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/home_position_v1 data writer, topic id: 128
 [px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/wind data writer, topic id: 299
 [px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/gimbal_device_attitude_status data writer, topic id: 110
-[ERROR] [px4_sitl-4]: process has died [pid 275, exit code -9, cmd '/opt/PX4-Autopilot/build/px4_sitl_default/bin/px4 -d -w /tmp/px4_rootfs /opt/PX4-Autopilot/build/px4_sitl_default/etc'].
-[ERROR] [xrce_agent-2]: process has died [pid 232, exit code -9, cmd 'MicroXRCEAgent udp4 -p 8888'].
-[ERROR] [parameter_bridge-3]: process has died [pid 246, exit code -9, cmd '/opt/ros/jazzy/lib/ros_gz_bridge/parameter_bridge --ros-args -r __node:=gz_bridge --params-file /tmp/launch_params_epvuss36'].
-[ERROR] [gz_sim-1]: process has died [pid 231, exit code -9, cmd 'gz sim -s -r --headless-rendering -v 2 /workspace/simulation/worlds/ps05_challenge.sdf'].
+[px4_sitl-4] INFO  [mavlink] mode: Normal, data rate: 4000000 B/s on udp port 18570 remote port 14550
+[px4_sitl-4] INFO  [mavlink] mode: Onboard, data rate: 4000000 B/s on udp port 14580 remote port 14540
+[px4_sitl-4] INFO  [mavlink] mode: Onboard, data rate: 4000 B/s on udp port 14280 remote port 14030
+[px4_sitl-4] INFO  [mavlink] mode: Gimbal, data rate: 400000 B/s on udp port 13030 remote port 13280
+[px4_sitl-4] INFO  [logger] logger started (mode=all)
+[px4_sitl-4] INFO  [logger] Start file log (type: full)
+[px4_sitl-4] INFO  [logger] [logger] ./log/2026-10-09/21_30_15.ulg	
+[px4_sitl-4] INFO  [logger] Opened full log file: ./log/2026-10-09/21_30_15.ulg
+[px4_sitl-4] INFO  [mavlink] MAVLink only on localhost (set param MAV_{i}_BROADCAST = 1 to enable network)
+[px4_sitl-4] INFO  [mavlink] MAVLink only on localhost (set param MAV_{i}_BROADCAST = 1 to enable network)
+[px4_sitl-4] INFO  [px4] Startup script returned successfully
+[px4_sitl-4] INFO  [commander] [32mReady for takeoff![0m
+[px4_sitl-4] INFO  [commander] Armed by external command	
+[px4_sitl-4] INFO  [tone_alarm] arming warning
+[px4_sitl-4] INFO  [commander] Takeoff detected	
+[px4_sitl-4] INFO  [commander] Landing at current position	
+[px4_sitl-4] INFO  [commander] Landing at current position	
+[px4_sitl-4] INFO  [commander] Landing at current position	
+[px4_sitl-4] INFO  [commander] Landing detected	
+[px4_sitl-4] INFO  [commander] Disarmed by landing	
+[px4_sitl-4] INFO  [tone_alarm] notify neutral
+[px4_sitl-4] INFO  [logger] closed logfile, bytes written: 14340567
+[ERROR] [px4_sitl-4]: process has died [pid 87604, exit code -9, cmd '/opt/PX4-Autopilot/build/px4_sitl_default/bin/px4 -d -w /tmp/px4_rootfs /opt/PX4-Autopilot/build/px4_sitl_default/etc'].
+[ERROR] [xrce_agent-2]: process has died [pid 87561, exit code -9, cmd 'MicroXRCEAgent udp4 -p 8888'].
+[ERROR] [parameter_bridge-3]: process has died [pid 87575, exit code -9, cmd '/opt/ros/jazzy/lib/ros_gz_bridge/parameter_bridge --ros-args -r __node:=gz_bridge --params-file /tmp/launch_params_hpz5wk6g'].
+[ERROR] [gz_sim-1]: process has died [pid 87560, exit code -9, cmd 'gz sim -s -r --headless-rendering -v 2 /workspace/simulation/worlds/ps05_challenge.sdf'].

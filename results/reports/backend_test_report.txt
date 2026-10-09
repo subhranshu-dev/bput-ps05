@@ -1,0 +1,7 @@
+.........                                                                [100%]
+=============================== warnings summary ===============================
+../../usr/local/lib/python3.12/dist-packages/starlette/testclient.py:40
+  Warning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+9 passed, 1 warning in 1.15s
