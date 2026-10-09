@@ -1,0 +1,20 @@
+id: crossing_obstacle
+description: Obstacle moving across the corridor while the UAV approaches.
+seed: 300
+expect: LANDED
+events:
+- type: crossing
+  object: dyn_panel
+  trigger:
+    state: NAVIGATE
+    delay_s: 4.0
+  from:
+  - 33.0
+  - 14.0
+  - 3.5
+  to:
+  - 24.0
+  - 22.0
+  - 3.5
+  speed: 0.8
+  yaw: 0.8

@@ -1,0 +1,9 @@
+id: timestamp_offset
+description: Forward camera timestamps shifted by +80 ms (beyond max sync delta 50
+  ms) -> fusion rejects pairs, mapping falls back to raw LiDAR.
+seed: 300
+expect: LANDED
+overrides:
+  camera:
+    fault_injection:
+      stamp_offset_s: 0.08

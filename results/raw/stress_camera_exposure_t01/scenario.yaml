@@ -1,0 +1,8 @@
+id: camera_exposure
+description: Under-exposure (gain 0.45) on both cameras.
+seed: 300
+expect: LANDED
+overrides:
+  camera:
+    fault_injection:
+      exposure_gain: 0.45

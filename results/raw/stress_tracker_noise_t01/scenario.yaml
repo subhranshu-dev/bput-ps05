@@ -1,0 +1,12 @@
+id: tracker_noise
+description: Degraded ground tracking (sigma_r 0.15 m, sigma_angle 4 mrad, 10 % dropout)
+  - localisation robustness.
+seed: 300
+expect: LANDED
+overrides:
+  localization:
+    tracker:
+      sigma_range: 0.15
+      sigma_azimuth: 0.004
+      sigma_elevation: 0.004
+      dropout_prob: 0.1

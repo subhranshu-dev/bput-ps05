@@ -1,0 +1,1 @@
+{"infra_failure": "simulation time stopped advancing at sim t=25.0 s (truth telemetry ends, no node errors); killed by 600 s timeout before the stall watchdog existed", "detected": "post-hoc from telemetry.csv"}

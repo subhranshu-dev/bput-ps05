@@ -1,0 +1,6 @@
+{"stamp": 5.6000000000000005, "type": "event", "event": "place", "object": "dyn_panel", "pos": [20.0, 10.5, 3.5], "source": "scenario", "wall_time": 1791575163.5321105}
+{"stamp": 6.0280000000000005, "type": "object_pose", "object": "dyn_panel", "pos": [20.0, 10.5, 3.5], "yaw": 0.45, "ok": true, "note": "place", "source": "scenario", "wall_time": 1791575164.0539954}
+{"t": 12.0, "level": "INFO", "state": "ARMING", "text": "INIT -> ARMING: sensors + localisation converged", "source": "mission", "wall_time": 1791575176.7066236}
+{"t": 13.200000000000001, "level": "INFO", "state": "TAKEOFF", "text": "ARMING -> TAKEOFF: armed in offboard; home (5.00, 4.99)", "source": "mission", "wall_time": 1791575178.7986953}
+{"t": 20.352, "level": "INFO", "state": "PLANNING", "text": "TAKEOFF -> PLANNING: takeoff altitude reached", "source": "mission", "wall_time": 1791575191.2520223}
+{"t": 21.552, "level": "INFO", "state": "NAVIGATE", "text": "PLANNING -> NAVIGATE: global path 53.1 m", "source": "mission", "wall_time": 1791575193.3818152}

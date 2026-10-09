@@ -1,0 +1,9 @@
+id: overhead
+description: Overhead canopy forced onto the route (mission corridor restricted so
+  the canopy region must be crossed in 3D).
+seed: 300
+expect: LANDED
+overrides:
+  mission:
+    corridor:
+      max_deviation: 5.0

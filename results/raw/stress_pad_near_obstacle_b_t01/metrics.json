@@ -1,0 +1,629 @@
+{
+  "run_id": "stress_pad_near_obstacle_b_t01",
+  "scenario_id": "pad_near_obstacle",
+  "seed": 301,
+  "config_hash": "0f8393e5cbb9c758",
+  "git_rev": "1f9fe4e-dirty",
+  "state": "ABORTED",
+  "outcome": "UNSAFE_LANDING_ZONE",
+  "success": false,
+  "expected_outcome": "ABORTED",
+  "expectation_met": true,
+  "landing_error_m": null,
+  "touchdown_xy": null,
+  "pad_center_xy": [
+    42.0,
+    42.0
+  ],
+  "collision_count": 0,
+  "near_misses": 0,
+  "min_clearance_m": 0.9831104162324923,
+  "min_clearance_object": "pole_2",
+  "executed_path_length_m": 131.5772180492455,
+  "planned_path_lengths_m": [
+    53.777023532423414,
+    38.45399810152901,
+    23.432541455716684,
+    23.990900374839256,
+    17.692491770933014,
+    54.650878719265776,
+    54.64775073081621,
+    54.65320495844175,
+    54.542613277504486,
+    54.74150546693557,
+    25.37758819598342,
+    7.374545003011257
+  ],
+  "planning_latency_ms": [
+    1942.4979199993686,
+    1086.9118289992912,
+    816.5734450012678,
+    832.6373700001568,
+    780.6592839988298,
+    1460.333138000351,
+    1467.3299770001904,
+    1581.9754939984705,
+    1705.198562998703,
+    1463.3282989998406,
+    542.619134999768,
+    472.8572849999182
+  ],
+  "replanning_latency_ms": [
+    1086.9118289992912,
+    816.5734450012678,
+    832.6373700001568,
+    780.6592839988298,
+    1467.3299770001904,
+    1581.9754939984705,
+    1705.198562998703,
+    1463.3282989998406,
+    542.619134999768,
+    472.8572849999182
+  ],
+  "replans": 10,
+  "obstacle_detections": 10,
+  "detection_events": [
+    {
+      "t": 32.604,
+      "source": "map",
+      "point": [
+        20.58467741935484,
+        18.616935483870968,
+        2.2943548387096775
+      ],
+      "distance_along_path": 7.16089372094721,
+      "detected_at": 32.564
+    },
+    {
+      "t": 46.6,
+      "source": "map",
+      "point": [
+        28.594594594594593,
+        28.10810810810811,
+        3.2972972972972974
+      ],
+      "distance_along_path": 6.738842761514387,
+      "detected_at": 46.556000000000004
+    },
+    {
+      "t": 48.852000000000004,
+      "source": "map",
+      "point": [
+        28.033538394504124,
+        27.05378680759006,
+        2.7334856457180448
+      ],
+      "distance_along_path": 3.9261996952658196,
+      "detected_at": 48.824000000000005
+    },
+    {
+      "t": 54.652,
+      "source": "map",
+      "point": [
+        28.931818181818183,
+        28.931818181818183,
+        2.7045454545454546
+      ],
+      "distance_along_path": 0.482653649581715,
+      "detected_at": 54.588
+    },
+    {
+      "t": 99.108,
+      "source": "map",
+      "point": [
+        41.589046478271484,
+        41.8286247253418,
+        4.225498199462891
+      ],
+      "distance_along_path": 0.34890500153040144,
+      "detected_at": 99.07600000000001
+    },
+    {
+      "t": 101.152,
+      "source": "map",
+      "point": [
+        41.58479690551758,
+        41.84187316894531,
+        4.2392237186431885
+      ],
+      "distance_along_path": 0.3473410073056178,
+      "detected_at": 101.11200000000001
+    },
+    {
+      "t": 103.60000000000001,
+      "source": "map",
+      "point": [
+        41.59211349487305,
+        41.82419776916504,
+        4.249141454696655
+      ],
+      "distance_along_path": 0.3500681211183855,
+      "detected_at": 103.57600000000001
+    },
+    {
+      "t": 106.25200000000001,
+      "source": "map",
+      "point": [
+        41.52031326293945,
+        41.85527420043945,
+        4.197666645050049
+      ],
+      "distance_along_path": 0.2947722806497545,
+      "detected_at": 106.2
+    },
+    {
+      "t": 125.60000000000001,
+      "source": "map",
+      "point": [
+        23.40625,
+        17.40625,
+        2.25
+      ],
+      "distance_along_path": 2.9287668962227347,
+      "detected_at": 125.536
+    },
+    {
+      "t": 138.204,
+      "source": "map",
+      "point": [
+        12.279980042401482,
+        6.544447281781365,
+        2.3052578691174004
+      ],
+      "distance_along_path": 0.49654910890210546,
+      "detected_at": 138.156
+    }
+  ],
+  "stop_response_s": [
+    2.7480000000000047,
+    1.0519999999999996,
+    1.0480000000000018,
+    1.0040000000000049,
+    1.043999999999997,
+    1.0560000000000116,
+    1.0040000000000049,
+    1.0480000000000018,
+    1.0519999999999925,
+    1.0480000000000018
+  ],
+  "dynamic_obstacle_spawn_t": null,
+  "dynamic_detection_latency_s": null,
+  "target_detection_rate": 0.7692307692307693,
+  "target_frames": 26,
+  "target_losses": 0,
+  "target_reacquisition_s": [],
+  "aborts": 5,
+  "corridor_breaches": 0,
+  "sensor_failures": 0,
+  "mission_time_s": 141.752,
+  "localization_error": {
+    "n": 38,
+    "mean": 0.040794361461382746,
+    "median": 0.03362839672587576,
+    "rmse": 0.04609612121359094,
+    "p95": 0.07464394181158465,
+    "max": 0.12079134363809366,
+    "std": 0.021463281759696445
+  },
+  "true_spatial_error": {
+    "n": 741,
+    "mean": 0.3178479692981263,
+    "median": 0.28687486037949356,
+    "rmse": 0.3783411841561745,
+    "p95": 0.667121113040899,
+    "max": 1.0014336860407886,
+    "std": 0.20521871269880268
+  },
+  "estimated_spatial_error_mean": 0.37523289659621273,
+  "estimated_spatial_error_max": 1.0072953124416244,
+  "fusion_sync_mean_abs_delta_s": 0.0,
+  "fusion_sync_rejected": 513,
+  "fusion_sync_accepted": 951,
+  "fusion_edge_chamfer_px": 13.525296459197998,
+  "fusion_extrinsic_shift_px": 2.85754099372749e-13,
+  "fusion_process_ms": 7.93,
+  "map_accuracy": {
+    "occupied": 43351,
+    "phantom": 724,
+    "phantom_fraction": 0.016700883485963415,
+    "median_error_m": 0.125,
+    "p95_error_m": 0.375,
+    "phantom_examples": [
+      [
+        5.62,
+        27.38,
+        3.88
+      ],
+      [
+        5.88,
+        27.62,
+        3.38
+      ],
+      [
+        5.88,
+        27.62,
+        3.88
+      ],
+      [
+        5.88,
+        27.62,
+        4.38
+      ],
+      [
+        6.12,
+        26.88,
+        5.12
+      ],
+      [
+        6.12,
+        27.12,
+        4.62
+      ],
+      [
+        6.38,
+        27.38,
+        2.88
+      ],
+      [
+        6.88,
+        27.88,
+        1.12
+      ],
+      [
+        7.12,
+        27.62,
+        1.12
+      ],
+      [
+        7.12,
+        27.88,
+        2.12
+      ]
+    ]
+  },
+  "state_history": [
+    {
+      "t": 12.9,
+      "from": "INIT",
+      "to": "ARMING",
+      "reason": "sensors + localisation converged"
+    },
+    {
+      "t": 14.052,
+      "from": "ARMING",
+      "to": "TAKEOFF",
+      "reason": "armed in offboard; home (5.00, 5.00)"
+    },
+    {
+      "t": 21.152,
+      "from": "TAKEOFF",
+      "to": "PLANNING",
+      "reason": "takeoff altitude reached"
+    },
+    {
+      "t": 22.364,
+      "from": "PLANNING",
+      "to": "NAVIGATE",
+      "reason": "global path 53.8 m"
+    },
+    {
+      "t": 32.604,
+      "from": "NAVIGATE",
+      "to": "OBSTACLE_STOP",
+      "reason": "obstacle 7.2 m ahead (map) at (20.6, 18.6, 2.3)"
+    },
+    {
+      "t": 35.352,
+      "from": "OBSTACLE_STOP",
+      "to": "REPLANNING",
+      "reason": "vehicle stopped; replanning inside approved space"
+    },
+    {
+      "t": 36.1,
+      "from": "REPLANNING",
+      "to": "NAVIGATE",
+      "reason": "replanned path 38.5 m"
+    },
+    {
+      "t": 46.6,
+      "from": "NAVIGATE",
+      "to": "OBSTACLE_STOP",
+      "reason": "obstacle 6.7 m ahead (map) at (28.6, 28.1, 3.3)"
+    },
+    {
+      "t": 47.652,
+      "from": "OBSTACLE_STOP",
+      "to": "REPLANNING",
+      "reason": "vehicle stopped; replanning inside approved space"
+    },
+    {
+      "t": 48.2,
+      "from": "REPLANNING",
+      "to": "NAVIGATE",
+      "reason": "replanned path 23.4 m"
+    },
+    {
+      "t": 48.852,
+      "from": "NAVIGATE",
+      "to": "OBSTACLE_STOP",
+      "reason": "obstacle 3.9 m ahead (map) at (28.0, 27.1, 2.7)"
+    },
+    {
+      "t": 49.9,
+      "from": "OBSTACLE_STOP",
+      "to": "REPLANNING",
+      "reason": "vehicle stopped; replanning inside approved space"
+    },
+    {
+      "t": 50.464,
+      "from": "REPLANNING",
+      "to": "NAVIGATE",
+      "reason": "replanned path 24.0 m"
+    },
+    {
+      "t": 54.652,
+      "from": "NAVIGATE",
+      "to": "OBSTACLE_STOP",
+      "reason": "obstacle 0.5 m ahead (map) at (28.9, 28.9, 2.7)"
+    },
+    {
+      "t": 55.656,
+      "from": "OBSTACLE_STOP",
+      "to": "REPLANNING",
+      "reason": "vehicle stopped; replanning inside approved space"
+    },
+    {
+      "t": 56.108,
+      "from": "REPLANNING",
+      "to": "NAVIGATE",
+      "reason": "replanned path 17.7 m"
+    },
+    {
+      "t": 68.452,
+      "from": "NAVIGATE",
+      "to": "LANDING_ZONE_SEARCH",
+      "reason": "landing region reached"
+    },
+    {
+      "t": 68.504,
+      "from": "LANDING_ZONE_SEARCH",
+      "to": "TARGET_LOCK",
+      "reason": "marker detected"
+    },
+    {
+      "t": 69.856,
+      "from": "TARGET_LOCK",
+      "to": "ALIGN",
+      "reason": "target locked"
+    },
+    {
+      "t": 69.9,
+      "from": "ALIGN",
+      "to": "UNSAFE_PAD",
+      "reason": "LiDAR validation failed: OBSTRUCTION"
+    },
+    {
+      "t": 70.404,
+      "from": "UNSAFE_PAD",
+      "to": "ABORT_CLIMB",
+      "reason": "abort attempt 1: climbing"
+    },
+    {
+      "t": 78.456,
+      "from": "ABORT_CLIMB",
+      "to": "LANDING_ZONE_SEARCH",
+      "reason": "climb complete, searching again"
+    },
+    {
+      "t": 78.5,
+      "from": "LANDING_ZONE_SEARCH",
+      "to": "TARGET_LOCK",
+      "reason": "marker detected"
+    },
+    {
+      "t": 79.0,
+      "from": "TARGET_LOCK",
+      "to": "ALIGN",
+      "reason": "target locked"
+    },
+    {
+      "t": 79.056,
+      "from": "ALIGN",
+      "to": "UNSAFE_PAD",
+      "reason": "LiDAR validation failed: OBSTRUCTION"
+    },
+    {
+      "t": 79.6,
+      "from": "UNSAFE_PAD",
+      "to": "ABORT_CLIMB",
+      "reason": "abort attempt 2: climbing"
+    },
+    {
+      "t": 87.652,
+      "from": "ABORT_CLIMB",
+      "to": "LANDING_ZONE_SEARCH",
+      "reason": "climb complete, searching again"
+    },
+    {
+      "t": 87.7,
+      "from": "LANDING_ZONE_SEARCH",
+      "to": "TARGET_LOCK",
+      "reason": "marker detected"
+    },
+    {
+      "t": 88.2,
+      "from": "TARGET_LOCK",
+      "to": "ALIGN",
+      "reason": "target locked"
+    },
+    {
+      "t": 88.252,
+      "from": "ALIGN",
+      "to": "UNSAFE_PAD",
+      "reason": "LiDAR validation failed: OBSTRUCTION"
+    },
+    {
+      "t": 88.76,
+      "from": "UNSAFE_PAD",
+      "to": "ABORT_CLIMB",
+      "reason": "abort attempt 3: climbing"
+    },
+    {
+      "t": 96.8,
+      "from": "ABORT_CLIMB",
+      "to": "LANDING_ZONE_SEARCH",
+      "reason": "climb complete, searching again"
+    },
+    {
+      "t": 96.856,
+      "from": "LANDING_ZONE_SEARCH",
+      "to": "TARGET_LOCK",
+      "reason": "marker detected"
+    },
+    {
+      "t": 97.5,
+      "from": "TARGET_LOCK",
+      "to": "ALIGN",
+      "reason": "target locked"
+    },
+    {
+      "t": 97.552,
+      "from": "ALIGN",
+      "to": "UNSAFE_PAD",
+      "reason": "LiDAR validation failed: OBSTRUCTION"
+    },
+    {
+      "t": 98.1,
+      "from": "UNSAFE_PAD",
+      "to": "RETURN_HOME",
+      "reason": "landing pad remained unsafe -> returning to take-off pad"
+    },
+    {
+      "t": 98.952,
+      "from": "RETURN_HOME",
+      "to": "NAVIGATE",
+      "reason": "return path 54.7 m"
+    },
+    {
+      "t": 99.108,
+      "from": "NAVIGATE",
+      "to": "OBSTACLE_STOP",
+      "reason": "obstacle 0.3 m ahead (map) at (41.6, 41.8, 4.2)"
+    },
+    {
+      "t": 100.152,
+      "from": "OBSTACLE_STOP",
+      "to": "REPLANNING",
+      "reason": "vehicle stopped; replanning inside approved space"
+    },
+    {
+      "t": 101.052,
+      "from": "REPLANNING",
+      "to": "NAVIGATE",
+      "reason": "replanned path 54.6 m"
+    },
+    {
+      "t": 101.152,
+      "from": "NAVIGATE",
+      "to": "OBSTACLE_STOP",
+      "reason": "obstacle 0.3 m ahead (map) at (41.6, 41.8, 4.2)"
+    },
+    {
+      "t": 102.208,
+      "from": "OBSTACLE_STOP",
+      "to": "REPLANNING",
+      "reason": "vehicle stopped; replanning inside approved space"
+    },
+    {
+      "t": 103.156,
+      "from": "REPLANNING",
+      "to": "NAVIGATE",
+      "reason": "replanned path 54.7 m"
+    },
+    {
+      "t": 103.6,
+      "from": "NAVIGATE",
+      "to": "OBSTACLE_STOP",
+      "reason": "obstacle 0.4 m ahead (map) at (41.6, 41.8, 4.2)"
+    },
+    {
+      "t": 104.604,
+      "from": "OBSTACLE_STOP",
+      "to": "REPLANNING",
+      "reason": "vehicle stopped; replanning inside approved space"
+    },
+    {
+      "t": 105.552,
+      "from": "REPLANNING",
+      "to": "NAVIGATE",
+      "reason": "replanned path 54.5 m"
+    },
+    {
+      "t": 106.252,
+      "from": "NAVIGATE",
+      "to": "OBSTACLE_STOP",
+      "reason": "obstacle 0.3 m ahead (map) at (41.5, 41.9, 4.2)"
+    },
+    {
+      "t": 107.3,
+      "from": "OBSTACLE_STOP",
+      "to": "REPLANNING",
+      "reason": "vehicle stopped; replanning inside approved space"
+    },
+    {
+      "t": 108.168,
+      "from": "REPLANNING",
+      "to": "NAVIGATE",
+      "reason": "replanned path 54.7 m"
+    },
+    {
+      "t": 125.6,
+      "from": "NAVIGATE",
+      "to": "OBSTACLE_STOP",
+      "reason": "obstacle 2.9 m ahead (map) at (23.4, 17.4, 2.2)"
+    },
+    {
+      "t": 126.652,
+      "from": "OBSTACLE_STOP",
+      "to": "REPLANNING",
+      "reason": "vehicle stopped; replanning inside approved space"
+    },
+    {
+      "t": 127.052,
+      "from": "REPLANNING",
+      "to": "NAVIGATE",
+      "reason": "replanned path 25.4 m"
+    },
+    {
+      "t": 138.204,
+      "from": "NAVIGATE",
+      "to": "OBSTACLE_STOP",
+      "reason": "obstacle 0.5 m ahead (map) at (12.3, 6.5, 2.3)"
+    },
+    {
+      "t": 139.252,
+      "from": "OBSTACLE_STOP",
+      "to": "REPLANNING",
+      "reason": "vehicle stopped; replanning inside approved space"
+    },
+    {
+      "t": 139.652,
+      "from": "REPLANNING",
+      "to": "NAVIGATE",
+      "reason": "replanned path 7.4 m"
+    },
+    {
+      "t": 145.852,
+      "from": "NAVIGATE",
+      "to": "LAND",
+      "reason": "over take-off pad: landing"
+    },
+    {
+      "t": 154.652,
+      "from": "LAND",
+      "to": "ABORTED",
+      "reason": "touchdown confirmed by PX4 land detector (returned home)"
+    }
+  ],
+  "elapsed_sim_s": 146.26
+}

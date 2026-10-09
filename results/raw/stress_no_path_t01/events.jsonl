@@ -1,0 +1,5 @@
+{"t": 12.200000000000001, "level": "INFO", "state": "ARMING", "text": "INIT -> ARMING: sensors + localisation converged", "source": "mission", "wall_time": 1791579148.244937}
+{"t": 13.452, "level": "INFO", "state": "TAKEOFF", "text": "ARMING -> TAKEOFF: armed in offboard; home (5.00, 5.00)", "source": "mission", "wall_time": 1791579150.298558}
+{"t": 20.6, "level": "INFO", "state": "PLANNING", "text": "TAKEOFF -> PLANNING: takeoff altitude reached", "source": "mission", "wall_time": 1791579161.9518812}
+{"t": 21.252000000000002, "level": "ERROR", "state": "NO_SAFE_PATH", "text": "PLANNING -> NO_SAFE_PATH: no path exists inside the approved mission space", "source": "mission", "wall_time": 1791579162.9975283}
+{"t": 27.556, "level": "ERROR", "state": "ABORTED", "text": "NO_SAFE_PATH -> ABORTED: no safe path after 4 attempts", "source": "mission", "wall_time": 1791579173.7668273}

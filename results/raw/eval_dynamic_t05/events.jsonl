@@ -1,0 +1,37 @@
+{"t": 11.752, "level": "INFO", "state": "ARMING", "text": "INIT -> ARMING: sensors + localisation converged", "source": "mission", "wall_time": 1791574115.8223903}
+{"t": 12.952, "level": "INFO", "state": "TAKEOFF", "text": "ARMING -> TAKEOFF: armed in offboard; home (4.99, 4.99)", "source": "mission", "wall_time": 1791574117.8252635}
+{"t": 19.952, "level": "INFO", "state": "PLANNING", "text": "TAKEOFF -> PLANNING: takeoff altitude reached", "source": "mission", "wall_time": 1791574128.9829652}
+{"t": 21.152, "level": "INFO", "state": "NAVIGATE", "text": "PLANNING -> NAVIGATE: global path 52.7 m", "source": "mission", "wall_time": 1791574130.9364216}
+{"t": 25.152, "level": "WARN", "state": "OBSTACLE_STOP", "text": "NAVIGATE -> OBSTACLE_STOP: obstacle 2.0 m ahead (map) at (10.3, 10.3, 2.3)", "source": "mission", "wall_time": 1791574137.1359887}
+{"t": 26.200000000000003, "level": "WARN", "state": "REPLANNING", "text": "OBSTACLE_STOP -> REPLANNING: vehicle stopped; replanning inside approved space", "source": "mission", "wall_time": 1791574138.832637}
+{"t": 27.052000000000003, "level": "INFO", "state": "NAVIGATE", "text": "REPLANNING -> NAVIGATE: replanned path 45.9 m", "source": "mission", "wall_time": 1791574140.191948}
+{"stamp": 27.200000000000003, "type": "event", "event": "unexpected_obstacle", "object": "dyn_panel", "path_point": [18.75, 13.25, 2.75], "vehicle_truth": [9.466730534324329, 9.571790019082636, 2.354887824894716], "source": "scenario", "wall_time": 1791574140.4012914}
+{"stamp": 27.548000000000002, "type": "object_pose", "object": "dyn_panel", "pos": [18.75, 13.25, 3.5], "yaw": 0.5081726178353302, "ok": true, "note": "spawn_ahead", "source": "scenario", "wall_time": 1791574141.1067448}
+{"t": 27.556, "level": "WARN", "state": "OBSTACLE_STOP", "text": "NAVIGATE -> OBSTACLE_STOP: obstacle 2.7 m ahead (map) at (11.6, 11.3, 2.2)", "source": "mission", "wall_time": 1791574141.1215563}
+{"t": 28.6, "level": "WARN", "state": "REPLANNING", "text": "OBSTACLE_STOP -> REPLANNING: vehicle stopped; replanning inside approved space", "source": "mission", "wall_time": 1791574142.7565567}
+{"t": 29.356, "level": "INFO", "state": "NAVIGATE", "text": "REPLANNING -> NAVIGATE: replanned path 48.4 m", "source": "mission", "wall_time": 1791574143.9804323}
+{"t": 32.604, "level": "WARN", "state": "OBSTACLE_STOP", "text": "NAVIGATE -> OBSTACLE_STOP: obstacle 7.3 m ahead (map) at (18.2, 10.8, 1.8)", "source": "mission", "wall_time": 1791574149.009851}
+{"t": 33.652, "level": "WARN", "state": "REPLANNING", "text": "OBSTACLE_STOP -> REPLANNING: vehicle stopped; replanning inside approved space", "source": "mission", "wall_time": 1791574150.6825027}
+{"t": 34.452000000000005, "level": "INFO", "state": "NAVIGATE", "text": "REPLANNING -> NAVIGATE: replanned path 45.9 m", "source": "mission", "wall_time": 1791574151.9955626}
+{"t": 37.1, "level": "WARN", "state": "OBSTACLE_STOP", "text": "NAVIGATE -> OBSTACLE_STOP: obstacle 6.4 m ahead (map) at (20.8, 10.5, 1.9)", "source": "mission", "wall_time": 1791574156.1584227}
+{"t": 40.004000000000005, "level": "WARN", "state": "REPLANNING", "text": "OBSTACLE_STOP -> REPLANNING: vehicle stopped; replanning inside approved space", "source": "mission", "wall_time": 1791574160.7588549}
+{"t": 40.908, "level": "INFO", "state": "NAVIGATE", "text": "REPLANNING -> NAVIGATE: replanned path 44.1 m", "source": "mission", "wall_time": 1791574162.138503}
+{"t": 47.6, "level": "WARN", "state": "OBSTACLE_STOP", "text": "NAVIGATE -> OBSTACLE_STOP: obstacle 5.8 m ahead (map) at (23.4, 16.9, 3.0)", "source": "mission", "wall_time": 1791574172.6619272}
+{"t": 48.656000000000006, "level": "WARN", "state": "REPLANNING", "text": "OBSTACLE_STOP -> REPLANNING: vehicle stopped; replanning inside approved space", "source": "mission", "wall_time": 1791574174.3972955}
+{"t": 49.252, "level": "INFO", "state": "NAVIGATE", "text": "REPLANNING -> NAVIGATE: replanned path 35.9 m", "source": "mission", "wall_time": 1791574175.3811638}
+{"t": 61.652, "level": "WARN", "state": "OBSTACLE_STOP", "text": "NAVIGATE -> OBSTACLE_STOP: obstacle 7.9 m ahead (map) at (35.4, 33.5, 5.6)", "source": "mission", "wall_time": 1791574195.588393}
+{"t": 62.7, "level": "WARN", "state": "REPLANNING", "text": "OBSTACLE_STOP -> REPLANNING: vehicle stopped; replanning inside approved space", "source": "mission", "wall_time": 1791574197.2017732}
+{"t": 63.252, "level": "INFO", "state": "NAVIGATE", "text": "REPLANNING -> NAVIGATE: replanned path 15.7 m", "source": "mission", "wall_time": 1791574198.1444254}
+{"t": 73.852, "level": "INFO", "state": "LANDING_ZONE_SEARCH", "text": "NAVIGATE -> LANDING_ZONE_SEARCH: landing region reached", "source": "mission", "wall_time": 1791574214.8322635}
+{"t": 73.9, "level": "INFO", "state": "TARGET_LOCK", "text": "LANDING_ZONE_SEARCH -> TARGET_LOCK: marker detected", "source": "mission", "wall_time": 1791574214.9072635}
+{"t": 75.052, "level": "INFO", "state": "ALIGN", "text": "TARGET_LOCK -> ALIGN: target locked", "source": "mission", "wall_time": 1791574216.8955169}
+{"t": 77.05600000000001, "level": "INFO", "state": "DESCEND", "text": "ALIGN -> DESCEND: aligned (err 0.07 m), LiDAR surface OK", "source": "mission", "wall_time": 1791574220.111992}
+{"t": 84.5, "level": "INFO", "state": "DESCEND", "text": "checkpoint 2.0 m: re-validating", "source": "mission", "wall_time": 1791574232.873319}
+{"t": 84.60000000000001, "level": "INFO", "state": "DESCEND", "text": "checkpoint 2.0 m passed", "source": "mission", "wall_time": 1791574233.0729837}
+{"t": 87.352, "level": "INFO", "state": "DESCEND", "text": "checkpoint 1.0 m: re-validating", "source": "mission", "wall_time": 1791574237.9664674}
+{"t": 87.5, "level": "INFO", "state": "DESCEND", "text": "checkpoint 1.0 m passed", "source": "mission", "wall_time": 1791574238.1903725}
+{"t": 89.80000000000001, "level": "INFO", "state": "DESCEND", "text": "checkpoint 0.5 m: re-validating", "source": "mission", "wall_time": 1791574241.8785546}
+{"t": 90.0, "level": "INFO", "state": "FINAL_CHECK", "text": "checkpoint 0.5 m passed", "source": "mission", "wall_time": 1791574242.2348511}
+{"t": 90.0, "level": "INFO", "state": "FINAL_CHECK", "text": "DESCEND -> FINAL_CHECK: touchdown zone (0.43 m AGL)", "source": "mission", "wall_time": 1791574242.2398238}
+{"t": 90.5, "level": "INFO", "state": "LAND", "text": "FINAL_CHECK -> LAND: final check passed (err 0.07 m)", "source": "mission", "wall_time": 1791574243.0426702}
+{"t": 93.908, "level": "INFO", "state": "LANDED", "text": "LAND -> LANDED: touchdown confirmed by PX4 land detector", "source": "mission", "wall_time": 1791574249.0724757}

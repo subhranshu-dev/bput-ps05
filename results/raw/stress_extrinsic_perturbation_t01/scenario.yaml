@@ -1,0 +1,16 @@
+id: extrinsic_perturbation
+description: Camera extrinsic perturbed by 5 cm and 2 deg yaw / 1 deg pitch (fusion
+  projection error experiment).
+seed: 300
+expect: LANDED
+overrides:
+  sensors:
+    camera_extrinsic_perturbation:
+      xyz:
+      - 0.05
+      - 0.0
+      - 0.0
+      rpy:
+      - 0.0
+      - 0.01745
+      - 0.0349

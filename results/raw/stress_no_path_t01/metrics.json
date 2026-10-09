@@ -1,0 +1,112 @@
+{
+  "run_id": "stress_no_path_t01",
+  "scenario_id": "no_path",
+  "seed": 300,
+  "config_hash": "f36ff03ac2fa3821",
+  "git_rev": "1f9fe4e-dirty",
+  "state": "ABORTED",
+  "outcome": "NO_SAFE_PATH",
+  "success": false,
+  "expected_outcome": "ABORTED",
+  "expectation_met": true,
+  "landing_error_m": null,
+  "touchdown_xy": null,
+  "pad_center_xy": [
+    42.0,
+    42.0
+  ],
+  "collision_count": 0,
+  "near_misses": 0,
+  "min_clearance_m": 6.64597091391153,
+  "min_clearance_object": "tree_1_crown",
+  "executed_path_length_m": 2.6505891608010095,
+  "planned_path_lengths_m": [],
+  "planning_latency_ms": [
+    950.0648600005661,
+    534.5055380003032,
+    485.0545200006309,
+    429.18233100135694
+  ],
+  "replanning_latency_ms": [],
+  "replans": 0,
+  "obstacle_detections": 0,
+  "detection_events": [],
+  "stop_response_s": [],
+  "dynamic_obstacle_spawn_t": null,
+  "dynamic_detection_latency_s": null,
+  "target_detection_rate": null,
+  "target_frames": 0,
+  "target_losses": 0,
+  "target_reacquisition_s": [],
+  "aborts": 1,
+  "corridor_breaches": 0,
+  "sensor_failures": 0,
+  "mission_time_s": null,
+  "localization_error": {
+    "n": 0,
+    "mean": null,
+    "median": null,
+    "rmse": null,
+    "p95": null,
+    "max": null,
+    "std": null
+  },
+  "true_spatial_error": {
+    "n": 0,
+    "mean": null,
+    "median": null,
+    "rmse": null,
+    "p95": null,
+    "max": null,
+    "std": null
+  },
+  "estimated_spatial_error_mean": null,
+  "estimated_spatial_error_max": 0.0,
+  "fusion_sync_mean_abs_delta_s": 0.0,
+  "fusion_sync_rejected": 65,
+  "fusion_sync_accepted": 134,
+  "fusion_edge_chamfer_px": 5.639921486377716,
+  "fusion_extrinsic_shift_px": 1.3576001400604442e-13,
+  "fusion_process_ms": 3.54,
+  "map_accuracy": {
+    "occupied": 6738,
+    "phantom": 0,
+    "phantom_fraction": 0.0,
+    "median_error_m": 0.125,
+    "p95_error_m": 0.125,
+    "phantom_examples": []
+  },
+  "state_history": [
+    {
+      "t": 12.2,
+      "from": "INIT",
+      "to": "ARMING",
+      "reason": "sensors + localisation converged"
+    },
+    {
+      "t": 13.452,
+      "from": "ARMING",
+      "to": "TAKEOFF",
+      "reason": "armed in offboard; home (5.00, 5.00)"
+    },
+    {
+      "t": 20.6,
+      "from": "TAKEOFF",
+      "to": "PLANNING",
+      "reason": "takeoff altitude reached"
+    },
+    {
+      "t": 21.252,
+      "from": "PLANNING",
+      "to": "NO_SAFE_PATH",
+      "reason": "no path exists inside the approved mission space"
+    },
+    {
+      "t": 27.556,
+      "from": "NO_SAFE_PATH",
+      "to": "ABORTED",
+      "reason": "no safe path after 4 attempts"
+    }
+  ],
+  "elapsed_sim_s": 19.76
+}

@@ -1,0 +1,5 @@
+id: start_yaw
+description: Start yaw 120 deg.
+seed: 300
+start_pose: 5,5,0.25,0,0,2.094
+expect: LANDED

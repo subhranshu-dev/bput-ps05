@@ -1,0 +1,13 @@
+id: dynamic_obstacle
+description: Unexpected obstacle appears across the path ahead during navigation (detection
+  + replanning latency).
+seed: 300
+expect: LANDED
+events:
+- type: spawn_ahead
+  object: dyn_panel
+  trigger:
+    state: NAVIGATE
+    delay_s: 6.0
+  distance_ahead: 10.0
+  height: 7.0

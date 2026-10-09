@@ -1,0 +1,15 @@
+id: tag_loss
+description: Down-camera occlusion for 4 s starting 2 s after descent begins (target
+  loss -> hover -> reacquire).
+seed: 300
+expect: LANDED
+overrides:
+  camera:
+    fault_injection:
+      trigger_state: DESCEND
+      occlusion:
+        enabled: true
+        start_s: 1.0
+        duration_s: 4.0
+        camera: down
+        fraction: 0.9
