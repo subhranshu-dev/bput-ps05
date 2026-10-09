@@ -300,6 +300,18 @@ def main():
     w(f"Unexpected-obstacle detection latency (demo runs, sim time): "
       f"{(f'mean {sum(ddet) / len(ddet):.2f} s, max {max(ddet):.2f} s (n = {len(ddet)})') if ddet else NM}.")
     w('')
+    rev = [r for r in runs if r.get('clearance_reevaluated')]
+    chg = [r for r in rev if r.get('evaluator_v1_collision_count') != r.get('collision_count')
+           or abs((r.get('evaluator_v1_min_clearance_m') or 0) - (r.get('min_clearance_m') or 0)) > 0.005]
+    if rev:
+        w(f"Clearance, collisions and near misses were re-evaluated for all {len(rev)} runs with yaw-aware world "
+          f"geometry (`scripts/reevaluate_clearance.py`, from each run's logged truth telemetry and scenario events); "
+          f"evaluator v1 had modelled rotated scenario objects as axis-aligned boxes. Changed runs: "
+          + (', '.join(f"`{r['run_id']}` (min clearance {r['evaluator_v1_min_clearance_m']:.2f} → "
+                       f"{r['min_clearance_m']:.2f} m, collisions {r['evaluator_v1_collision_count']} → "
+                       f"{r['collision_count']})" for r in chg) or 'none') + '. Original values remain in each '
+          f"`metrics.json` under `evaluator_v1_*`.")
+        w('')
     maps = [get(r, 'map_accuracy', 'phantom_fraction') for r in runs]
     maps = [x for x in maps if x is not None]
     merr = [get(r, 'map_accuracy', 'median_error_m') for r in runs]
