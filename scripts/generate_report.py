@@ -276,6 +276,25 @@ def main():
         for k, v in rows:
             w(f'| {k} | {v} |')
         w('')
+    # per-revision breakdown of the baseline (campaign 1 runs vs final-code regression runs)
+    brev = {}
+    for r in runs:
+        if r.get('scenario_id') == 'baseline':
+            brev.setdefault(str(r.get('git_rev', 'unknown')).replace('-dirty', ''), []).append(r)
+    if len(brev) > 1:
+        w('Baseline by code revision (the earlier revision differs only in failure-handling branches that none of '
+          'its runs entered; "-dirty" flags on those runs come from uncommitted documentation edits):')
+        w('')
+        w('| Revision | Trials | Landed | Landing error mean | RMSE | Collisions | Min clearance |')
+        w('|---|---|---|---|---|---|---|')
+        for rev, rs in brev.items():
+            e = [x['landing_error_m'] for x in rs if x.get('landing_error_m') is not None]
+            rm = (sum(v * v for v in e) / len(e)) ** 0.5 if e else None
+            mc = [x['min_clearance_m'] for x in rs if x.get('min_clearance_m') is not None]
+            w(f"| `{rev}` | {len(rs)} | {sum(1 for x in rs if x.get('outcome') == 'LANDED')} | "
+              f"{f(sum(e) / len(e) if e else None, 1, ' cm', 100)} | {f(rm, 1, ' cm', 100)} | "
+              f"{sum(int(x.get('collision_count') or 0) for x in rs)} | {f(min(mc) if mc else None, 2, ' m')} |")
+        w('')
     ddet = [r.get('dynamic_detection_latency_s') for r in runs if r.get('scenario_id') == 'demo']
     ddet = [x for x in ddet if x is not None]
     w(f"Unexpected-obstacle detection latency (demo runs, sim time): "
