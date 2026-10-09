@@ -195,3 +195,12 @@ def test_init_waits_for_converged_localisation():
     arm_t = next(h['t'] for h in w.sm.stats['state_history'] if h['to'] == S.ARMING)
     assert arm_t >= 12.0 - 1e-6
     assert np.allclose(w.sm.home[:2], [5.0, 5.0])
+
+
+def test_unsafe_pad_waits_before_retry_then_lands_when_cleared():
+    w = FakeWorld()
+    w.run(until={S.ALIGN})
+    w.unsafe = (w.t, w.t + 15.0)
+    w.run(until={S.LANDED, S.ABORTED})
+    assert w.sm.state == S.LANDED, w.states
+    assert 1 <= w.sm.abort_attempts <= 3

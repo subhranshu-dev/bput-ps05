@@ -62,6 +62,8 @@ def summarize(runs):
             'trials': n,
             'landed': len(landed),
             'success_rate': sum(1 for r in rs if r.get('success')) / n if n else None,
+            'expected_outcome': rs[0].get('expected_outcome'),
+            'expectation_met_rate': sum(1 for r in rs if r.get('expectation_met')) / n if n else None,
             'outcomes': {o: sum(1 for r in rs if r.get('outcome') == o) for o in sorted({str(r.get('outcome')) for r in rs})},
             'collisions_total': sum(int(r.get('collision_count') or 0) for r in rs),
             'collision_rate': sum(1 for r in rs if (r.get('collision_count') or 0) > 0) / n if n else None,

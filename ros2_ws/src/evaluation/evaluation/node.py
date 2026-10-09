@@ -225,6 +225,10 @@ class EvaluationNode(Node):
             'state': self.state,
             'outcome': self.mission.get('outcome'),
             'success': self.mission.get('outcome') == 'LANDED' and self.collisions == 0,
+            'expected_outcome': self.scenario.get('expect', 'LANDED'),
+            'expectation_met': self.collisions == 0 and (
+                (self.scenario.get('expect', 'LANDED') == 'LANDED' and self.mission.get('outcome') == 'LANDED')
+                or (self.scenario.get('expect') == 'ABORTED' and self.state == 'ABORTED')),
             'landing_error_m': self.landing_error,
             'touchdown_xy': self.landed_xy,
             'pad_center_xy': self.pad.tolist(),

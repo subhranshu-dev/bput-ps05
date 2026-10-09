@@ -646,7 +646,8 @@ class MissionStateMachine:
 
     def _st_abort_climb(self, obs, out, plan, dt):
         out.setpoint = self._hold(self.hold_pos, self.hold_yaw)
-        if abs(obs.pose[2] - self.hold_pos[2]) < 0.3 and obs.t - self.t_state > 3.0:
+        wait = float(self.lc.get('abort_retry_wait_s', 3.0)) if self.prev_state == UNSAFE_PAD else 3.0
+        if abs(obs.pose[2] - self.hold_pos[2]) < 0.3 and obs.t - self.t_state > wait:
             self.target_filt = None
             self._build_search(self.hold_pos[2])
             self.search_loops = 0

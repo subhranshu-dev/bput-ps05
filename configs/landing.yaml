@@ -31,4 +31,5 @@ controller:
   blind_height: 1.0          # m AGL: below this the tag exceeds the image; hold last estimate (LiDAR checks continue)
   reacquire_timeout_s: 10.0
   abort_climb_altitude: 4.0
+  abort_retry_wait_s: 8.0    # hold after an unsafe-pad abort before searching again (pad may clear)
   max_abort_attempts: 3
