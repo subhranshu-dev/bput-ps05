@@ -17,6 +17,8 @@ Every entry below was hit during bring-up of this repository; the fix is in the 
 | Tag detected in ~6 % of frames at 5 m | 0.40 m tag only ~27 px with an 86° lens | 60° downward camera, search at 4 m (~58 px) |
 | `TARGET_LOST` just before touchdown | Below ~0.6 m the tag is larger than the image | Blind-descent zone below 1.0 m AGL (hold last estimate; LiDAR checks continue) |
 | `trajectory failed final validation (collision)` although A* succeeded | (a) 26-connected diagonal moves clipped blocked corners; (b) different sampling densities in pruning / smoothing / final check | No-corner-cutting rule; one `polyline_clear()` at 2 cm everywhere, final check on the exact smoothed polyline |
+| Dynamic trial ends `NO_SAFE_PATH` after `SENSOR_FAILURE: localisation unavailable -> PX4 land` (eval_dynamic_t03, rev 18eba4c) | A < 1 s ROS-side `/vehicle/odom` stall triggered an immediate PX4 LAND near the canopy; after recovery the start lay inside the inflation zone beyond the 2 m snap radius | Odometry loss → hold last setpoint, PX4 LAND only after 3 s; planner snaps up to 4 m with an occupancy-checked escape segment |
+| After 3 unsafe-pad aborts the vehicle descended onto the same unsafe pad (rev 18eba4c) | `ABORTED` used "land in place" | Unsafe landing zone / tag not found → `RETURN_HOME` through the planner and land on the take-off pad |
 | `pkill -f <name>` inside `docker exec bash -c '…<name>…'` does nothing | pkill matches and kills its own shell first | Kill by PID list (`scripts/stop_all.sh`) |
 | Result files owned by root on the host | Container runs as root | `fix_owner` in `scripts/lib.sh` (HOST_UID/GID) |
 | `pip` fails: `Cannot uninstall pluggy … installed by debian` | `pytest-asyncio` forced a pytest upgrade | Dependency removed |

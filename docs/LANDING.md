@@ -35,7 +35,7 @@ SENSOR_FAILURE (watchdog) → hover → resume | 10 s → ABORTED
 * Final check at 0.45 m AGL (feet ≈ 0.23 m above the pad): error ≤ 0.225 m ⇒ PX4 `NAV_LAND`; touchdown = PX4 land
   detector (or auto-disarm) ⇒ LANDED.
 * After an UNSAFE_PAD abort the vehicle climbs to 4 m and **waits 8 s** before searching again (the pad may clear);
-  after 3 aborts the mission ends in ABORTED (controlled landing in place, away from the unsafe pad is not attempted).
+  after 3 aborts (or if the tag is never found) the vehicle **returns home through the planner inside the approved corridor and lands on the take-off pad** — the only surface known to be safe; outcome UNSAFE_LANDING_ZONE / TARGET_NOT_FOUND, final state ABORTED.
 
 ## Landing error
 `E = √((Px − Tx)² + (Py − Ty)²)` with P = ground-truth touchdown position (evaluation only) and T = pad centre from the

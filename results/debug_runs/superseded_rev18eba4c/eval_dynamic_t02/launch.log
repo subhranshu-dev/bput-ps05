@@ -1,0 +1,248 @@
+[INFO] [launch]: All log files can be found below /root/.ros/log/2026-10-09-19-00-50-514041-SkillCoreX-37830
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [gz_sim-1]: process started with pid [37835]
+[INFO] [xrce_agent-2]: process started with pid [37836]
+[INFO] [parameter_bridge-3]: process started with pid [37850]
+[parameter_bridge-3] [WARN] [1791572452.644245435] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[parameter_bridge-3] [WARN] [1791572452.644268807] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[parameter_bridge-3] [INFO] [1791572453.668224865] [gz_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1791572453.670302376] [gz_bridge]: Creating GZ->ROS Bridge: [/camera/image_raw (gz.msgs.Image) -> /camera/image_raw (sensor_msgs/msg/Image)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1791572453.674694788] [gz_bridge]: Creating GZ->ROS Bridge: [/camera/camera_info (gz.msgs.CameraInfo) -> /camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1791572453.675645369] [gz_bridge]: Creating GZ->ROS Bridge: [/down_camera/image_raw (gz.msgs.Image) -> /down_camera/image_raw (sensor_msgs/msg/Image)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1791572453.676101051] [gz_bridge]: Creating GZ->ROS Bridge: [/down_camera/camera_info (gz.msgs.CameraInfo) -> /down_camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1791572453.676567626] [gz_bridge]: Creating GZ->ROS Bridge: [/lidar/points (gz.msgs.PointCloudPacked) -> /lidar/points (sensor_msgs/msg/PointCloud2)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1791572453.677359997] [gz_bridge]: Creating GZ->ROS Bridge: [/down_lidar/points (gz.msgs.PointCloudPacked) -> /down_lidar/points (sensor_msgs/msg/PointCloud2)] (Lazy 0)
+[parameter_bridge-3] [INFO] [1791572453.677797771] [gz_bridge]: Creating GZ->ROS Bridge: [/sim/truth/odom (gz.msgs.Odometry) -> /sim/truth/odom (nav_msgs/msg/Odometry)] (Lazy 0)
+[INFO] [px4_sitl-4]: process started with pid [37881]
+[px4_sitl-4] 
+[px4_sitl-4] ______  __   __    ___ 
+[px4_sitl-4] | ___ \ \ \ / /   /   |
+[px4_sitl-4] | |_/ /  \ V /   / /| |
+[px4_sitl-4] |  __/   /   \  / /_| |
+[px4_sitl-4] | |     / /^\ \ \___  |
+[px4_sitl-4] \_|     \/   \/     |_/
+[px4_sitl-4] 
+[px4_sitl-4] px4 starting.
+[px4_sitl-4] 
+[px4_sitl-4] INFO  [px4] startup script: /bin/sh etc/init.d-posix/rcS 0
+[px4_sitl-4] env SYS_AUTOSTART: 4050
+[px4_sitl-4] INFO  [param] selected parameter default file parameters.bson
+[px4_sitl-4] INFO  [param] selected parameter backup file parameters_backup.bson
+[px4_sitl-4]   SYS_AUTOCONFIG: curr: 0 -> new: 1
+[px4_sitl-4]   SYS_AUTOSTART: curr: 0 -> new: 4050
+[px4_sitl-4]   CAL_ACC0_ID: curr: 0 -> new: 1310988
+[px4_sitl-4]   CAL_GYRO0_ID: curr: 0 -> new: 1310988
+[px4_sitl-4]   CAL_ACC1_ID: curr: 0 -> new: 1310996
+[px4_sitl-4]   CAL_GYRO1_ID: curr: 0 -> new: 1310996
+[px4_sitl-4]   CAL_ACC2_ID: curr: 0 -> new: 1311004
+[px4_sitl-4]   CAL_GYRO2_ID: curr: 0 -> new: 1311004
+[px4_sitl-4]   CAL_MAG0_ID: curr: 0 -> new: 197388
+[px4_sitl-4]   CAL_MAG0_PRIO: curr: -1 -> new: 50
+[px4_sitl-4]   CAL_MAG1_ID: curr: 0 -> new: 197644
+[px4_sitl-4]   CAL_MAG1_PRIO: curr: -1 -> new: 50
+[px4_sitl-4]   SENS_BOARD_X_OFF: curr: 0.0000 -> new: 0.0000
+[px4_sitl-4]   SENS_DPRES_OFF: curr: 0.0000 -> new: 0.0010
+[px4_sitl-4] INFO  [dataman] data manager file './dataman' size is 1208528 bytes
+[INFO] [static_frames-5]: process started with pid [38085]
+[INFO] [camera_processor-6]: process started with pid [38086]
+[INFO] [lidar_processor-7]: process started with pid [38087]
+[INFO] [ground_tracker-8]: process started with pid [38088]
+[INFO] [localization_node-9]: process started with pid [38089]
+[INFO] [fusion_node-10]: process started with pid [38090]
+[INFO] [px4_interface-11]: process started with pid [38091]
+[INFO] [evaluation_node-12]: process started with pid [38092]
+[INFO] [scenario_events-13]: process started with pid [38093]
+[INFO] [dashboard_bridge-14]: process started with pid [38094]
+[px4_sitl-4] INFO  [init] Gazebo simulator 8.15.0
+[px4_sitl-4] INFO  [init] Standalone PX4 launch, waiting for Gazebo
+[ground_tracker-8] [WARN] [1791572457.410208377] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[ground_tracker-8] [WARN] [1791572457.411303475] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[lidar_processor-7] [WARN] [1791572457.503265024] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[lidar_processor-7] [WARN] [1791572457.503312450] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[scenario_events-13] [WARN] [1791572457.549451844] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[scenario_events-13] [WARN] [1791572457.549508620] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[static_frames-5] [WARN] [1791572457.575819735] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[static_frames-5] [WARN] [1791572457.575873783] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[px4_interface-11] [WARN] [1791572457.706441312] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[px4_interface-11] [WARN] [1791572457.706474828] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[evaluation_node-12] [WARN] [1791572457.728425265] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[evaluation_node-12] [WARN] [1791572457.728510507] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[scenario_events-13] [INFO] [1791572457.974808408] [scenario_events]: scenario demo: 1 events
+[localization_node-9] [WARN] [1791572458.011188094] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[localization_node-9] [WARN] [1791572458.011236302] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[static_frames-5] [INFO] [1791572458.030145126] [static_frames]: published 10 static transforms; camera perturbation={'xyz': [0.0, 0.0, 0.0], 'rpy': [0.0, 0.0, 0.0]}
+[camera_processor-6] [WARN] [1791572458.109963169] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[camera_processor-6] [WARN] [1791572458.109990676] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[fusion_node-10] [WARN] [1791572458.188728993] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[fusion_node-10] [WARN] [1791572458.188779447] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[evaluation_node-12] [INFO] [1791572458.248646426] [evaluation_node]: evaluation run eval_dynamic_t02 -> /workspace/results/raw/eval_dynamic_t02
+[dashboard_bridge-14] [WARN] [1791572458.475109211] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[dashboard_bridge-14] [WARN] [1791572458.475142196] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[px4_sitl-4] INFO  [init] Gazebo world is ready
+[px4_sitl-4] INFO  [init] Gazebo model pose: 5 5 0.25 0 0 0
+[px4_sitl-4] INFO  [init] Spawning Gazebo model
+[INFO] [mapping_node-15]: process started with pid [38276]
+[INFO] [planner_node-16]: process started with pid [38277]
+[INFO] [avoidance_node-17]: process started with pid [38278]
+[INFO] [detector_node-18]: process started with pid [38279]
+[INFO] [validator_node-19]: process started with pid [38280]
+[INFO] [mission_manager-20]: process started with pid [38281]
+[gz_sim-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="x500_ps05"]/link[@name="base_link"]/sensor[@name="air_pressure_sensor"]/gz_frame_id:/workspace/simulation/models/x500_ps05/model.sdf:L220]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+[gz_sim-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="x500_ps05"]/link[@name="base_link"]/sensor[@name="magnetometer_sensor"]/gz_frame_id:/workspace/simulation/models/x500_ps05/model.sdf:L234]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+[gz_sim-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="x500_ps05"]/link[@name="base_link"]/sensor[@name="imu_sensor"]/gz_frame_id:/workspace/simulation/models/x500_ps05/model.sdf:L260]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+[gz_sim-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="x500_ps05"]/link[@name="base_link"]/sensor[@name="front_camera"]/gz_frame_id:/workspace/simulation/models/x500_ps05/model.sdf:L314]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+[gz_sim-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="x500_ps05"]/link[@name="base_link"]/sensor[@name="lidar_3d"]/gz_frame_id:/workspace/simulation/models/x500_ps05/model.sdf:L329]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+[gz_sim-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="x500_ps05"]/link[@name="base_link"]/sensor[@name="down_camera"]/gz_frame_id:/workspace/simulation/models/x500_ps05/model.sdf:L345]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+[gz_sim-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="x500_ps05"]/link[@name="base_link"]/sensor[@name="down_lidar"]/gz_frame_id:/workspace/simulation/models/x500_ps05/model.sdf:L360]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+[gz_sim-1] [1;33m[Wrn] [SdfEntityCreator.cc:933] [0m[1;33mGazebo does not support Ogre material scripts. See [0m[1;33mhttps://gazebosim.org/api/sim/8/migrationsdf.html#:~:text=Materials [0m[1;33mfor details.[0m[1;33m[0m
+[gz_sim-1] [1;33m[Wrn] [SdfEntityCreator.cc:949] [0m[1;33mUsing an internal gazebo.material to parse [0m[1;33mGazebo/DarkGrey[0m[1;33m[0m
+[gz_sim-1] [1;33m[Wrn] [SdfEntityCreator.cc:933] [0m[1;33mGazebo does not support Ogre material scripts. See [0m[1;33mhttps://gazebosim.org/api/sim/8/migrationsdf.html#:~:text=Materials [0m[1;33mfor details.[0m[1;33m[0m
+[gz_sim-1] [1;33m[Wrn] [SdfEntityCreator.cc:949] [0m[1;33mUsing an internal gazebo.material to parse [0m[1;33mGazebo/DarkGrey[0m[1;33m[0m
+[gz_sim-1] [1;33m[Wrn] [SdfEntityCreator.cc:933] [0m[1;33mGazebo does not support Ogre material scripts. See [0m[1;33mhttps://gazebosim.org/api/sim/8/migrationsdf.html#:~:text=Materials [0m[1;33mfor details.[0m[1;33m[0m
+[gz_sim-1] [1;33m[Wrn] [SdfEntityCreator.cc:949] [0m[1;33mUsing an internal gazebo.material to parse [0m[1;33mGazebo/DarkGrey[0m[1;33m[0m
+[gz_sim-1] [1;33m[Wrn] [SdfEntityCreator.cc:933] [0m[1;33mGazebo does not support Ogre material scripts. See [0m[1;33mhttps://gazebosim.org/api/sim/8/migrationsdf.html#:~:text=Materials [0m[1;33mfor details.[0m[1;33m[0m
+[gz_sim-1] [1;33m[Wrn] [SdfEntityCreator.cc:949] [0m[1;33mUsing an internal gazebo.material to parse [0m[1;33mGazebo/DarkGrey[0m[1;33m[0m
+[gz_sim-1] [1;33m[Wrn] [MulticopterMotorModel.cc:257] [0m[1;33mNo robotNamespace set using entity name.[0m
+[gz_sim-1] [1;33m[Wrn] [MulticopterMotorModel.cc:295] [0m[1;33m<motorNumber> is depricated, [0m[1;33mplease use <actuator_number>.[0m
+[gz_sim-1] [1;33m[Wrn] [MulticopterMotorModel.cc:257] [0m[1;33mNo robotNamespace set using entity name.[0m
+[gz_sim-1] [1;33m[Wrn] [MulticopterMotorModel.cc:295] [0m[1;33m<motorNumber> is depricated, [0m[1;33mplease use <actuator_number>.[0m
+[gz_sim-1] [1;33m[Wrn] [MulticopterMotorModel.cc:257] [0m[1;33mNo robotNamespace set using entity name.[0m
+[gz_sim-1] [1;33m[Wrn] [MulticopterMotorModel.cc:295] [0m[1;33m<motorNumber> is depricated, [0m[1;33mplease use <actuator_number>.[0m
+[gz_sim-1] [1;33m[Wrn] [MulticopterMotorModel.cc:257] [0m[1;33mNo robotNamespace set using entity name.[0m
+[gz_sim-1] [1;33m[Wrn] [MulticopterMotorModel.cc:295] [0m[1;33m<motorNumber> is depricated, [0m[1;33mplease use <actuator_number>.[0m
+[mission_manager-20] [WARN] [1791572460.319111371] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[mission_manager-20] [WARN] [1791572460.319166528] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[validator_node-19] [WARN] [1791572460.351879502] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[validator_node-19] [WARN] [1791572460.351910994] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[mapping_node-15] [WARN] [1791572460.460246412] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[mapping_node-15] [WARN] [1791572460.460290602] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[planner_node-16] [WARN] [1791572460.520361539] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[planner_node-16] [WARN] [1791572460.520395955] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[avoidance_node-17] [WARN] [1791572460.765785907] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[avoidance_node-17] [WARN] [1791572460.765818928] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[detector_node-18] [WARN] [1791572461.030492296] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[detector_node-18] [WARN] [1791572461.030522099] [rcl]: 'localhost_only' is disabled, 'automatic_discovery_range' and 'static_peers' will be used.
+[planner_node-16] [INFO] [1791572461.113630892] [planner_node]: inflation radius = 1.20 m, resolution = 0.5 m, unknown policy = optimistic
+[gz_sim-1] [1;33m[Wrn] [Ogre2Camera.cc:423] [0m[1;33mOgre2Camera::SetVisibilityMask: Mask bits [0m[1;33mc0000000[0m[1;33m are set but will be ignored as they conflict with the [0m[1;33mreserved bits used internally by the ogre2 backend.[0m[1;33m[0m
+[gz_sim-1] [1;33m[Wrn] [Ogre2Camera.cc:423] [0m[1;33mOgre2Camera::SetVisibilityMask: Mask bits [0m[1;33mc0000000[0m[1;33m are set but will be ignored as they conflict with the [0m[1;33mreserved bits used internally by the ogre2 backend.[0m[1;33m[0m
+[px4_sitl-4] INFO  [lockstep_scheduler] setting initial absolute time to 7092000 us
+[px4_sitl-4] INFO  [gz_bridge] world: ps05_challenge, model: x500_ps05_0
+[px4_sitl-4] INFO  [commander] LED: open /dev/led0 failed (22)
+[px4_sitl-4] WARN  [health_and_arming_checks] Preflight Fail: ekf2 missing data
+[px4_sitl-4] WARN  [health_and_arming_checks] Preflight Fail: system power unavailable
+[px4_sitl-4] WARN  [mc_pos_control] Cruise speed has been constrained by max speed	
+[px4_sitl-4] WARN  [mc_pos_control] Manual speed has been constrained by max speed	
+[px4_sitl-4] INFO  [uxrce_dds_client] init UDP agent IP:127.0.0.1, port:8888
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/register_ext_component_reply data writer, topic id: 205
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/arming_check_request_v1 data writer, topic id: 16
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/mode_completed data writer, topic id: 157
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/battery_status_v1 data writer, topic id: 20
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/collision_constraints data writer, topic id: 27
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/estimator_status_flags data writer, topic id: 85
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/failsafe_flags data writer, topic id: 91
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/manual_control_setpoint data writer, topic id: 148
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/message_format_response data writer, topic id: 154
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/position_setpoint_triplet data writer, topic id: 192
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/sensor_combined data writer, topic id: 225
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/timesync_status data writer, topic id: 249
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/transponder_report data writer, topic id: 252
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/vehicle_land_detected data writer, topic id: 277
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/vehicle_attitude data writer, topic id: 264
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/vehicle_control_mode data writer, topic id: 271
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/vehicle_command_ack data writer, topic id: 268
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/vehicle_global_position data writer, topic id: 272
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/vehicle_gps_position data writer, topic id: 274
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/vehicle_local_position_v1 data writer, topic id: 278
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/vehicle_odometry data writer, topic id: 283
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/vehicle_status_v1 data writer, topic id: 288
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/airspeed_validated_v1 data writer, topic id: 13
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/vtol_vehicle_status data writer, topic id: 297
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/home_position_v1 data writer, topic id: 128
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/wind data writer, topic id: 299
+[px4_sitl-4] INFO  [uxrce_dds_client] successfully created rt/fmu/out/gimbal_device_attitude_status data writer, topic id: 110
+[px4_sitl-4] INFO  [mavlink] mode: Normal, data rate: 4000000 B/s on udp port 18570 remote port 14550
+[px4_sitl-4] INFO  [mavlink] mode: Onboard, data rate: 4000000 B/s on udp port 14580 remote port 14540
+[px4_sitl-4] INFO  [mavlink] mode: Onboard, data rate: 4000 B/s on udp port 14280 remote port 14030
+[px4_sitl-4] INFO  [mavlink] mode: Gimbal, data rate: 400000 B/s on udp port 13030 remote port 13280
+[px4_sitl-4] INFO  [logger] logger started (mode=all)
+[px4_sitl-4] INFO  [logger] Start file log (type: full)
+[px4_sitl-4] INFO  [logger] [logger] ./log/2026-10-09/19_01_05.ulg	
+[px4_sitl-4] INFO  [logger] Opened full log file: ./log/2026-10-09/19_01_05.ulg
+[px4_sitl-4] INFO  [mavlink] MAVLink only on localhost (set param MAV_{i}_BROADCAST = 1 to enable network)
+[px4_sitl-4] INFO  [mavlink] MAVLink only on localhost (set param MAV_{i}_BROADCAST = 1 to enable network)
+[px4_sitl-4] INFO  [px4] Startup script returned successfully
+[mission_manager-20] [INFO] [1791572470.132305427] [mission_manager]: INIT -> ARMING: sensors + localisation converged
+[px4_interface-11] [INFO] [1791572470.249914383] [px4_interface]: command: offboard
+[px4_sitl-4] INFO  [commander] [32mReady for takeoff![0m
+[px4_interface-11] [INFO] [1791572471.724641211] [px4_interface]: command: arm
+[px4_sitl-4] INFO  [commander] Armed by external command	
+[px4_sitl-4] INFO  [tone_alarm] arming warning
+[mission_manager-20] [INFO] [1791572471.903202221] [mission_manager]: ARMING -> TAKEOFF: armed in offboard; home (5.00, 5.01)
+[px4_sitl-4] INFO  [commander] Takeoff detected	
+[mission_manager-20] [INFO] [1791572483.455506691] [mission_manager]: TAKEOFF -> PLANNING: takeoff altitude reached
+[planner_node-16] [INFO] [1791572485.036153819] [planner_node]: plan[initial] success=True ok latency=1552 ms len=52.8 m
+[mission_manager-20] [INFO] [1791572485.081611419] [mission_manager]: PLANNING -> NAVIGATE: global path 52.8 m
+[scenario_events-13] [INFO] [1791572495.217876058] [scenario_events]: moved dyn_panel -> [20.6, 15.56, 3.5] ok=True spawn_ahead
+[mission_manager-20] [WARN] [1791572496.057251351] [mission_manager]: NAVIGATE -> OBSTACLE_STOP: obstacle 7.5 m ahead (map) at (20.0, 14.8, 2.4)
+[mission_manager-20] [WARN] [1791572497.629014386] [mission_manager]: OBSTACLE_STOP -> REPLANNING: vehicle stopped; replanning inside approved space
+[planner_node-16] [INFO] [1791572498.797302534] [planner_node]: plan[replan] success=True ok latency=1157 ms len=42.8 m
+[mission_manager-20] [INFO] [1791572498.854756989] [mission_manager]: REPLANNING -> NAVIGATE: replanned path 42.8 m
+[mission_manager-20] [WARN] [1791572504.083316955] [mission_manager]: NAVIGATE -> OBSTACLE_STOP: obstacle 5.7 m ahead (map) at (20.2, 14.7, 7.8)
+[mission_manager-20] [WARN] [1791572505.649670366] [mission_manager]: OBSTACLE_STOP -> REPLANNING: vehicle stopped; replanning inside approved space
+[planner_node-16] [INFO] [1791572506.716877491] [planner_node]: plan[replan] success=True ok latency=1050 ms len=39.2 m
+[mission_manager-20] [INFO] [1791572506.782582752] [mission_manager]: REPLANNING -> NAVIGATE: replanned path 39.2 m
+[mission_manager-20] [WARN] [1791572507.988101069] [mission_manager]: NAVIGATE -> OBSTACLE_STOP: obstacle 5.3 m ahead (map) at (19.8, 15.2, 8.2)
+[mission_manager-20] [WARN] [1791572509.614005861] [mission_manager]: OBSTACLE_STOP -> REPLANNING: vehicle stopped; replanning inside approved space
+[planner_node-16] [INFO] [1791572511.264344345] [planner_node]: plan[replan] success=True ok latency=1630 ms len=39.3 m
+[mission_manager-20] [INFO] [1791572511.358896875] [mission_manager]: REPLANNING -> NAVIGATE: replanned path 39.3 m
+[evaluation_node-12] [ERROR] [1791572516.769064822] [evaluation_node]: COLLISION with dyn_panel (clearance 0.36 m)
+[mission_manager-20] [WARN] [1791572523.928405421] [mission_manager]: NAVIGATE -> OBSTACLE_STOP: obstacle 0.5 m ahead (map) at (24.1, 17.7, 8.2)
+[mission_manager-20] [WARN] [1791572525.523888654] [mission_manager]: OBSTACLE_STOP -> REPLANNING: vehicle stopped; replanning inside approved space
+[planner_node-16] [INFO] [1791572526.360071007] [planner_node]: plan[replan] success=True ok latency=794 ms len=27.6 m
+[mission_manager-20] [INFO] [1791572526.433178618] [mission_manager]: REPLANNING -> NAVIGATE: replanned path 27.6 m
+[mission_manager-20] [INFO] [1791572552.441608710] [mission_manager]: NAVIGATE -> LANDING_ZONE_SEARCH: landing region reached
+[mission_manager-20] [INFO] [1791572552.497698354] [mission_manager]: LANDING_ZONE_SEARCH -> TARGET_LOCK: marker detected
+[mission_manager-20] [INFO] [1791572554.474806575] [mission_manager]: TARGET_LOCK -> ALIGN: target locked
+[mission_manager-20] [INFO] [1791572559.266250255] [mission_manager]: ALIGN -> DESCEND: aligned (err 0.11 m), LiDAR surface OK
+[mission_manager-20] [INFO] [1791572571.584090716] [mission_manager]: checkpoint 2.0 m: re-validating
+[mission_manager-20] [INFO] [1791572571.772786085] [mission_manager]: checkpoint 2.0 m passed
+[mission_manager-20] [INFO] [1791572576.318738217] [mission_manager]: checkpoint 1.0 m: re-validating
+[mission_manager-20] [INFO] [1791572576.465302768] [mission_manager]: checkpoint 1.0 m passed
+[mission_manager-20] [INFO] [1791572579.809838221] [mission_manager]: checkpoint 0.5 m: re-validating
+[mission_manager-20] [INFO] [1791572580.139978591] [mission_manager]: checkpoint 0.5 m passed
+[mission_manager-20] [INFO] [1791572580.147769288] [mission_manager]: DESCEND -> FINAL_CHECK: touchdown zone (0.43 m AGL)
+[mission_manager-20] [INFO] [1791572580.906326288] [mission_manager]: FINAL_CHECK -> LAND: final check passed (err 0.07 m)
+[px4_interface-11] [INFO] [1791572580.907944749] [px4_interface]: command: land
+[px4_sitl-4] INFO  [commander] Landing at current position	
+[px4_interface-11] [WARN] [1791572581.811640216] [px4_interface]: setpoint stream stale -> stopping offboard heartbeat (PX4 failsafe)
+[px4_interface-11] [INFO] [1791572582.625505369] [px4_interface]: command: land
+[px4_sitl-4] INFO  [commander] Landing at current position	
+[px4_interface-11] [INFO] [1791572584.250906643] [px4_interface]: command: land
+[px4_sitl-4] INFO  [commander] Landing at current position	
+[px4_sitl-4] INFO  [commander] Landing detected	
+[px4_interface-11] [INFO] [1791572585.174778193] [px4_interface]: command: disarm
+[mission_manager-20] [INFO] [1791572585.176351211] [mission_manager]: LAND -> LANDED: touchdown confirmed by PX4 land detector
+[px4_sitl-4] INFO  [commander] Disarmed by external command	
+[px4_sitl-4] INFO  [tone_alarm] notify neutral
+[evaluation_node-12] [INFO] [1791572585.219403933] [evaluation_node]: run eval_dynamic_t02 finalized: outcome=LANDED landing_error=0.054696089828843435
+[px4_sitl-4] INFO  [logger] closed logfile, bytes written: 20446494
+[ERROR] [px4_sitl-4]: process has died [pid 37881, exit code -9, cmd '/opt/PX4-Autopilot/build/px4_sitl_default/bin/px4 -d -w /tmp/px4_rootfs /opt/PX4-Autopilot/build/px4_sitl_default/etc'].
+[ERROR] [xrce_agent-2]: process has died [pid 37836, exit code -9, cmd 'MicroXRCEAgent udp4 -p 8888'].
+[ERROR] [parameter_bridge-3]: process has died [pid 37850, exit code -9, cmd '/opt/ros/jazzy/lib/ros_gz_bridge/parameter_bridge --ros-args -r __node:=gz_bridge --params-file /tmp/launch_params_qlsdkihb'].
+[ERROR] [gz_sim-1]: process has died [pid 37835, exit code -9, cmd 'gz sim -s -r --headless-rendering -v 2 /workspace/simulation/worlds/ps05_challenge.sdf'].
+[ERROR] [ground_tracker-8]: process has died [pid 38088, exit code -9, cmd '/workspace/ros2_ws/install/aeronav_simulation/lib/aeronav_simulation/ground_tracker --ros-args --params-file /tmp/launch_params_8vwdsqjf'].
+[ERROR] [static_frames-5]: process has died [pid 38085, exit code -9, cmd '/workspace/ros2_ws/install/aeronav_description/lib/aeronav_description/static_frames --ros-args --params-file /tmp/launch_params_vfzt5u_7'].
+[ERROR] [validator_node-19]: process has died [pid 38280, exit code -9, cmd '/workspace/ros2_ws/install/landing_validator/lib/landing_validator/validator_node --ros-args --params-file /tmp/launch_params_hp7wjrgr'].
+[ERROR] [scenario_events-13]: process has died [pid 38093, exit code -9, cmd '/workspace/ros2_ws/install/aeronav_simulation/lib/aeronav_simulation/scenario_events --ros-args --params-file /tmp/launch_params_b2qpwt35'].
+[ERROR] [localization_node-9]: process has died [pid 38089, exit code -9, cmd '/workspace/ros2_ws/install/localization/lib/localization/localization_node --ros-args --params-file /tmp/launch_params_qjfawwh0'].
+[ERROR] [avoidance_node-17]: process has died [pid 38278, exit code -9, cmd '/workspace/ros2_ws/install/obstacle_avoidance/lib/obstacle_avoidance/avoidance_node --ros-args --params-file /tmp/launch_params_q7g9u_2i'].
+[ERROR] [lidar_processor-7]: process has died [pid 38087, exit code -9, cmd '/workspace/ros2_ws/install/lidar_processor/lib/lidar_processor/lidar_processor --ros-args --params-file /tmp/launch_params_vn0le5e9'].
+[ERROR] [evaluation_node-12]: process has died [pid 38092, exit code -9, cmd '/workspace/ros2_ws/install/evaluation/lib/evaluation/evaluation_node --ros-args --params-file /tmp/launch_params_1m7qjlnw'].
+[ERROR] [camera_processor-6]: process has died [pid 38086, exit code -9, cmd '/workspace/ros2_ws/install/camera_processor/lib/camera_processor/camera_processor --ros-args --params-file /tmp/launch_params_cuyiob14'].
+[ERROR] [px4_interface-11]: process has died [pid 38091, exit code -9, cmd '/workspace/ros2_ws/install/px4_interface/lib/px4_interface/px4_interface --ros-args --params-file /tmp/launch_params_e_upo33z'].
+[ERROR] [mission_manager-20]: process has died [pid 38281, exit code -9, cmd '/workspace/ros2_ws/install/landing_controller/lib/landing_controller/mission_manager --ros-args --params-file /tmp/launch_params_tus54vk3'].
+[ERROR] [fusion_node-10]: process has died [pid 38090, exit code -9, cmd '/workspace/ros2_ws/install/sensor_fusion/lib/sensor_fusion/fusion_node --ros-args --params-file /tmp/launch_params_drtqou5c'].
+[ERROR] [dashboard_bridge-14]: process has died [pid 38094, exit code -9, cmd '/workspace/ros2_ws/install/dashboard_bridge/lib/dashboard_bridge/dashboard_bridge --ros-args --params-file /tmp/launch_params_e2obgam3'].
+[ERROR] [mapping_node-15]: process has died [pid 38276, exit code -9, cmd '/workspace/ros2_ws/install/mapping/lib/mapping/mapping_node --ros-args --params-file /tmp/launch_params_syg8bi7y'].
+[ERROR] [planner_node-16]: process has died [pid 38277, exit code -9, cmd '/workspace/ros2_ws/install/planner_3d/lib/planner_3d/planner_node --ros-args --params-file /tmp/launch_params_elyxue97'].
+[ERROR] [detector_node-18]: process has died [pid 38279, exit code -9, cmd '/workspace/ros2_ws/install/landing_detector/lib/landing_detector/detector_node --ros-args --params-file /tmp/launch_params_6p9gbber'].
