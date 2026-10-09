@@ -121,4 +121,4 @@ def map_accuracy(voxels: np.ndarray, prims: list, threshold: float = 0.5) -> dic
     ph = d > threshold
     return {'occupied': int(len(v)), 'phantom': int(ph.sum()), 'phantom_fraction': float(ph.mean()),
             'median_error_m': float(np.median(d)), 'p95_error_m': float(np.percentile(d, 95)),
-            'phantom_examples': np.round(v[ph][:10], 2).tolist()}
+            'phantom_examples': np.round(v[ph][np.argsort(-d[ph])][:25], 2).tolist()}   # worst first

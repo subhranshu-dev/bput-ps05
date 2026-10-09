@@ -152,6 +152,8 @@ class PlannerNode(Node):
                 why = ('collision' if not check['collision_free'] else '') + (' corridor' if not check['corridor_ok'] else '')
                 status['message'] = res.message = f'trajectory failed final validation ({why.strip()})'
                 self.dump_failure(req, res, traj, check)
+        if not res.success and 'final validation' not in res.message:
+            self.dump_failure(req, res, None, {'astar_failure': res.message})
         latency = (time.perf_counter() - t0) * 1e3
         status['latency_ms'] = round(latency, 2)
         resp.success = res.success
@@ -184,7 +186,9 @@ class PlannerNode(Node):
             f = d / f'plan_fail_{int(time.time() * 1000)}.npz'
             np.savez_compressed(f, states=states, resolution=resolution, origin=origin,
                                 start=[req.start.x, req.start.y, req.start.z], goal=[req.goal.x, req.goal.y, req.goal.z],
-                                waypoints=res.waypoints, raw=res.raw_waypoints, traj=traj.pos,
+                                waypoints=res.waypoints if res.waypoints is not None else np.zeros((0, 3)),
+                                raw=res.raw_waypoints if res.raw_waypoints is not None else np.zeros((0, 3)),
+                                traj=traj.pos if traj is not None else np.zeros((0, 3)),
                                 check=json.dumps(check))
             self.get_logger().warn(f'final validation failed {check}; inputs saved to {f}')
         except Exception as e:  # noqa: BLE001
