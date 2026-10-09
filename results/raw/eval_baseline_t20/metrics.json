@@ -1,0 +1,303 @@
+{
+  "run_id": "eval_baseline_t20",
+  "scenario_id": "baseline",
+  "seed": 119,
+  "config_hash": "5595e9fe328c4f8a",
+  "git_rev": "18eba4c-dirty",
+  "state": "LANDED",
+  "outcome": "LANDED",
+  "success": true,
+  "expected_outcome": "LANDED",
+  "expectation_met": true,
+  "landing_error_m": 0.01189245959029044,
+  "touchdown_xy": [
+    42.011889158256594,
+    42.00028019824475
+  ],
+  "pad_center_xy": [
+    42.0,
+    42.0
+  ],
+  "collision_count": 0,
+  "near_misses": 0,
+  "min_clearance_m": 1.2952518374098156,
+  "min_clearance_object": "tree_1_crown",
+  "executed_path_length_m": 66.42934073607472,
+  "planned_path_lengths_m": [
+    53.64116599379084,
+    47.30343065983726,
+    36.11678051208111,
+    16.962171753708063
+  ],
+  "planning_latency_ms": [
+    1594.1757760001565,
+    1039.7911919999387,
+    995.1909829997021,
+    765.806980999514
+  ],
+  "replanning_latency_ms": [
+    1039.7911919999387,
+    995.1909829997021,
+    765.806980999514
+  ],
+  "replans": 3,
+  "obstacle_detections": 3,
+  "detection_events": [
+    {
+      "t": 26.1,
+      "source": "map",
+      "point": [
+        10.151666462421417,
+        10.156062602996826,
+        2.315623104572296
+      ],
+      "distance_along_path": 1.9462620441239595,
+      "detected_at": 26.060000000000002
+    },
+    {
+      "t": 35.2,
+      "source": "map",
+      "point": [
+        20.595833333333335,
+        20.104166666666668,
+        2.7875
+      ],
+      "distance_along_path": 7.625730761547383,
+      "detected_at": 35.18
+    },
+    {
+      "t": 48.7,
+      "source": "map",
+      "point": [
+        34.26171875,
+        32.11328125,
+        5.48828125
+      ],
+      "distance_along_path": 6.708588933601077,
+      "detected_at": 48.648
+    }
+  ],
+  "stop_response_s": [
+    1.0519999999999996,
+    1.0519999999999996,
+    1.0519999999999996
+  ],
+  "dynamic_obstacle_spawn_t": null,
+  "dynamic_detection_latency_s": null,
+  "target_detection_rate": 0.7899159663865546,
+  "target_frames": 119,
+  "target_losses": 0,
+  "target_reacquisition_s": [],
+  "aborts": 0,
+  "corridor_breaches": 0,
+  "sensor_failures": 0,
+  "mission_time_s": 68.004,
+  "localization_error": {
+    "n": 168,
+    "mean": 0.03673303406821505,
+    "median": 0.03379141677850393,
+    "rmse": 0.04076306414418416,
+    "p95": 0.06953134184707824,
+    "max": 0.09242291288386109,
+    "std": 0.017672340155345155
+  },
+  "true_spatial_error": {
+    "n": 339,
+    "mean": 0.3601932326456421,
+    "median": 0.305195855275935,
+    "rmse": 0.42244120497999826,
+    "p95": 0.74381543672374,
+    "max": 0.8567981160298271,
+    "std": 0.22072020030172873
+  },
+  "estimated_spatial_error_mean": 0.42188061799781523,
+  "estimated_spatial_error_max": 0.9068549241464655,
+  "fusion_sync_mean_abs_delta_s": 0.0,
+  "fusion_sync_rejected": 256,
+  "fusion_sync_accepted": 474,
+  "fusion_edge_chamfer_px": 8.589556288719177,
+  "fusion_extrinsic_shift_px": 6.249898607054847e-13,
+  "fusion_process_ms": 15.43,
+  "map_accuracy": {
+    "occupied": 39376,
+    "phantom": 88,
+    "phantom_fraction": 0.0022348638764729785,
+    "median_error_m": 0.125,
+    "p95_error_m": 0.125,
+    "phantom_examples": [
+      [
+        5.38,
+        27.62,
+        3.88
+      ],
+      [
+        5.62,
+        26.88,
+        3.88
+      ],
+      [
+        5.62,
+        27.38,
+        4.12
+      ],
+      [
+        5.62,
+        27.38,
+        5.12
+      ],
+      [
+        5.62,
+        27.88,
+        4.38
+      ],
+      [
+        5.88,
+        26.88,
+        3.62
+      ],
+      [
+        5.88,
+        26.88,
+        3.88
+      ],
+      [
+        5.88,
+        26.88,
+        4.12
+      ],
+      [
+        5.88,
+        27.12,
+        4.12
+      ],
+      [
+        5.88,
+        27.12,
+        4.88
+      ]
+    ]
+  },
+  "state_history": [
+    {
+      "t": 12.352,
+      "from": "INIT",
+      "to": "ARMING",
+      "reason": "sensors + localisation converged"
+    },
+    {
+      "t": 13.556,
+      "from": "ARMING",
+      "to": "TAKEOFF",
+      "reason": "armed in offboard; home (4.98, 4.98)"
+    },
+    {
+      "t": 21.252,
+      "from": "TAKEOFF",
+      "to": "PLANNING",
+      "reason": "takeoff altitude reached"
+    },
+    {
+      "t": 22.252,
+      "from": "PLANNING",
+      "to": "NAVIGATE",
+      "reason": "global path 53.6 m"
+    },
+    {
+      "t": 26.1,
+      "from": "NAVIGATE",
+      "to": "OBSTACLE_STOP",
+      "reason": "obstacle 1.9 m ahead (map) at (10.2, 10.2, 2.3)"
+    },
+    {
+      "t": 27.152,
+      "from": "OBSTACLE_STOP",
+      "to": "REPLANNING",
+      "reason": "vehicle stopped; replanning inside approved space"
+    },
+    {
+      "t": 27.852,
+      "from": "REPLANNING",
+      "to": "NAVIGATE",
+      "reason": "replanned path 47.3 m"
+    },
+    {
+      "t": 35.2,
+      "from": "NAVIGATE",
+      "to": "OBSTACLE_STOP",
+      "reason": "obstacle 7.6 m ahead (map) at (20.6, 20.1, 2.8)"
+    },
+    {
+      "t": 36.252,
+      "from": "OBSTACLE_STOP",
+      "to": "REPLANNING",
+      "reason": "vehicle stopped; replanning inside approved space"
+    },
+    {
+      "t": 36.952,
+      "from": "REPLANNING",
+      "to": "NAVIGATE",
+      "reason": "replanned path 36.1 m"
+    },
+    {
+      "t": 48.7,
+      "from": "NAVIGATE",
+      "to": "OBSTACLE_STOP",
+      "reason": "obstacle 6.7 m ahead (map) at (34.3, 32.1, 5.5)"
+    },
+    {
+      "t": 49.752,
+      "from": "OBSTACLE_STOP",
+      "to": "REPLANNING",
+      "reason": "vehicle stopped; replanning inside approved space"
+    },
+    {
+      "t": 50.252,
+      "from": "REPLANNING",
+      "to": "NAVIGATE",
+      "reason": "replanned path 17.0 m"
+    },
+    {
+      "t": 61.052,
+      "from": "NAVIGATE",
+      "to": "LANDING_ZONE_SEARCH",
+      "reason": "landing region reached"
+    },
+    {
+      "t": 61.1,
+      "from": "LANDING_ZONE_SEARCH",
+      "to": "TARGET_LOCK",
+      "reason": "marker detected"
+    },
+    {
+      "t": 61.652,
+      "from": "TARGET_LOCK",
+      "to": "ALIGN",
+      "reason": "target locked"
+    },
+    {
+      "t": 64.252,
+      "from": "ALIGN",
+      "to": "DESCEND",
+      "reason": "aligned (err 0.02 m), LiDAR surface OK"
+    },
+    {
+      "t": 77.208,
+      "from": "DESCEND",
+      "to": "FINAL_CHECK",
+      "reason": "touchdown zone (0.42 m AGL)"
+    },
+    {
+      "t": 77.752,
+      "from": "FINAL_CHECK",
+      "to": "LAND",
+      "reason": "final check passed (err 0.05 m)"
+    },
+    {
+      "t": 80.356,
+      "from": "LAND",
+      "to": "LANDED",
+      "reason": "touchdown confirmed by PX4 land detector"
+    }
+  ],
+  "elapsed_sim_s": 72.86
+}

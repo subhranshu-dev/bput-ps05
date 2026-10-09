@@ -5,9 +5,9 @@
 | Sensor | Mount (base_link, FLU) | Spec | Topic / frame |
 |---|---|---|---|
 | Forward RGB camera | (0.12, 0, 0.05), level | 640×480, HFOV 80°, 10 Hz, σ=0.004 | `/camera/image_raw`, `camera_optical_frame` |
-| 3D LiDAR | (0, 0, 0.20) | 360 × 16 beams, ±25° vertical, 0.3–30 m, 10 Hz, σ=1 cm | `/lidar/points`, `lidar_frame` |
-| Downward RGB camera | (0.10, 0, −0.06), pitched 90° down | 640×480, HFOV 86°, 15 Hz | `/down_camera/image_raw`, `down_camera_optical_frame` |
-| Downward flash LiDAR | (−0.10, 0, −0.06), pitched 90° down | 32 × 32, 70°×70°, 0.1–15 m, 10 Hz | `/down_lidar/points`, `down_lidar_frame` |
+| 3D LiDAR | (0, 0, 0.20) | 360 × 16 beams (−179.5°…+179.5°, avoids gpu_lidar cube-map seams), ±25° vertical, 0.3–30 m, 10 Hz, σ=1 cm | `/lidar/points`, `lidar_frame` |
+| Downward RGB camera | (0.10, 0, −0.06), pitched 90° down | 640×480, HFOV 60°, 15 Hz | `/down_camera/image_raw`, `down_camera_optical_frame` |
+| Downward flash LiDAR | (−0.10, 0, −0.06), pitched 90° down | 32 × 32, 70°×70°, 0.1–15 m, 10 Hz, 0.35 m self-filter (landing-gear feet) | `/down_lidar/points`, `down_lidar_frame` |
 
 The downward sensors are mounted fore/aft of the body centre so the landing-gear struts (y = ±0.1 m) stay out of view.
 

@@ -22,8 +22,11 @@ Box x∈[1,49], y∈[1,49], z∈[1,10] m **and** within 12 m of the centreline
 planning grid, so A* cannot expand outside it; every trajectory is re-validated against it.
 
 ## 3D A* (`planner_3d/astar.py`)
-* 26-connected, `f = g + w·h`, Euclidean `h` (admissible, `w = 1`), vertical-move penalty 1.2.
-* Unknown-cell policy: `optimistic` (traversable at 1.5× cost; default, because the map is built during flight and
+* 26-connected with **no corner cutting** (a diagonal move is legal only if all its axis/planar sub-moves are
+  traversable), `f = g + w·h`, Euclidean `h`, vertical-move penalty 1.2.
+* **Weighted A\*, w = 1.3** → path ≤ 1.3 × optimal by construction; measured on the mission query: +0.08 % length
+  for ≈ 20× fewer expansions (`scripts/bench_planner.py`). Plain A* (w = 1) exceeded the 5 s budget in flight.
+* Unknown-cell policy: `optimistic` (traversable at 1.2× cost; default, because the map is built during flight and
   the replanner reacts to newly observed obstacles) or `pessimistic` (blocked).
 * Start/goal snapping (≤ 4 cells) when they fall inside inflation; goal outside the corridor is rejected.
 * Limits: 400 k expansions / 5 s. Failure reasons are explicit (`no path exists inside the approved mission space`,
@@ -38,13 +41,19 @@ The mission manager follows it with a time-indexed carrot that **pauses when E >
 sending position + velocity-feed-forward setpoints to PX4.
 
 ## Final validation (`planner_3d/node.py::validate_trajectory`)
-Densely sampled (0.125 m): not blocked on the inflated grid, inside the corridor, minimum clearance ≥ radius.
-Failure ⇒ plan rejected (never flown).
+One shared validity function (`astar.polyline_clear`, 2 cm sampling) is used for line-of-sight pruning, for
+accepting each smoothing pass and for the final check, which runs on the exact polyline the trajectory is built
+from (every flown sample lies on its segments). Checks: not blocked on the inflated grid, inside the corridor.
+If a smoothed trajectory fails, the un-smoothed waypoint polyline is used; if that fails too the plan is rejected
+(never flown) and its inputs are dumped to `results/debug/` for reproduction.
 
 ## Local avoidance and replanning (`obstacle_avoidance`)
 For the 8 m look-ahead of the active trajectory:
-* **LiDAR check** on every scan: ≥ 3 returns within 0.95 m of the path ⇒ blocked.
-* **Map check** on every grid: path sample inside an inflated cell ⇒ blocked.
+* **LiDAR check** on every scan: ≥ 3 returns within the **hard envelope 0.70 m** (vehicle + localisation + control
+  error) of the path ⇒ blocked. It is deliberately below the surface clearance the planner guarantees
+  (1.20 m cell-centre − 0.43 m half-diagonal = 0.77 m), so correctly planned paths never trip it on static obstacles.
+* **Map check** on every grid: path sample inside an inflated cell ⇒ blocked (computed on a local block around
+  the look-ahead with exactly the planner's semantics — `build_local_grid`, tested equal to the global grid).
 Response (mission state machine): `NAVIGATE → OBSTACLE_STOP` (hold position, wait until speed < 0.3 m/s and ≥ 1 s
 so the map integrates the obstacle) `→ REPLANNING` (A* from the current pose, same corridor) `→ NAVIGATE`.
 No route ⇒ `NO_SAFE_PATH` (hover, 3 retries) ⇒ `ABORTED` (land in place).

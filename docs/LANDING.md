@@ -23,13 +23,19 @@ TARGET_LOST  → hover → reacquire (→ ALIGN) | timeout 10 s → ABORT_CLIMB 
 UNSAFE_PAD   → ABORT_CLIMB (to 5 m) → LANDING_ZONE_SEARCH   (max 3 attempts → ABORTED)
 SENSOR_FAILURE (watchdog) → hover → resume | 10 s → ABORTED
 ```
-* Search: square pattern ±3 m around the zone at 5 m, two loops max.
-* Lock: ≥ 10 fresh detections (~0.5 s).
+* Search: square pattern ±3 m around the zone at **4 m** (tag ≈ 58 px with the 60° camera), two loops max.
+* Lock: the vehicle moves over the current tag estimate (constant altitude) until ≥ 10 fresh detections (~0.5 s).
 * Align: PID on map-frame target error (Kp 0.8, Ki 0.05, Kd 0.15, |v| ≤ 0.6 m/s, integral clamp 0.5, conditional
   integration anti-windup, filtered derivative); altitude held; aligned < 0.15 m for 1 s.
 * Descend: 0.4 m/s (0.25 m/s below 1.2 m AGL), descent paused when error > 0.30 m.
   **Re-validation checkpoints at 2.0, 1.0 and 0.5 m AGL** (fresh LiDAR verdict + alignment required, 5 s timeout ⇒ abort).
-* Final check at 0.45 m AGL (feet ≈ 0.23 m above the pad): error ≤ 0.225 m ⇒ PX4 `NAV_LAND`; land detector ⇒ LANDED, disarm.
+* **Blind-descent zone below 1.0 m AGL**: the tag becomes larger than the image (< ~0.6 m), so the last filtered tag
+  position is held instead of declaring TARGET_LOST; LiDAR validation keeps running (validator keeps the tag
+  reference for 30 s — the pad is static).
+* Final check at 0.45 m AGL (feet ≈ 0.23 m above the pad): error ≤ 0.225 m ⇒ PX4 `NAV_LAND`; touchdown = PX4 land
+  detector (or auto-disarm) ⇒ LANDED.
+* After an UNSAFE_PAD abort the vehicle climbs to 4 m and **waits 8 s** before searching again (the pad may clear);
+  after 3 aborts the mission ends in ABORTED (controlled landing in place, away from the unsafe pad is not attempted).
 
 ## Landing error
 `E = √((Px − Tx)² + (Py − Ty)²)` with P = ground-truth touchdown position (evaluation only) and T = pad centre from the

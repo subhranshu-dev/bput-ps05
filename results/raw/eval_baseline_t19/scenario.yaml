@@ -1,0 +1,5 @@
+id: baseline
+description: Nominal mission. Static obstacles only, nominal sensors.
+seed: 118
+start_pose: 5,5,0.25,0,0,0
+expect: LANDED
