@@ -47,6 +47,7 @@ class Observation:
     offboard: bool = False
     landed: bool = True
     sensors: dict = field(default_factory=dict)   # name -> healthy bool
+    loc_converged: bool = True               # EKF2 odometry agrees with the latest tracker fix
     plan_result: dict | None = None         # {'id', 'success', 'trajectory', 'waypoints', 'message', 'latency_ms'}
     avoidance: dict | None = None           # {'trajectory_id', 'blocked', 'distance_along_path', 'source'}
     target: dict | None = None              # {'pos': (x,y,z) map, 'stamp': t_detect}
@@ -230,22 +231,31 @@ class MissionStateMachine:
 
     # ================================================================ states
     def _st_init(self, obs, out, plan, dt):
-        ready = obs.px4_connected and obs.pose is not None and all(
+        ready = obs.px4_connected and obs.pose is not None and obs.loc_converged and all(
             obs.sensors.get(k, False) for k in ('odom', 'lidar', 'camera'))
         if obs.pose is not None:
             out.setpoint = self._hold(obs.pose, obs.yaw)
-        if ready and obs.t - self.t_state > 2.0:
+        # require 2 s of continuous readiness (EKF2 must have switched to tracker aiding before home is taken)
+        if not ready:
+            self.t_ready = None
+        elif getattr(self, 't_ready', None) is None:
+            self.t_ready = obs.t
+        if ready and obs.t - self.t_ready >= 2.0:
             self.home = np.array(obs.pose, dtype=float)
             self.hold_yaw = obs.yaw
             self.stats['mission_start_t'] = obs.t
-            self._goto(ARMING, obs.t, out, 'sensors + localisation ready')
+            self._goto(ARMING, obs.t, out, 'sensors + localisation converged')
 
     def _st_arming(self, obs, out, plan, dt):
         out.setpoint = self._hold(self.home, self.hold_yaw)
         if obs.armed and obs.offboard:
+            # latch home at arming (vehicle on the ground, localisation converged)
+            self.home = np.array(obs.pose, dtype=float)
             self.hold_pos = self.home.copy()
-            self._goto(TAKEOFF, obs.t, out, 'armed in offboard')
+            self._goto(TAKEOFF, obs.t, out, f'armed in offboard; home ({self.home[0]:.2f}, {self.home[1]:.2f})')
             return
+        if not obs.loc_converged:
+            self.home = np.array(obs.pose, dtype=float)   # keep following the estimate until converged
         if obs.t - self.last_cmd_t > 1.0:
             out.command = 'offboard' if not obs.offboard else 'arm'
             self.last_cmd_t = obs.t
@@ -316,12 +326,14 @@ class MissionStateMachine:
         av = obs.avoidance
         if av is not None and av.get('trajectory_id') == self.traj_id and av.get('blocked'):
             self.stats['obstacle_detections'] += 1
-            self.stats['detection_events'].append({'t': obs.t, 'source': av.get('source'),
+            self.stats['detection_events'].append({'t': obs.t, 'source': av.get('source'), 'point': av.get('obstacle_point'),
                                                    'distance_along_path': av.get('distance_along_path'),
                                                    'detected_at': av.get('stamp', obs.t)})
             self._set_hold_here(obs)
+            pt = av.get('obstacle_point')
             self._goto(OBSTACLE_STOP, obs.t, out,
-                       f"obstacle {av.get('distance_along_path', 0) or 0:.1f} m ahead ({av.get('source')})")
+                       f"obstacle {av.get('distance_along_path', 0) or 0:.1f} m ahead ({av.get('source')})"
+                       + (f" at ({pt[0]:.1f}, {pt[1]:.1f}, {pt[2]:.1f})" if pt else ''))
             out.setpoint = self._hold(self.hold_pos, self.hold_yaw)
             return
         # progress gating: do not let the carrot run away from the vehicle
@@ -457,8 +469,11 @@ class MissionStateMachine:
                         'yaw': self.hold_yaw}
 
     def _st_target_lock(self, obs, out, plan, dt):
-        out.setpoint = self._hold(self.hold_pos, self.hold_yaw)
         self._update_target(obs)
+        # move over the current tag estimate (at constant altitude) so it stays centred in the image
+        if self.target_filt is not None:
+            self.hold_pos = np.array([self.target_filt[0], self.target_filt[1], self.hold_pos[2]])
+        out.setpoint = self._hold(self.hold_pos, self.hold_yaw)
         if self._target_fresh(obs, 0.3):
             self.lock_count += 1
         if not self._target_fresh(obs, self.lc['target_lost_timeout_s']):
@@ -529,9 +544,12 @@ class MissionStateMachine:
         else:
             self.t_aligned = None
 
+    def _blind(self, obs):
+        return self._height_agl(obs) < float(self.lc.get('blind_height', 0.0))
+
     def _st_descend(self, obs, out, plan, dt):
         self._update_target(obs)
-        if not self._target_fresh(obs, self.lc['target_lost_timeout_s']):
+        if not self._target_fresh(obs, self.lc['target_lost_timeout_s']) and not self._blind(obs):
             self._enter_target_lost(obs, out)
             return
         bad = self._surface_unsafe(obs)

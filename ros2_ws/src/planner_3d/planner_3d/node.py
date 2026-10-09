@@ -7,6 +7,7 @@ Service /planner/plan_path (ps05_interfaces/PlanPath):
     -> FINAL VALIDATION: map collision + inflation clearance + corridor (every sample)
 Publishes /planned_path, /planner/status, /mission/corridor (markers), /planner/inflated.
 """
+import json
 import time
 
 import numpy as np
@@ -135,7 +136,9 @@ class PlannerNode(Node):
             if not (check['collision_free'] and check['corridor_ok']):
                 res.success = False
                 status['success'] = False
-                status['message'] = res.message = 'trajectory failed final validation'
+                why = ('collision' if not check['collision_free'] else '') + (' corridor' if not check['corridor_ok'] else '')
+                status['message'] = res.message = f'trajectory failed final validation ({why.strip()})'
+                self.dump_failure(req, res, traj, check)
         latency = (time.perf_counter() - t0) * 1e3
         status['latency_ms'] = round(latency, 2)
         resp.success = res.success
@@ -158,6 +161,22 @@ class PlannerNode(Node):
         self.get_logger().info(f"plan[{req.reason}] success={res.success} {res.message} "
                                f"latency={latency:.0f} ms len={resp.length_m:.1f} m")
         return resp
+
+    def dump_failure(self, req, res, traj, check):
+        """Save the exact planning inputs of a rejected plan for offline reproduction."""
+        try:
+            d = config.repo_root() / 'results' / 'debug'
+            d.mkdir(parents=True, exist_ok=True)
+            m = self.grid_msg
+            f = d / f'plan_fail_{int(time.time() * 1000)}.npz'
+            np.savez_compressed(f, states=decode_states(m.data, m.nx, m.ny, m.nz), resolution=m.resolution,
+                                origin=[m.origin.x, m.origin.y, m.origin.z],
+                                start=[req.start.x, req.start.y, req.start.z], goal=[req.goal.x, req.goal.y, req.goal.z],
+                                waypoints=res.waypoints, raw=res.raw_waypoints, traj=traj.pos,
+                                check=json.dumps(check))
+            self.get_logger().warn(f'final validation failed {check}; inputs saved to {f}')
+        except Exception as e:  # noqa: BLE001
+            self.get_logger().error(f'could not dump failure: {e}')
 
     def publish_inflated(self, grid):
         idx = np.argwhere(grid.blocked & ~grid.occupied)

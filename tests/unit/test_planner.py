@@ -149,3 +149,30 @@ def test_latency_reported():
     res, _ = plan(occ, unk, [2, 2, 3], [17, 17, 5])
     assert res.latency_ms > 0 and res.expansions > 0
     assert path_length(res.waypoints) == pytest.approx(res.length_m)
+
+
+def test_no_corner_cutting_every_segment_valid():
+    """Diagonal moves must not clip blocked cells: the dense polyline of the *raw* A* cells stays traversable."""
+    occ, unk = world()
+    rng = np.random.default_rng(3)
+    occ[rng.random(occ.shape) < 0.08] = True           # cluttered 3D field
+    occ[:4, :4, :8] = False
+    occ[-4:, -4:, :8] = False
+    g = inflate(occ, unk, 0.5, np.zeros(3), 0.0)
+    res = AStarPlanner(CFG).plan(g, np.array([0.75, 0.75, 1.25]), np.array([18.75, 18.75, 2.25]))
+    assert res.success
+    dense = densify(res.raw_waypoints, 0.05)
+    assert not g.is_blocked_world(dense).any()
+    assert not g.is_blocked_world(densify(res.waypoints, 0.05)).any()
+
+
+def test_planner_clearance_exceeds_live_check_envelope():
+    """Consistency: planned paths keep surface clearance above the live LiDAR hard envelope."""
+    import yaml
+    from ps05_common import config
+    saf = yaml.safe_load(open(config.config_dir() / 'safety.yaml'))
+    res = yaml.safe_load(open(config.config_dir() / 'planner.yaml'))['astar']['resolution']
+    inf = saf['inflation']
+    hard = inf['vehicle_radius'] + inf['localization_uncertainty'] + inf['controller_error']
+    guaranteed_surface = inflation_radius(saf, res) - (3 ** 0.5) / 2 * res
+    assert guaranteed_surface > hard

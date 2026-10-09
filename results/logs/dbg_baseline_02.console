@@ -1,0 +1,3 @@
+[ps05] run dbg_baseline_02 scenario=baseline pose=5,5,0.25,0,0,0 timeout=600s
+[ps05] run dbg_baseline_02 finished: ABORTED (wall 70 s)
+{"outcome": "NO_SAFE_PATH", "success": false, "landing_error_m": null, "collision_count": 0, "min_clearance_m": 7.388032916276863, "replans": 0, "mission_time_s": null}

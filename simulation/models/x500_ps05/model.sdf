@@ -349,7 +349,7 @@
         <visualize>false</visualize>
         <camera>
           <camera_info_topic>down_camera/camera_info</camera_info_topic>
-          <horizontal_fov>1.5</horizontal_fov>
+          <horizontal_fov>1.0472</horizontal_fov>
           <image><width>640</width><height>480</height><format>R8G8B8</format></image>
           <clip><near>0.05</near><far>120</far></clip>
           <noise><type>gaussian</type><mean>0</mean><stddev>0.004</stddev></noise>

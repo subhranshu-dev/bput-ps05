@@ -3,11 +3,11 @@ astar:
   resolution: 0.5            # m planning-grid cell (occupancy map is max-pooled down to this)
   connectivity: 26           # 6 | 18 | 26
   unknown_policy: optimistic # optimistic (traversable with cost penalty) | pessimistic (blocked)
-  unknown_cost: 1.5          # cost multiplier per unknown cell when optimistic
-  heuristic_weight: 1.0      # 1.0 = admissible A*
+  unknown_cost: 1.2          # multiplier per unknown cell (optimistic policy)
+  heuristic_weight: 1.3      # weighted A*: path <= 1.3x optimal (measured +0.08 %), ~20x fewer expansions (scripts/bench_planner.py)
   vertical_cost: 1.2         # mild penalty on altitude changes
   max_expansions: 400000
-  timeout_s: 5.0
+  timeout_s: 8.0
   goal_tolerance_cells: 1
   snap_radius_cells: 4       # if start/goal blocked by inflation, snap to nearest free cell within this radius
 pruning:

@@ -25,7 +25,7 @@ container_up() {
     [ ${#devs[@]} -eq 0 ] && echo "[ps05] WARNING: no Mesa GPU found; Gazebo will use software rendering"
     docker run -d --name "$PS05_CONTAINER" --network host --ipc host \
         "${devs[@]}" ${gid:+--group-add "$gid"} --group-add video \
-        -e PS05_ROOT=/workspace -e QT_X11_NO_MITSHM=1 -e ROS_LOCALHOST_ONLY=0 "${xargs[@]}" \
+        -e PS05_ROOT=/workspace -e HOST_UID="$(id -u)" -e HOST_GID="$(id -g)" -e QT_X11_NO_MITSHM=1 -e ROS_LOCALHOST_ONLY=0 "${xargs[@]}" \
         -v "$HOST_ROOT":/workspace -w /workspace "$PS05_IMAGE" sleep infinity >/dev/null
     echo "[ps05] container $PS05_CONTAINER started"
 }
@@ -34,7 +34,7 @@ container_up() {
 ensure_container() {
     if ! in_container; then
         container_up
-        exec docker exec -i $( [ -t 0 ] && echo -t ) -e PS05_ROOT=/workspace "$PS05_CONTAINER" \
+        exec docker exec -i $( [ -t 0 ] && echo -t ) -e PS05_ROOT=/workspace -e HOST_UID="$(id -u)" -e HOST_GID="$(id -g)" "$PS05_CONTAINER" \
             bash -lc "/workspace/scripts/$(basename "$0") $(printf '%q ' "$@")"
     fi
     export PS05_ROOT=/workspace
@@ -54,4 +54,12 @@ kill_sim() {
     pkill -9 -f "/workspace/ros2_ws/install/.*/lib/" 2>/dev/null || true
     pkill -9 -f rviz2 2>/dev/null || true
     ros2 daemon stop >/dev/null 2>&1 || true
+    fix_owner
+}
+
+# Files written inside the container are root-owned; hand them back to the host user.
+fix_owner() {
+    if in_container && [ -n "${HOST_UID:-}" ]; then
+        chown -R "$HOST_UID:${HOST_GID:-$HOST_UID}" /workspace/results /workspace/simulation /workspace/ros2_ws 2>/dev/null || true
+    fi
 }

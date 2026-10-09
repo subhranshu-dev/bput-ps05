@@ -36,9 +36,11 @@ class AvoidanceNode(Node):
         self.lookahead = float(lc['lookahead_m'])
         self.min_points = int(lc['min_points'])
         self.res = float(self.pcfg['astar']['resolution'])
-        inf = dict(self.scfg['inflation'])
-        # LiDAR points are exact surface samples: no grid-quantisation margin needed
-        self.point_radius = inflation_radius({'inflation': {**inf, 'grid_quantization': False}}, self.res)
+        inf = self.scfg['inflation']
+        # Live LiDAR check = HARD envelope (vehicle + localisation + control error). It must be smaller than the
+        # surface clearance the planner guarantees (radius - sqrt(3)/2 * cell = 1.20 - 0.43 = 0.77 m), otherwise
+        # correctly planned paths would trip it. The planner adds desired_clearance on top (soft margin).
+        self.point_radius = float(inf['vehicle_radius'] + inf['localization_uncertainty'] + inf['controller_error'])
         self.grid_radius = inflation_radius(self.scfg, self.res)
         self.tf_buffer = Buffer()
         self.tf_listener = TransformListener(self.tf_buffer, self)

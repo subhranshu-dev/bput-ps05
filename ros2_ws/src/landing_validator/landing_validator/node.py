@@ -52,7 +52,7 @@ class ValidatorNode(Node):
         pts = xyz_from_cloud(m)
         pts = pts @ tmat[:3, :3].T + tmat[:3, 3]
         t = stamp_to_sec(m.header.stamp)
-        use_target = self.target is not None and t - self.target_t < 2.0
+        use_target = self.target is not None and t - self.target_t < 30.0   # pad is static; covers blind descent
         center = self.target[:2] if use_target else self.pose[:2]
         r = validate(pts, center, self.pose, self.cfg)
         r.update({'stamp': t, 'reference': 'target' if use_target else 'vehicle', 'center': center.tolist(),

@@ -14,7 +14,9 @@ path_enforcement:
   breach_persist_s: 0.5
   containment_hold_s: 5.0
 
-# Local obstacle check on the live LiDAR scan
+# Local obstacle check on the live LiDAR scan. Tube radius = HARD envelope
+# (vehicle_radius + localization_uncertainty + controller_error = 0.70 m), deliberately below the planner's
+# guaranteed surface clearance (1.20 - 0.43 = 0.77 m) so planned paths never trip it on static obstacles.
 local_check:
   lookahead_m: 8.0           # how far ahead along the trajectory to check
   stop_distance_m: 2.5       # obstacle inside inflated tube closer than this -> STOP/HOVER immediately

@@ -82,7 +82,7 @@ def main():
     sensors = (camera('front_camera', 'camera', 'camera_optical_frame', s['camera_link'], 1.3962634, 10)
                + lidar('lidar_3d', 'lidar', 'lidar_frame', s['lidar_link'], 360, -3.14159265, 3.12413936,
                        16, -0.43633231, 0.43633231, 0.3, 30.0, 10)
-               + camera('down_camera', 'down_camera', 'down_camera_optical_frame', s['down_camera_link'], 1.5, 15)
+               + camera('down_camera', 'down_camera', 'down_camera_optical_frame', s['down_camera_link'], 1.0472, 15)
                + lidar('down_lidar', 'down_lidar', 'down_lidar_frame', s['down_lidar_link'], 32, -0.61086524, 0.61086524,
                        32, -0.61086524, 0.61086524, 0.1, 15.0, 10))
     first_link_end = base.index('</link>')

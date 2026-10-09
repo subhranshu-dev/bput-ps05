@@ -137,50 +137,67 @@ class AStarPlanner:
             j, i = divmod(rem, sxy)
             return i - 1, j - 1, k - 1
 
+        def off(dx, dy, dz):
+            return dx * sx + dy * sxy + dz * sxy * py
+
         neigh = []
         for dx, dy, dz in _offsets(self.connectivity):
             step = math.sqrt(dx * dx + dy * dy + dz * dz)
             cost = step * (self.vertical_cost if dz != 0 else 1.0)
-            neigh.append((dx * sx + dy * sxy + dz * sxy * py, cost))
+            # no corner cutting: every axis-aligned / planar sub-move of a diagonal must also be traversable,
+            # otherwise the straight segment between the two cell centres clips a blocked cell
+            comps = []
+            for cx in ((0, dx) if dx else (0,)):
+                for cy in ((0, dy) if dy else (0,)):
+                    for cz in ((0, dz) if dz else (0,)):
+                        if (cx, cy, cz) not in ((0, 0, 0), (dx, dy, dz)):
+                            comps.append(off(cx, cy, cz))
+            neigh.append((off(dx, dy, dz), cost, tuple(comps)))
 
         start = flat(*s_idx)
         goal = flat(*g_idx)
-        gx, gy, gz = g_idx
         w = self.w
         unknown_extra = self.unknown_cost if self.unknown_policy == 'optimistic' else 1.0
-        tol2 = self.goal_tol * self.goal_tol
-
-        g_cost = {start: 0.0}
+        # precomputed tables (flat padded index) -> no per-neighbour coordinate decoding in the inner loop
+        ii, jj, kk = np.meshgrid(np.arange(px) - 1, np.arange(py) - 1, np.arange(pz) - 1, indexing='ij')
+        h_tab = (w * np.sqrt((ii - g_idx[0]) ** 2 + (jj - g_idx[1]) ** 2 + (kk - g_idx[2]) ** 2)).reshape(-1, order='F').tolist()
+        goal_tab = ((ii - g_idx[0]) ** 2 + (jj - g_idx[1]) ** 2 + (kk - g_idx[2]) ** 2
+                    <= self.goal_tol ** 2).astype(np.uint8).reshape(-1, order='F').tobytes()
+        n_cells = px * py * pz
+        inf = math.inf
+        g_cost = [inf] * n_cells
+        g_cost[start] = 0.0
         parent = {start: -1}
-        closed = bytearray(px * py * pz)
-        open_heap = [(w * math.dist(s_idx, g_idx), 0.0, start)]
+        closed = bytearray(n_cells)
+        open_heap = [(h_tab[start], 0.0, start)]
+        heappop, heappush = heapq.heappop, heapq.heappush
         expansions = 0
         found = None
         deadline = t0 + self.timeout_s
+        max_exp = self.max_expansions
         while open_heap:
-            f, g, cur = heapq.heappop(open_heap)
+            f, g, cur = heappop(open_heap)
             if closed[cur]:
                 continue
             closed[cur] = 1
             expansions += 1
-            ci, cj, ck = unflat(cur)
-            if (ci - gx) ** 2 + (cj - gy) ** 2 + (ck - gz) ** 2 <= tol2:
+            if goal_tab[cur]:
                 found = cur
                 break
-            if expansions > self.max_expansions or (expansions & 1023) == 0 and time.perf_counter() > deadline:
+            if expansions > max_exp or (expansions & 1023) == 0 and time.perf_counter() > deadline:
                 return PlanResult(False, f'search limit reached after {expansions} expansions',
                                   expansions=expansions, latency_ms=(time.perf_counter() - t0) * 1e3)
-            for off, c in neigh:
-                nb = cur + off
+            for o, c, comps in neigh:
+                nb = cur + o
                 if not passable_f[nb] or closed[nb]:
                     continue
+                if comps and not all(passable_f[cur + q] for q in comps):
+                    continue
                 ng = g + (c * unknown_extra if unknown_f[nb] else c)
-                if ng < g_cost.get(nb, math.inf):
+                if ng < g_cost[nb]:
                     g_cost[nb] = ng
                     parent[nb] = cur
-                    ni, nj, nk = unflat(nb)
-                    h = math.sqrt((ni - gx) ** 2 + (nj - gy) ** 2 + (nk - gz) ** 2)
-                    heapq.heappush(open_heap, (ng + w * h, ng, nb))
+                    heappush(open_heap, (ng + h_tab[nb], ng, nb))
         if found is None:
             return PlanResult(False, 'no path exists inside the approved mission space',
                               expansions=expansions, latency_ms=(time.perf_counter() - t0) * 1e3)

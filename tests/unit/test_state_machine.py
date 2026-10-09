@@ -179,3 +179,19 @@ def test_corridor_breach_alarm_and_containment():
     assert S.CORRIDOR_BREACH in w.states
     assert w.sm.stats['corridor_breaches'] >= 1
     assert w.sm.state in (S.LANDED, S.ABORTED)
+
+
+def test_init_waits_for_converged_localisation():
+    """Home must not be latched before EKF2 agrees with the tracker (bring-up bug: home taken at EKF default origin)."""
+    w = FakeWorld()
+    orig = w.obs
+
+    def obs():
+        o = orig()
+        o.loc_converged = w.t >= 10.0
+        return o
+    w.obs = obs
+    w.run(until={S.TAKEOFF}, t_max=60)
+    arm_t = next(h['t'] for h in w.sm.stats['state_history'] if h['to'] == S.ARMING)
+    assert arm_t >= 12.0 - 1e-6
+    assert np.allclose(w.sm.home[:2], [5.0, 5.0])

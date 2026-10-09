@@ -1,0 +1,99 @@
+{
+  "run_id": "dbg_baseline_04",
+  "scenario_id": "baseline",
+  "seed": 0,
+  "config_hash": "b9d0c2d02f0a7079",
+  "state": "ABORTED",
+  "outcome": "NO_SAFE_PATH",
+  "success": false,
+  "landing_error_m": null,
+  "touchdown_xy": null,
+  "pad_center_xy": [
+    42.0,
+    42.0
+  ],
+  "collision_count": 0,
+  "near_misses": 0,
+  "min_clearance_m": 6.628997262836762,
+  "min_clearance_object": "tree_1_crown",
+  "executed_path_length_m": 2.9671119927681575,
+  "planned_path_lengths_m": [],
+  "planning_latency_ms": [
+    5755.822234000107,
+    5477.448855000148,
+    5398.516264000136,
+    5399.7895750001135
+  ],
+  "replanning_latency_ms": [],
+  "replans": 0,
+  "obstacle_detections": 0,
+  "detection_events": [],
+  "stop_response_s": [],
+  "target_detection_rate": null,
+  "target_frames": 0,
+  "target_losses": 0,
+  "target_reacquisition_s": [],
+  "aborts": 1,
+  "corridor_breaches": 0,
+  "sensor_failures": 0,
+  "mission_time_s": null,
+  "localization_error": {
+    "n": 50,
+    "mean": 0.01676239509970986,
+    "median": 0.01661814410931602,
+    "rmse": 0.018686441745277636,
+    "p95": 0.031958575201770555,
+    "max": 0.03340167962780365,
+    "std": 0.008258644902214741
+  },
+  "true_spatial_error": {
+    "n": 0,
+    "mean": null,
+    "median": null,
+    "rmse": null,
+    "p95": null,
+    "max": null,
+    "std": null
+  },
+  "estimated_spatial_error_mean": null,
+  "estimated_spatial_error_max": 0.0,
+  "fusion_sync_mean_abs_delta_s": 0.0,
+  "fusion_sync_rejected": 99,
+  "fusion_sync_accepted": 189,
+  "fusion_edge_chamfer_px": 4.785804808139801,
+  "fusion_extrinsic_shift_px": 1.187165214924666e-13,
+  "fusion_process_ms": 3.03,
+  "state_history": [
+    {
+      "t": 12.452,
+      "from": "INIT",
+      "to": "ARMING",
+      "reason": "sensors + localisation converged"
+    },
+    {
+      "t": 13.652,
+      "from": "ARMING",
+      "to": "TAKEOFF",
+      "reason": "armed in offboard; home (5.00, 5.01)"
+    },
+    {
+      "t": 20.852,
+      "from": "TAKEOFF",
+      "to": "PLANNING",
+      "reason": "takeoff altitude reached"
+    },
+    {
+      "t": 24.452,
+      "from": "PLANNING",
+      "to": "NO_SAFE_PATH",
+      "reason": "search limit reached after 51200 expansions"
+    },
+    {
+      "t": 36.452,
+      "from": "NO_SAFE_PATH",
+      "to": "ABORTED",
+      "reason": "no safe path after 4 attempts"
+    }
+  ],
+  "elapsed_sim_s": 28.659999999999997
+}

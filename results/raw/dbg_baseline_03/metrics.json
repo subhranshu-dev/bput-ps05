@@ -1,0 +1,352 @@
+{
+  "run_id": "dbg_baseline_03",
+  "scenario_id": "baseline",
+  "seed": 0,
+  "config_hash": "56d70a0dc9d0f741",
+  "state": "ABORTED",
+  "outcome": "UNSAFE_LANDING_ZONE",
+  "success": false,
+  "landing_error_m": null,
+  "touchdown_xy": null,
+  "pad_center_xy": [
+    42.0,
+    42.0
+  ],
+  "collision_count": 0,
+  "near_misses": 0,
+  "min_clearance_m": 1.3662717021352713,
+  "min_clearance_object": "pole_2",
+  "executed_path_length_m": 129.0781565361445,
+  "planned_path_lengths_m": [
+    60.931306571747186,
+    59.8820160572654,
+    39.01965923915825,
+    25.744169281742153,
+    27.32842106371928
+  ],
+  "planning_latency_ms": [
+    5192.3748799999885,
+    5543.500153999958,
+    3409.4798400000172,
+    1769.3848330000037,
+    1404.0030439999782
+  ],
+  "replanning_latency_ms": [
+    5543.500153999958,
+    3409.4798400000172,
+    1769.3848330000037,
+    1404.0030439999782
+  ],
+  "replans": 4,
+  "obstacle_detections": 3,
+  "detection_events": [
+    {
+      "t": 41.300000000000004,
+      "source": "map",
+      "point": null,
+      "distance_along_path": 7.667444721266861,
+      "detected_at": 41.088
+    },
+    {
+      "t": 55.1,
+      "source": "map",
+      "point": null,
+      "distance_along_path": 7.645016742410416,
+      "detected_at": 54.88
+    },
+    {
+      "t": 57.852000000000004,
+      "source": "map",
+      "point": null,
+      "distance_along_path": 5.973967943766825,
+      "detected_at": 57.648
+    }
+  ],
+  "stop_response_s": [
+    2.6000000000000014,
+    1.0519999999999996,
+    1.0480000000000018
+  ],
+  "target_detection_rate": 0.03827751196172249,
+  "target_frames": 209,
+  "target_losses": 4,
+  "target_reacquisition_s": [
+    6.108000000000004,
+    8.652000000000001,
+    1.2520000000000095,
+    4.704000000000008
+  ],
+  "aborts": 4,
+  "corridor_breaches": 1,
+  "sensor_failures": 0,
+  "mission_time_s": null,
+  "localization_error": {
+    "n": 135,
+    "mean": 0.04178532676966424,
+    "median": 0.04026677956157188,
+    "rmse": 0.047744327848819414,
+    "p95": 0.07734707682298013,
+    "max": 0.16559567661468352,
+    "std": 0.023097777133047545
+  },
+  "true_spatial_error": {
+    "n": 418,
+    "mean": 0.3629568809209766,
+    "median": 0.36973481022985655,
+    "rmse": 0.45494728086123487,
+    "p95": 0.6326994165488423,
+    "max": 2.216307071728242,
+    "std": 0.2742978872597224
+  },
+  "estimated_spatial_error_mean": 0.42030161936623966,
+  "estimated_spatial_error_max": 2.2243709742305366,
+  "fusion_sync_mean_abs_delta_s": 0.0,
+  "fusion_sync_rejected": 505,
+  "fusion_sync_accepted": 939,
+  "fusion_edge_chamfer_px": 17.038269996643066,
+  "fusion_extrinsic_shift_px": 5.208119098532903e-13,
+  "fusion_process_ms": 4.4,
+  "state_history": [
+    {
+      "t": 8.1,
+      "from": "INIT",
+      "to": "ARMING",
+      "reason": "sensors + localisation ready"
+    },
+    {
+      "t": 13.452,
+      "from": "ARMING",
+      "to": "TAKEOFF",
+      "reason": "armed in offboard"
+    },
+    {
+      "t": 20.904,
+      "from": "TAKEOFF",
+      "to": "PLANNING",
+      "reason": "takeoff altitude reached"
+    },
+    {
+      "t": 24.064,
+      "from": "PLANNING",
+      "to": "NAVIGATE",
+      "reason": "global path 60.9 m"
+    },
+    {
+      "t": 24.6,
+      "from": "NAVIGATE",
+      "to": "CORRIDOR_BREACH",
+      "reason": "E=2.13 m > Emax=2.00 m: CRITICAL ALARM"
+    },
+    {
+      "t": 25.652,
+      "from": "CORRIDOR_BREACH",
+      "to": "REPLANNING",
+      "reason": "contained back inside corridor"
+    },
+    {
+      "t": 28.952,
+      "from": "REPLANNING",
+      "to": "NAVIGATE",
+      "reason": "replanned path 59.9 m"
+    },
+    {
+      "t": 41.3,
+      "from": "NAVIGATE",
+      "to": "OBSTACLE_STOP",
+      "reason": "obstacle 7.7 m ahead (map)"
+    },
+    {
+      "t": 43.9,
+      "from": "OBSTACLE_STOP",
+      "to": "REPLANNING",
+      "reason": "vehicle stopped; replanning inside approved space"
+    },
+    {
+      "t": 46.052,
+      "from": "REPLANNING",
+      "to": "NAVIGATE",
+      "reason": "replanned path 39.0 m"
+    },
+    {
+      "t": 55.1,
+      "from": "NAVIGATE",
+      "to": "OBSTACLE_STOP",
+      "reason": "obstacle 7.6 m ahead (map)"
+    },
+    {
+      "t": 56.152,
+      "from": "OBSTACLE_STOP",
+      "to": "REPLANNING",
+      "reason": "vehicle stopped; replanning inside approved space"
+    },
+    {
+      "t": 57.3,
+      "from": "REPLANNING",
+      "to": "NAVIGATE",
+      "reason": "replanned path 25.7 m"
+    },
+    {
+      "t": 57.852,
+      "from": "NAVIGATE",
+      "to": "OBSTACLE_STOP",
+      "reason": "obstacle 6.0 m ahead (map)"
+    },
+    {
+      "t": 58.9,
+      "from": "OBSTACLE_STOP",
+      "to": "REPLANNING",
+      "reason": "vehicle stopped; replanning inside approved space"
+    },
+    {
+      "t": 59.86,
+      "from": "REPLANNING",
+      "to": "NAVIGATE",
+      "reason": "replanned path 27.3 m"
+    },
+    {
+      "t": 79.052,
+      "from": "NAVIGATE",
+      "to": "LANDING_ZONE_SEARCH",
+      "reason": "landing region reached"
+    },
+    {
+      "t": 80.252,
+      "from": "LANDING_ZONE_SEARCH",
+      "to": "TARGET_LOCK",
+      "reason": "marker detected"
+    },
+    {
+      "t": 82.652,
+      "from": "TARGET_LOCK",
+      "to": "TARGET_LOST",
+      "reason": "marker not seen for 1.5 s -> hover"
+    },
+    {
+      "t": 88.76,
+      "from": "TARGET_LOST",
+      "to": "ALIGN",
+      "reason": "target reacquired after 6.1 s"
+    },
+    {
+      "t": 88.8,
+      "from": "ALIGN",
+      "to": "UNSAFE_PAD",
+      "reason": "LiDAR validation failed: OBSTRUCTION"
+    },
+    {
+      "t": 89.352,
+      "from": "UNSAFE_PAD",
+      "to": "ABORT_CLIMB",
+      "reason": "abort attempt 1: climbing"
+    },
+    {
+      "t": 92.4,
+      "from": "ABORT_CLIMB",
+      "to": "LANDING_ZONE_SEARCH",
+      "reason": "climb complete, searching again"
+    },
+    {
+      "t": 93.952,
+      "from": "LANDING_ZONE_SEARCH",
+      "to": "TARGET_LOCK",
+      "reason": "marker detected"
+    },
+    {
+      "t": 95.4,
+      "from": "TARGET_LOCK",
+      "to": "TARGET_LOST",
+      "reason": "marker not seen for 1.5 s -> hover"
+    },
+    {
+      "t": 104.052,
+      "from": "TARGET_LOST",
+      "to": "ALIGN",
+      "reason": "target reacquired after 8.7 s"
+    },
+    {
+      "t": 104.1,
+      "from": "ALIGN",
+      "to": "UNSAFE_PAD",
+      "reason": "LiDAR validation failed: OBSTRUCTION"
+    },
+    {
+      "t": 104.652,
+      "from": "UNSAFE_PAD",
+      "to": "ABORT_CLIMB",
+      "reason": "abort attempt 2: climbing"
+    },
+    {
+      "t": 107.704,
+      "from": "ABORT_CLIMB",
+      "to": "LANDING_ZONE_SEARCH",
+      "reason": "climb complete, searching again"
+    },
+    {
+      "t": 131.156,
+      "from": "LANDING_ZONE_SEARCH",
+      "to": "TARGET_LOCK",
+      "reason": "marker detected"
+    },
+    {
+      "t": 132.8,
+      "from": "TARGET_LOCK",
+      "to": "TARGET_LOST",
+      "reason": "marker not seen for 1.5 s -> hover"
+    },
+    {
+      "t": 134.052,
+      "from": "TARGET_LOST",
+      "to": "ALIGN",
+      "reason": "target reacquired after 1.3 s"
+    },
+    {
+      "t": 134.1,
+      "from": "ALIGN",
+      "to": "UNSAFE_PAD",
+      "reason": "LiDAR validation failed: OBSTRUCTION"
+    },
+    {
+      "t": 134.652,
+      "from": "UNSAFE_PAD",
+      "to": "ABORT_CLIMB",
+      "reason": "abort attempt 3: climbing"
+    },
+    {
+      "t": 137.7,
+      "from": "ABORT_CLIMB",
+      "to": "LANDING_ZONE_SEARCH",
+      "reason": "climb complete, searching again"
+    },
+    {
+      "t": 143.5,
+      "from": "LANDING_ZONE_SEARCH",
+      "to": "TARGET_LOCK",
+      "reason": "marker detected"
+    },
+    {
+      "t": 144.952,
+      "from": "TARGET_LOCK",
+      "to": "TARGET_LOST",
+      "reason": "marker not seen for 1.5 s -> hover"
+    },
+    {
+      "t": 149.656,
+      "from": "TARGET_LOST",
+      "to": "ALIGN",
+      "reason": "target reacquired after 4.7 s"
+    },
+    {
+      "t": 151.3,
+      "from": "ALIGN",
+      "to": "UNSAFE_PAD",
+      "reason": "LiDAR validation failed: OBSTRUCTION"
+    },
+    {
+      "t": 151.852,
+      "from": "UNSAFE_PAD",
+      "to": "ABORTED",
+      "reason": "landing pad remained unsafe"
+    }
+  ],
+  "elapsed_sim_s": 144.46
+}

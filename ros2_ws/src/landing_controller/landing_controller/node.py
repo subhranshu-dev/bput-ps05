@@ -9,7 +9,7 @@ import json
 
 import numpy as np
 import rclpy
-from geometry_msgs.msg import Point, PoseStamped
+from geometry_msgs.msg import Point, PoseStamped, PoseWithCovarianceStamped
 from nav_msgs.msg import Odometry, Path
 from rclpy.node import Node
 from std_msgs.msg import String
@@ -58,6 +58,9 @@ class MissionManager(Node):
         self.create_subscription(String, topics.AVOIDANCE_STATUS, self.on_avoid, RELIABLE_QOS)
         self.create_subscription(PoseStamped, topics.LANDING_TARGET, self.on_target, RELIABLE_QOS)
         self.create_subscription(String, topics.LANDING_SAFETY, self.on_safety, RELIABLE_QOS)
+        self.create_subscription(PoseWithCovarianceStamped, '/localization/tracker_pose', self.on_tracker, 10)
+        self.tracker = None
+        self.tracker_t = -1e9
         self.odom = None
         self.odom_t = -1e9
         self.px4 = {}
@@ -91,6 +94,11 @@ class MissionManager(Node):
     def on_target(self, m):
         self.target = {'pos': [m.pose.position.x, m.pose.position.y, m.pose.position.z],
                        'stamp': stamp_to_sec(m.header.stamp)}
+
+    def on_tracker(self, m):
+        p = m.pose.pose.position
+        self.tracker = np.array([p.x, p.y, p.z])
+        self.tracker_t = now_sec(self)
 
     def on_safety(self, m):
         self.safety = json.loads(m.data)
@@ -152,7 +160,9 @@ class MissionManager(Node):
         safety = None
         if self.safety is not None and self.safety.get('reference') == 'target':
             safety = self.safety
-        obs = Observation(t=t, pose=pose, yaw=yaw or 0.0, vel=vel, px4_connected=bool(self.px4.get('connected')),
+        loc_conv = bool(pose is not None and self.tracker is not None and t - self.tracker_t < 0.5
+                        and np.linalg.norm(pose - self.tracker) < 0.3)
+        obs = Observation(t=t, pose=pose, loc_converged=loc_conv, yaw=yaw or 0.0, vel=vel, px4_connected=bool(self.px4.get('connected')),
                           armed=bool(self.px4.get('armed')), offboard=bool(self.px4.get('offboard')),
                           landed=bool(self.px4.get('landed', True)), sensors=sensors, plan_result=plan,
                           avoidance=av, target=self.target, safety=safety)
@@ -172,14 +182,18 @@ class MissionManager(Node):
             ev = {'t': t, 'level': level, 'state': out.state, 'text': text}
             self.events.append(ev)
             self.pub_events.publish(json_msg(ev))
-            log = self.get_logger().error if level == 'ERROR' else (self.get_logger().warn if level == 'WARN' else self.get_logger().info)
-            log(text)
+            if level == 'ERROR':
+                self.get_logger().error(text)
+            elif level == 'WARN':
+                self.get_logger().warn(text)
+            else:
+                self.get_logger().info(text)
         s = self.sm.summary()
         self.pub_status.publish(json_msg({
             'stamp': t, 'state': out.state, 'failure': out.state in FAILURE_STATES, 'outcome': s['outcome'],
             'spatial_error': self.sm.spatial_error, 'e_max': self.sm.e_max, 'e_warn': self.sm.e_warn,
             'reference': None if self.sm.ref_pos is None else np.asarray(self.sm.ref_pos).tolist(),
-            'pose': None if pose is None else pose.tolist(), 'yaw': yaw, 'velocity': None if vel is None else vel.tolist(),
+            'pose': None if pose is None else pose.tolist(), 'localisation_converged': loc_conv, 'yaw': yaw, 'velocity': None if vel is None else vel.tolist(),
             'goal': None if self.sm.goal is None else self.sm.goal.tolist(),
             'trajectory_stamp': self.traj_stamp, 'trajectory_progress': (self.sm.traj_time / self.sm.traj.duration)
             if self.sm.traj is not None and self.sm.traj.duration > 0 else None,

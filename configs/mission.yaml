@@ -21,4 +21,4 @@ landing_zone:
   center: [41.0, 41.0]
   approach_altitude: 5.0
   search_radius: 3.0
-  search_altitude: 5.0
+  search_altitude: 4.0       # tag (0.40 m) spans ~58 px at 4 m with the 60 deg downward camera
