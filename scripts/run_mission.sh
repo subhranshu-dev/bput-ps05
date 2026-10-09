@@ -30,17 +30,27 @@ ros2 launch /workspace/launch/full_system.launch.py gui:=$GUI rviz:=$RVIZ dashbo
     start_pose:="$POSE" run_id:=$RUN_ID > "$OUT/launch.log" 2>&1 &
 LPID=$!
 T0=$(date +%s); RESULT=TIMEOUT
+LAST_SIZE=-1; LAST_CHANGE=$(date +%s)
 while kill -0 $LPID 2>/dev/null; do
     sleep 3
+    # infrastructure watchdog: ground-truth telemetry (10 Hz sim time) must keep growing
+    SIZE=$(stat -c %s "$OUT/telemetry.csv" 2>/dev/null || echo 0)
+    if [ "$SIZE" != "$LAST_SIZE" ]; then LAST_SIZE=$SIZE; LAST_CHANGE=$(date +%s); fi
+    if [ "$SIZE" -gt 1000 ] && [ $(( $(date +%s) - LAST_CHANGE )) -gt 90 ]; then
+        RESULT=SIM_STALL; echo "{\"infra_failure\": \"simulation time stopped advancing\", \"wall_s\": $(( $(date +%s) - T0 ))}" > "$OUT/infra.json"; break
+    fi
     if [ -f "$OUT/metrics.json" ]; then
         st=$(python3 -c "import json;print(json.load(open('$OUT/metrics.json')).get('state',''))" 2>/dev/null)
         if [ "$st" = "LANDED" ] || [ "$st" = "ABORTED" ]; then RESULT=$st; sleep 3; break; fi
     fi
     if [ $(( $(date +%s) - T0 )) -gt "$TIMEOUT" ]; then RESULT=TIMEOUT; break; fi
 done
-kill -INT $LPID 2>/dev/null; sleep 4; kill_sim; wait $LPID 2>/dev/null
+kill -INT $LPID 2>/dev/null
+for i in $(seq 1 15); do kill -0 $LPID 2>/dev/null || break; sleep 1; done   # graceful: evaluator writes metrics
+kill_sim; wait $LPID 2>/dev/null
 cp -r /tmp/px4_rootfs/log "$OUT/px4_ulog" 2>/dev/null || true
 echo "[ps05] run $RUN_ID finished: $RESULT (wall $(( $(date +%s) - T0 )) s)"
+[ "$RESULT" = "SIM_STALL" ] && exit 75
 python3 -c "
 import json; m=json.load(open('$OUT/metrics.json'))
 print(json.dumps({k:m.get(k) for k in ('outcome','success','landing_error_m','collision_count','min_clearance_m','replans','mission_time_s')}))" 2>/dev/null

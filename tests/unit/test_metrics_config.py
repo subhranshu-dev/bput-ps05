@@ -65,3 +65,13 @@ def test_all_configs_load():
     for name in ('safety', 'planner', 'mission', 'landing', 'fusion', 'mapping', 'camera', 'lidar', 'sensors'):
         assert name in cfgs
     assert len(config.config_hash(cfgs)) == 16
+
+
+def test_rotated_box_distance():
+    box = {'type': 'box', 'pos': np.array([0.0, 0, 0]), 'size': [0.4, 4.0, 2.0], 'yaw': math.pi / 2, 'name': 'p'}
+    # rotated 90 deg: the 4 m extent now lies along x
+    assert distance_to_primitive(np.array([1.5, 0.0, 0.0]), box) == pytest.approx(0.0)
+    assert distance_to_primitive(np.array([0.0, 1.5, 0.0]), box) == pytest.approx(1.3)
+    from evaluation.metrics import distances_to_primitive
+    d = distances_to_primitive(np.array([[1.5, 0.0, 0.0], [0.0, 1.5, 0.0]]), box)
+    assert np.allclose(d, [0.0, 1.3])

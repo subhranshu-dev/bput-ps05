@@ -276,11 +276,42 @@ def main():
         for k, v in rows:
             w(f'| {k} | {v} |')
         w('')
+    # per-revision breakdown of the baseline (campaign 1 runs vs final-code regression runs)
+    brev = {}
+    for r in runs:
+        if r.get('scenario_id') == 'baseline':
+            brev.setdefault(str(r.get('git_rev', 'unknown')).replace('-dirty', ''), []).append(r)
+    if len(brev) > 1:
+        w('Baseline by code revision (the earlier revision differs only in failure-handling branches that none of '
+          'its runs entered; "-dirty" flags on those runs come from uncommitted documentation edits):')
+        w('')
+        w('| Revision | Trials | Landed | Landing error mean | RMSE | Collisions | Min clearance |')
+        w('|---|---|---|---|---|---|---|')
+        for rev, rs in brev.items():
+            e = [x['landing_error_m'] for x in rs if x.get('landing_error_m') is not None]
+            rm = (sum(v * v for v in e) / len(e)) ** 0.5 if e else None
+            mc = [x['min_clearance_m'] for x in rs if x.get('min_clearance_m') is not None]
+            w(f"| `{rev}` | {len(rs)} | {sum(1 for x in rs if x.get('outcome') == 'LANDED')} | "
+              f"{f(sum(e) / len(e) if e else None, 1, ' cm', 100)} | {f(rm, 1, ' cm', 100)} | "
+              f"{sum(int(x.get('collision_count') or 0) for x in rs)} | {f(min(mc) if mc else None, 2, ' m')} |")
+        w('')
     ddet = [r.get('dynamic_detection_latency_s') for r in runs if r.get('scenario_id') == 'demo']
     ddet = [x for x in ddet if x is not None]
     w(f"Unexpected-obstacle detection latency (demo runs, sim time): "
       f"{(f'mean {sum(ddet) / len(ddet):.2f} s, max {max(ddet):.2f} s (n = {len(ddet)})') if ddet else NM}.")
     w('')
+    rev = [r for r in runs if r.get('clearance_reevaluated')]
+    chg = [r for r in rev if r.get('evaluator_v1_collision_count') != r.get('collision_count')
+           or abs((r.get('evaluator_v1_min_clearance_m') or 0) - (r.get('min_clearance_m') or 0)) > 0.005]
+    if rev:
+        w(f"Clearance, collisions and near misses were re-evaluated for all {len(rev)} runs with yaw-aware world "
+          f"geometry (`scripts/reevaluate_clearance.py`, from each run's logged truth telemetry and scenario events); "
+          f"evaluator v1 had modelled rotated scenario objects as axis-aligned boxes. Changed runs: "
+          + (', '.join(f"`{r['run_id']}` (min clearance {r['evaluator_v1_min_clearance_m']:.2f} → "
+                       f"{r['min_clearance_m']:.2f} m, collisions {r['evaluator_v1_collision_count']} → "
+                       f"{r['collision_count']})" for r in chg) or 'none') + '. Original values remain in each '
+          f"`metrics.json` under `evaluator_v1_*`.")
+        w('')
     maps = [get(r, 'map_accuracy', 'phantom_fraction') for r in runs]
     maps = [x for x in maps if x is not None]
     merr = [get(r, 'map_accuracy', 'median_error_m') for r in runs]
@@ -338,6 +369,11 @@ def main():
       'validation sampling, landing in place after an unsafe-pad abort) are listed with root causes in '
       '`docs/TROUBLESHOOTING.md`. Injected failures (LiDAR/camera blackout, timestamp offset, tag loss, unsafe pad, '
       'no path, extrinsic error, sensor noise) and their measured outcomes are in section 32.')
+    w('')
+    infra = sorted((ROOT / 'results/infra_failures').glob('*')) if (ROOT / 'results/infra_failures').exists() else []
+    w(f"Infrastructure: {len(infra)} run(s) were stopped by the simulator-stall watchdog (Gazebo sim time stopped "
+      f"advancing; not an autonomy outcome) and re-run once with the same seed"
+      + (': ' + ', '.join(f'`{p.name}`' for p in infra) if infra else '') + '. Archived in `results/infra_failures/`.')
     w('')
     w('## 34. Limitations')
     w('* Localisation uses a *simulated* external tracking station (as PS05 prescribes); its noise model is Gaussian '
