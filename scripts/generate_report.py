@@ -370,6 +370,11 @@ def main():
       '`docs/TROUBLESHOOTING.md`. Injected failures (LiDAR/camera blackout, timestamp offset, tag loss, unsafe pad, '
       'no path, extrinsic error, sensor noise) and their measured outcomes are in section 32.')
     w('')
+    infra = sorted((ROOT / 'results/infra_failures').glob('*')) if (ROOT / 'results/infra_failures').exists() else []
+    w(f"Infrastructure: {len(infra)} run(s) were stopped by the simulator-stall watchdog (Gazebo sim time stopped "
+      f"advancing; not an autonomy outcome) and re-run once with the same seed"
+      + (': ' + ', '.join(f'`{p.name}`' for p in infra) if infra else '') + '. Archived in `results/infra_failures/`.')
+    w('')
     w('## 34. Limitations')
     w('* Localisation uses a *simulated* external tracking station (as PS05 prescribes); its noise model is Gaussian '
       'and line-of-sight occlusion of the tracker is not modelled. On-board GPS-free odometry (VIO / LiDAR odometry) '
