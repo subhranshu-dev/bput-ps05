@@ -163,10 +163,15 @@ def test_unsafe_pad_abort_climb_search_then_land():
     assert w.sm.state == S.LANDED
 
 
-def test_permanently_unsafe_pad_aborts_without_landing_on_it():
-    w = FakeWorld(unsafe=(0.0, 1e9)).run(until={S.ABORTED, S.LANDED})
-    assert w.sm.state == S.ABORTED and w.sm.outcome == 'UNSAFE_LANDING_ZONE'
-    assert S.DESCEND not in w.states
+def test_permanently_unsafe_pad_returns_home_and_lands_there():
+    w = FakeWorld(unsafe=(0.0, 1e9))
+    w.run(until={S.ABORTED, S.LANDED}, t_max=900)
+    for _ in range(200):                      # let the touchdown settle
+        w.run(t_max=w.t + 0.05)
+    assert w.sm.state == S.ABORTED and w.sm.outcome == 'UNSAFE_LANDING_ZONE', w.states
+    assert S.DESCEND not in w.states and S.RETURN_HOME in w.states
+    assert np.hypot(w.pos[0] - 5.0, w.pos[1] - 5.0) < 0.6       # landed on the take-off pad, not the unsafe pad
+    assert w.landed
 
 
 def test_sensor_failure_safe_state_and_recovery():

@@ -26,12 +26,13 @@ LANDING_ZONE_SEARCH, TARGET_LOCK, ALIGN = 'LANDING_ZONE_SEARCH', 'TARGET_LOCK', 
 DESCEND, FINAL_CHECK, LAND, LANDED = 'DESCEND', 'FINAL_CHECK', 'LAND', 'LANDED'
 TARGET_LOST, UNSAFE_PAD, ABORT_CLIMB = 'TARGET_LOST', 'UNSAFE_PAD', 'ABORT_CLIMB'
 SENSOR_FAILURE, CORRIDOR_BREACH, ABORTED = 'SENSOR_FAILURE', 'CORRIDOR_BREACH', 'ABORTED'
+RETURN_HOME = 'RETURN_HOME'
 
 FAILURE_STATES = {OBSTACLE_STOP, REPLANNING, NO_SAFE_PATH, TARGET_LOST, UNSAFE_PAD, ABORT_CLIMB,
-                  SENSOR_FAILURE, CORRIDOR_BREACH, ABORTED}
+                  SENSOR_FAILURE, CORRIDOR_BREACH, ABORTED, RETURN_HOME}
 AIRBORNE_STATES = {TAKEOFF, PLANNING, NAVIGATE, OBSTACLE_STOP, REPLANNING, NO_SAFE_PATH,
                    LANDING_ZONE_SEARCH, TARGET_LOCK, ALIGN, DESCEND, FINAL_CHECK, TARGET_LOST,
-                   UNSAFE_PAD, ABORT_CLIMB, CORRIDOR_BREACH}
+                   UNSAFE_PAD, ABORT_CLIMB, CORRIDOR_BREACH, RETURN_HOME}
 LANDING_STATES = {LANDING_ZONE_SEARCH, TARGET_LOCK, ALIGN, DESCEND, FINAL_CHECK, TARGET_LOST,
                   UNSAFE_PAD, ABORT_CLIMB}
 
@@ -121,6 +122,7 @@ class MissionStateMachine:
         self.t_target_lost = None
         self.last_cmd_t = -1e9
         self.outcome = None
+        self.returning = False
         self.stats = {
             'replans': 0, 'obstacle_detections': 0, 'detection_events': [], 'replan_latencies_ms': [],
             'stop_response_s': [], 'target_losses': 0, 'reacquire_times_s': [], 'aborts': 0,
@@ -182,6 +184,16 @@ class MissionStateMachine:
         pts = [(0, 0), (r, 0), (r, r), (-r, r), (-r, -r), (r, -r), (r, 0), (0, 0)]
         self.search_wps = [np.array([c[0] + dx, c[1] + dy, pos_z]) for dx, dy in pts]
         self.search_idx = 0
+
+    def _return_home(self, obs, out, outcome, reason):
+        """Landing zone unusable: fly back to the (known-safe) take-off pad through the approved corridor."""
+        self.outcome = outcome
+        self.stats['aborts'] += 1
+        self.returning = True
+        self.goal = np.array([self.home[0], self.home[1], self.home[2] + self.takeoff_alt])
+        self._set_hold_here(obs)
+        self._request_plan(obs.pose, self.goal, 'return_home', out)
+        self._goto(RETURN_HOME, obs.t, out, reason + ' -> returning to take-off pad')
 
     def _critical_sensor_fault(self, obs):
         s = obs.sensors or {}
@@ -340,6 +352,11 @@ class MissionStateMachine:
         if e < self.e_warn:
             self.traj_time = min(self.traj_time + dt, traj.duration)
         out.setpoint = {'mode': 'position', 'pos': ref.tolist(), 'vel': vel.tolist(), 'yaw': yaw}
+        if self.traj_time >= traj.duration and float(np.linalg.norm(obs.pose - traj.pos[-1])) < 0.5 and self.returning:
+            self._goto(LAND, obs.t, out, 'over take-off pad: landing')
+            out.command = 'land'
+            self.last_cmd_t = obs.t
+            return
         if self.traj_time >= traj.duration and float(np.linalg.norm(obs.pose - traj.pos[-1])) < 0.5:
             self._set_hold_here(obs)
             self._build_search(self.search_alt)
@@ -392,6 +409,17 @@ class MissionStateMachine:
         if self.pending_plan is None and obs.t - self.t_state > self.no_path_hover / max(self.no_path_retries, 1) * self.plan_failures:
             self._request_plan(obs.pose, self.goal, 'retry', out)
 
+    def _st_return_home(self, obs, out, plan, dt):
+        out.setpoint = self._hold(self.hold_pos, self.hold_yaw)
+        if plan is not None:
+            if plan['success']:
+                self._accept_plan(obs, out, plan, f"return path {plan.get('length_m', 0):.1f} m")
+            else:
+                self.plan_failures += 1
+                self._goto(NO_SAFE_PATH, obs.t, out, plan.get('message', 'return planning failed'))
+        elif self.pending_plan is None:
+            self._request_plan(obs.pose, self.goal, 'return_home', out)
+
     def _st_corridor_breach(self, obs, out, plan, dt):
         # containment: return to the last approved reference point and hold
         out.setpoint = self._hold(self.hold_pos, self.hold_yaw)
@@ -426,6 +454,12 @@ class MissionStateMachine:
             self._goto(ABORTED, obs.t, out, 'sensor did not recover')
 
     def _st_aborted(self, obs, out, plan, dt):
+        if self.returning and (obs.landed or not obs.armed):
+            self.stats['mission_end_t'] = self.stats['mission_end_t'] or obs.t
+            if obs.armed and obs.t - self.last_cmd_t > 2.0:
+                out.command = 'disarm'
+                self.last_cmd_t = obs.t
+            return
         if self.outcome is None:
             self.outcome = 'ABORTED'
         if obs.landed or not obs.armed:
@@ -456,10 +490,7 @@ class MissionStateMachine:
                 self.search_idx = 0
                 self.search_loops += 1
                 if self.search_loops >= 2:
-                    self.outcome = 'TARGET_NOT_FOUND'
-                    self.stats['aborts'] += 1
-                    self._set_hold_here(obs)
-                    self._goto(ABORTED, obs.t, out, 'landing target not found in search area')
+                    self._return_home(obs, out, 'TARGET_NOT_FOUND', 'landing target not found in search area')
                     return
             wp = self.search_wps[self.search_idx]
             d = wp - obs.pose
@@ -606,9 +637,10 @@ class MissionStateMachine:
     def _st_land(self, obs, out, plan, dt):
         # touchdown = PX4 land detector, or PX4 auto-disarm after landing (COM_DISARM_LAND)
         if obs.landed or (not obs.armed and obs.t - self.t_state > 1.0):
-            self.outcome = 'LANDED'
+            self.outcome = self.outcome if self.returning else 'LANDED'
             self.stats['mission_end_t'] = obs.t
-            self._goto(LANDED, obs.t, out, 'touchdown confirmed by PX4 land detector')
+            self._goto(LANDED if not self.returning else ABORTED, obs.t, out,
+                       'touchdown confirmed by PX4 land detector' + (' (returned home)' if self.returning else ''))
             out.command = 'disarm'
             return
         if obs.t - self.t_state < 3.0 and obs.t - self.last_cmd_t > 1.0:
@@ -638,8 +670,7 @@ class MissionStateMachine:
         out.setpoint = self._hold(self.hold_pos, self.hold_yaw)
         if obs.t - self.t_state > 0.5:
             if self.abort_attempts > int(self.lc['max_abort_attempts']):
-                self.outcome = 'UNSAFE_LANDING_ZONE'
-                self._goto(ABORTED, obs.t, out, 'landing pad remained unsafe')
+                self._return_home(obs, out, 'UNSAFE_LANDING_ZONE', 'landing pad remained unsafe')
                 return
             self.hold_pos = np.array([obs.pose[0], obs.pose[1], self.home[2] + float(self.lc['abort_climb_altitude'])])
             self._goto(ABORT_CLIMB, obs.t, out, f'abort attempt {self.abort_attempts}: climbing')
