@@ -118,12 +118,10 @@ class EvaluationNode(Node):
             self.spawn_t = ev.get('stamp')
         if ev.get('type') == 'object_pose':
             self.moved.add(ev['object'])
-            for o in self.surfaces:
+            for o in list(self.surfaces) + list(self.prims):
                 if o['name'] == ev['object']:
                     o['pos'] = np.array(ev['pos'], dtype=float)
-            for o in self.prims:
-                if o['name'] == ev['object']:
-                    o['pos'] = np.array(ev['pos'], dtype=float)
+                    o['yaw'] = float(ev.get('yaw', 0.0))
         self.log_event('scenario', m)
 
     def on_map(self, m):
